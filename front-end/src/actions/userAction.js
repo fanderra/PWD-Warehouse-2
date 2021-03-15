@@ -1,6 +1,5 @@
 import Axios from 'axios'
 
-
 export const register = (body) => {
     return async (dispatch) => {
         try{
@@ -13,6 +12,29 @@ export const register = (body) => {
             dispatch({type: 'LOGIN', payload: res.data})
         }
         catch(err) {
+
+export const keepLogin = () => {
+    return async (dispatch) => {
+        try {
+            const token = localStorage.getItem('token')
+            const res = await Axios.post('http://localhost:2000/user/keepLogin', { token })
+            dispatch({ type: 'LOGIN', payload: res.data })
+        }
+        catch (err) {
+            console.log(err)
+            localStorage.removeItem('token')
+            dispatch({ type: 'LOGOUT' })
+        }
+    }
+}
+
+export const logout = () => {
+    return async (dispatch) => {
+        try {
+            localStorage.removeItem('token')
+            dispatch({ type: 'LOGOUT' })
+        }
+        catch (err) {
             console.log(err)
         }
     }

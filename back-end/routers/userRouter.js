@@ -25,5 +25,6 @@ const registerValidation = [
 
 
 router.post('/register', registerValidation, userController.register)
+router.post('/keepLogin', verifyToken, userController.keepLogin)
 
 module.exports = router

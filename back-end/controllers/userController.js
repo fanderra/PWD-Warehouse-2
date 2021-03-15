@@ -54,6 +54,14 @@ module.exports = {
 
             res.status(200).send(resultGet[0])
         }
+    }
+
+    keepLogin: async (req, res) => {        
+        try {
+            const getUser = `SELECT * FROM users WHERE username="${req.user.username}"`
+            const result = await asyncQuery(getUser)
+            res.status(200).send(result[0])
+        }
         catch (err) {
             console.log(err)
             res.status(400).send(err)
