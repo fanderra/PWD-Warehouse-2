@@ -23,7 +23,7 @@ db.connect((err) => {
 
 const { userRouter } = require('./routers')
 app.use('/user', userRouter)
-
+app.use('/product', productRouter)
 
 const PORT = 2000
 app.listen(PORT, () => console.log(`Connected to port: ${PORT}`))
