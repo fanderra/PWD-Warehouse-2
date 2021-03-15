@@ -23,8 +23,9 @@ const registerValidation = [
         .withMessage('Email is invalid')
 ]
 
-
 router.post('/register', registerValidation, userController.register)
 router.post('/keepLogin', verifyToken, userController.keepLogin)
+router.post('/showAll', userController.showAll)
+router.post('/login', userController.login)
 
 module.exports = router
