@@ -21,6 +21,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 id_status : 2
             }
+        case 'LOGOUT':
+            return INITIAL_STATE
+
         default:
             return state
     }
