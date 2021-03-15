@@ -1,4 +1,6 @@
+const userController = require('./userController')
+
 module.exports = {
-    userController:require('./userController'),
-    productController:require('./productController'),
-};
+    userController
+}
+
