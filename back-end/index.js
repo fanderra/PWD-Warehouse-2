@@ -21,9 +21,9 @@ db.connect((err) => {
     console.log(`Connected as id : ${db.threadId}`)
 })
 
-const { userRouter, productRouter } = require('./routers')
+const { userRouter } = require('./routers')
 app.use('/user', userRouter)
-app.use('/product', productRouter)
+
 
 const PORT = 2000
 app.listen(PORT, () => console.log(`Connected to port: ${PORT}`))
