@@ -1,5 +1,6 @@
 const router = require('express').Router();
+const { productController } = require('../controllers')
 
-const { } = require('../controllers').productController
+router.post('/showAll', productController.showAll)
 
 module.exports=router
