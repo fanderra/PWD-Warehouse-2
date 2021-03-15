@@ -1,11 +1,11 @@
 const db = require('../database')
 const fs = require('fs')
-const { createToken } = require('../helpers/jwt')
+const { createToken } = require('../helpers/jwtHelper')
 const { validationResult } = require('express-validator')
 const cryptojs = require('crypto-js')
 const secret_key = '!@#$%^&*'
 const transporter = require('../helpers/nodemailer')
-const { generateQuery, asyncQuery } = require('../helpers/queryHelp')
+const { generateQuery, asyncQuery } = require('../helpers/queryHelper')
 const handlebars = require('handlebars')
 
 module.exports = {
