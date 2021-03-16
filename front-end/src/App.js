@@ -4,6 +4,7 @@ import Navigation from './components/navigation'
 import Register from './pages/register'
 import { useDispatch } from 'react-redux'
 import Home from './pages/home'
+import Verification from './pages/verification'
 
 import { keepLogin } from './actions'
 import Cart from './pages/cart'
@@ -25,6 +26,7 @@ const App = () => {
         <Route path='/' component={Home} exact />
         <Route path='/cart' component={Cart}  />
         <Route path='/forgot' component={ForgotPasswordPage}  />
+        <Route path='/verification' component={Verification} exact />
       </Switch>
     </div>
   )

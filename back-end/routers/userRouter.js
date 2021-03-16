@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { userController } = require('../controllers')
 const { body } = require('express-validator')
-const { verifyToken } = require('../helpers/jwt')
+const { verifyToken } = require('../helpers/jwtHelper')
 
 const registerValidation = [
     body('username')
@@ -50,5 +50,6 @@ router.post('/showAll', userController.showAll)
 router.post('/login', userController.login)
 router.post('/forgot', userController.forgotPassword)
 router.patch('/reset',editValidator, verifyToken, userController.resetPassword)
+router.post('/verification', verifyToken, userController.verification)
 
 module.exports = router

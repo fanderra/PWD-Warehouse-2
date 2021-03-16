@@ -79,3 +79,15 @@ export const resetPassword = async(allData,cb) => {
         cb(errorMessage)
     }
 }
+
+export const verificationEmail = (token) => {
+    return async (dispatch) => {
+        try {
+            const res = await Axios.post('http://localhost:2000/user/verification', { token })
+            dispatch({ type: 'VERIFICATION', payload: res.data })
+        }
+        catch (err) {
+            console.log(err.response)
+        }
+    }
+}
