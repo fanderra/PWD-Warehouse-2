@@ -34,13 +34,13 @@ const editValidator= [
         .withMessage('invalid email'),
     body('password')
         .optional()
-        .match(/.{6,}/)
+        .matches(/.{6,}/)
         .withMessage('password length must be at least 6 characters')
-        .match(/[a-z]/)
+        .matches(/[a-z]/)
         .withMessage('password must contain lowercase')
-        .match(/[A-Z]/)
+        .matches(/[A-Z]/)
         .withMessage('password must contain uppercase')
-        .match(/\S/)
+        .matches(/\S/)
         .withMessage('password can not contain spaces')
 ]
 

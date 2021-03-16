@@ -1,4 +1,4 @@
-const { asyncQuery } = require('../helpers/queryHelp')
+const { asyncQuery } = require('../helpers/queryHelper')
 
 module.exports = {
     showAll: async (req, res) => {

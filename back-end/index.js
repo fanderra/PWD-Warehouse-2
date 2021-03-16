@@ -12,6 +12,7 @@ app.use(bodyParser.json())
 
 app.use(express.static(__dirname + '/public'))
 
+
 const response = (req, res) => res.status(200).send('<h1>Group Project</h1>')
 app.get('/', response)
 
@@ -21,7 +22,8 @@ db.connect((err) => {
     console.log(`Connected as id : ${db.threadId}`)
 })
 
-const { userRouter } = require('./routers')
+const { userRouter, productRouter } = require('./routers')
+
 app.use('/user', userRouter)
 app.use('/product', productRouter)
 
