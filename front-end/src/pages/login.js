@@ -38,7 +38,7 @@ const Login = () => {
                     <Form.Control onChange={event => setPassword(event.target.value)} placeholder="Enter password" type={passVis ? "text" : "password"} />
                     <InputGroup.Text onClick={() => setPassVis(!passVis)}>{passVis ? "HIDE" : "SHOW"}</InputGroup.Text>
                 </InputGroup>
-                <Button as={Link} to="/forgotpassword">Forgot Password</Button>
+                <Button as={Link} to="/forgot">Forgot Password</Button>
                 <Button onClick={handleLog}>Submit</Button>
             </Form>
             <Modal show={logAlert[0]} onHide={() => setLogAlert([false, ""])}>

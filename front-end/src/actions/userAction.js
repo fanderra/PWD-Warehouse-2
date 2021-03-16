@@ -24,6 +24,8 @@ export const register = (body) => {
             localStorage.token = res.data.token
 
             dispatch({type: 'LOGIN', payload: res.data})
+        } catch (err) {
+            console.log(err)
         }
     }
 }
@@ -52,5 +54,28 @@ export const logout = () => {
         catch (err) {
             console.log(err)
         }
+    }
+}
+
+export const resetRequest = async(userData,cb) => {
+    try {
+        const { data } = await Axios.post('http://localhost:2000/user/forgot', userData)
+        cb(false,data)
+    } catch (error) {
+        const errorMessage = error?.response?.data || error
+        console.log(errorMessage)
+        cb(errorMessage)
+    }
+}
+
+
+export const resetPassword = async(allData,cb) => {
+    try {
+        await Axios.patch('http://localhost:2000/user/reset', allData)
+        cb(false)
+    } catch (error) {
+        const errorMessage = error?.response?.data || error
+        console.log(errorMessage)
+        cb(errorMessage)
     }
 }

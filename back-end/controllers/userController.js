@@ -29,6 +29,8 @@ module.exports = {
             let token = createToken({ id: userQuery[0].id_user, username: userQuery[0].username })
             userQuery[0].token = token
             res.status(200).send(userQuery[0])
+        } catch (err) {
+            
         }
     },
     register: async (req, res) => {
@@ -75,6 +77,8 @@ module.exports = {
             resultGet[0].token = token
 
             res.status(200).send(resultGet[0])
+        } catch (err) {
+            
         }
     },
     keepLogin: async (req, res) => {        
@@ -86,6 +90,68 @@ module.exports = {
         catch (err) {
             console.log(err)
             res.status(400).send(err)
+        }
+    },
+    forgotPassword: async (req, res) => {
+        const { email, username } = req.body
+        try {
+            const query = 'SELECT username,password FROM users WHERE email=? AND username =?'
+
+            const [result] = await asyncQuery(query, [email, username])
+            if (!result) return res.status(400).send(`email for ${username} is not ${email} please use the registered email`)
+            // console.log('haha')
+            const option = {
+                from: 'Ikiya <ikiya@gmail.com>',
+                to: email,
+                subject: 'Forgot Password',
+            }
+            const file = fs.readFileSync('./templates/userResetPassword.handlebars').toString()
+            const template = handlebars.compile(file)
+
+            const { password } = result
+
+            const random = Math.floor(Math.random() * (password.length - 5))
+
+            const code = password.substr(random, 4)
+            const matchPassword = password.substr(0, random) + ';' + password.substr(random + 4)
+
+            console.log(code, matchPassword)
+
+            const token = createToken({ username, password: matchPassword })
+            option.html = template({ username, code, link: `http://localhost:3000/resetPassword?${token}` })
+
+            await transporter.sendMail(option)
+
+            res.status(200).send(token)
+        } catch (error) {
+            console.log(error)
+            res.status(400).send(error.message || error.sqlMessage || error)
+        }
+    },
+    resetPassword: async (req, res) => {
+        const isValid = validationResult(req.body)
+        try {
+            const { username, password } = req.user
+            const { code, password: newPassword } = req.body
+
+            const query = [
+                'select * from users where username=? and password=?',
+                'update users set password=? where username=?'
+            ]
+
+            const [result1] = await asyncQuery(query[0], [username, password.replace(';', code)])
+            console.log(code)
+            if (!result1) return res.status(400).send('wrong verification code')
+
+            if (!isValid.isEmpty()) return res.status(400).send(isValid.array().map(i => i.msg).join(', '))
+
+            const result2 = await asyncQuery(query[1], [cryptojs.HmacMD5(newPassword,secret_key), username])
+
+            res.status(200).send(result2)
+
+        } catch (error) {
+            console.log(error)
+            res.status(400).send(error.message || error.sqlMessage || error)
         }
     }
 }
