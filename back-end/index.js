@@ -10,7 +10,7 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname+'/public'))
 
 
 const response = (req, res) => res.status(200).send('<h1>Group Project</h1>')
