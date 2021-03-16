@@ -1,6 +1,4 @@
 const db = require('../database')
-const { asyncQuery } = require('../helpers/queryHelp')
-const { createToken } = require('../helpers/jwt')
 const fs = require('fs')
 const { createToken } = require('../helpers/jwtHelper')
 const { validationResult } = require('express-validator')
@@ -152,6 +150,20 @@ module.exports = {
         } catch (error) {
             console.log(error)
             res.status(400).send(error.message || error.sqlMessage || error)
+        }
+    },
+    verification: async (req, res) => {
+        try {
+            const verify = `UPDATE users SET id_status = 2
+                            WHERE id_user = ${req.user.id}
+                            AND username = ${db.escape(req.user.username)}`
+            const result =  await asyncQuery(verify)
+
+            res.status(200).send('email has been verified')
+        }
+        catch (err) {
+            console.log(err)
+            res.status(400).send(err)
         }
     }
 }
