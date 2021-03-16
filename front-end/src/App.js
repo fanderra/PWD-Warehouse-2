@@ -10,6 +10,7 @@ import { keepLogin } from './actions'
 import Cart from './pages/cart'
 import Login from './pages/login'
 import ForgotPasswordPage from './pages/forgotPasswordPage'
+import Product from './pages/product'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -29,6 +30,7 @@ const App = () => {
         <Route path='/forgot' component={ForgotPasswordPage}  />
         <Route path='/login' component={Login}  />
         <Route path='/verification' component={Verification} exact />
+        <Route path='/product' component={Product} exact />
       </Switch>
     </div>
   )
