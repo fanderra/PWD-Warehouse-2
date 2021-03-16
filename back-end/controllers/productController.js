@@ -13,6 +13,7 @@ module.exports = {
                 ORDER BY c.category
             `
             result = await asyncQuery(query)
+            result.map(item => item.images = item.images.split(', '))
             res.status(200).send(result)
         }
         catch (err) {
