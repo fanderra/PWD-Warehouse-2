@@ -12,6 +12,7 @@ app.use(bodyParser.json())
 
 app.use(express.static(__dirname + '/public'))
 
+
 const response = (req, res) => res.status(200).send('<h1>Group Project</h1>')
 app.get('/', response)
 
