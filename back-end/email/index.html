@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User Verification</title>
+    <meta charset="UTF-8" />
+</head>
+<style>
+    * {
+        font-family: Arial, Helvetica, sans-serif
+    }
+    #app {
+        background-color: #0057a4;
+        height: 80px;
+        display: grid;
+        place-items: center;
+    }
+    #app h1 {
+        color: #f3d213;
+        display: flex;
+    }
+    #app span {
+        font-size: 15px;
+    }
+    #text-container {
+        padding: 20px;
+        max-width: 350px
+    }
+    #button-container {
+        display: grid;
+        place-items: center;
+        margin: 30px 0 30px 0;
+    }
+    #button-container a {
+        border: none;
+        background-color: #0368c1;
+        height: 20px;
+        color: white;
+        display: grid;
+        place-items: center;
+        padding: 7px;
+        border-radius: 3px;
+        text-decoration: none;
+    }
+    #optional a {
+        color: #0368c1
+    }
+    #optional {
+        font-size: 12px;
+        opacity: 0.8;
+    }
+</style>
+
+<body>
+    <div id="app">
+        <h1>
+            IKIYA<span>®</span>
+        </h1>
+        <div id='text-container'>
+            <p>
+                Hi,{{username}}!<br /><br />
+                Please click the button below to verify your email address.<br />
+
+            <div id='button-container'>
+                <a href='{{link}}'>
+                    Verify Email Address
+                </a>
+            </div>
+            <p>If you did not create an account, no further action is required.</p>
+            <br />
+            <p id='optional'>
+                If you're having trouble clicking the 'verify' button, copy and paste the URL below into your web
+                browser :<br /><br />
+                <a href='{{link}}'>
+                    {{link}}
+                </a>
+            </p>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
