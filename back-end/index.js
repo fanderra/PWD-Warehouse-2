@@ -21,7 +21,7 @@ db.connect((err) => {
     console.log(`Connected as id : ${db.threadId}`)
 })
 
-const { userRouter } = require('./routers')
+const { userRouter,productRouter } = require('./routers')
 app.use('/user', userRouter)
 app.use('/product', productRouter)
 
