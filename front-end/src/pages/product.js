@@ -13,12 +13,12 @@ const Product = () => {
         .map((item, index) => {
             return (
                 <Card key={index} style={{ margin: 10, textAlign: "center" }}>
-                    <Card.Img style={{ width: 250 }} src={'http://localhost:2000/' + item.images[1]} />
+                    <Card.Img style={{ width: 250 }} src={'http://localhost:2000/' + item.images[0]} />
                     <Card.Body>
                         <Card.Title>{item.name}</Card.Title>
-                        <Card.Text style={{ fontSize: 20 }}>{item.category}</Card.Text>
-                        <Card.Text>IDR {Intl.NumberFormat('in-ID', { currency: 'IDR', style: 'decimal' }).format(item.price)}</Card.Text>
-                        <Button onClick={() => { setModalDetails(true); setDetails({ nama: item.name, harga: item.price, kategori: item.category, gambar1: item.images[0], gambar2: item.images[1] }) }}>View Details</Button>
+                        <Card.Text style={{ fontSize: 19 }}>{item.category}</Card.Text>
+                        <Card.Text>${Intl.NumberFormat('en-US', { currency: 'USD', style: 'decimal' }).format(item.price)}</Card.Text>
+                        <Button onClick={() => { setModalDetails(true); setQty(1); setDetails({ nama: item.name, harga: item.price, kategori: item.category, gambar1: item.images[0], gambar2: item.images[1], totalStock: item.total_stock }) }}>View Details</Button>
                     </Card.Body>
                 </Card>
             )
@@ -98,31 +98,28 @@ const Product = () => {
             <Modal show={modalDetails} onHide={() => setModalDetails(false)}>
                 <Modal.Body>
                     <Carousel style={{ margin: -16 }}>
-                        <Carousel.Item><img alt="1st slide" width={498} src={'http://localhost:2000/' + details.gambar2} /></Carousel.Item>
-                        <Carousel.Item><img alt="2st slide" width={498} src={'http://localhost:2000/' + details.gambar1} /></Carousel.Item>
+                        <Carousel.Item><img alt="1st slide" width={498} src={'http://localhost:2000/' + details.gambar1} /></Carousel.Item>
+                        <Carousel.Item><img alt="2st slide" width={498} src={'http://localhost:2000/' + details.gambar2} /></Carousel.Item>
                     </Carousel>
                     <br />
                     <div style={{ textAlign: "center" }}>
                         <div>{details.nama}</div>
-                        <div>Category: {details.kategori}</div>
-                        <div>IDR {Intl.NumberFormat('in-ID', { currency: 'IDR', style: 'decimal' }).format(details.harga)}</div>
+                        <div>{details.kategori}</div>
+                        <div>${Intl.NumberFormat('en-US', { currency: 'USD', style: 'decimal' }).format(details.harga)}</div>
                     </div>
                     <br />
                     <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                        <div>
-                            <div style={{ flexDirection: "row", display: "flex", marginLeft: 5 }}>
-                                <Button onClick={() => qty <= 1 ? alert('???') : setQty(qty - 1)}>-</Button>
-                                <Form.Control style={{ width: 45, textAlign: "center" }} onChange={event => setQty(parseInt(event.target.value))} value={qty} />
-                                <Button onClick={() => qty >= details.total_stok ? alert('???') : setQty(qty + 1)}>+</Button>
-                            </div>
-                            <div>Available stock: {details.total_stok ? details.total_stok : "-"}</div>
+                        <div>Available stock: {details.totalStock ? details.totalStock : "-"}</div>
+                        <div style={{ flexDirection: "row", display: "flex", marginLeft: 5 }}>
+                            <Button onClick={() => qty <= 1 ? alert('???') : setQty(qty - 1)}>-</Button>
+                            <Form.Control style={{ width: 45, textAlign: "center" }} onChange={event => setQty(parseInt(event.target.value))} value={qty} />
+                            <Button onClick={() => qty >= details.totalStock ? setQty(qty + 0) : setQty(qty + 1)}>+</Button>
                         </div>
-                        <div style={{ textAlign: "center" }}>TOTAL: IDR {Intl.NumberFormat('in-ID', { currency: 'IDR', style: 'decimal' }).format(details.harga * qty)}</div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={() => { qty > details.total_stok ? alert('???') : alert('x' + qty + ' ' + details.nama + ' has been added to cart'); setQty(1); setModalDetails(false) }}>Add To Cart</Button>
-                    <Button onClick={() => { setQty(1); setModalDetails(false) }}>Close</Button>
+                    <Button onClick={() => setModalDetails(false)}>Close</Button>
                 </Modal.Footer>
             </Modal>
         </div>
