@@ -5,6 +5,7 @@ export const login = (data, action) => {
         try {
             const res = await Axios.post('http://localhost:2000/user/login', data)
             localStorage.token = res.data.token
+            delete res.data.token
             dispatch({ type: 'LOGIN', payload: res.data })
         }
         catch (err) {
