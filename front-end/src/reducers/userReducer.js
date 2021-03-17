@@ -1,9 +1,10 @@
 const INITIAL_STATE = {
     id_user: null,
     username: '',
-    email: '',
-    password: '',
-    id_status: 1
+    id_status: null,
+    id_role: null,
+    address: [],
+    cart: []
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -11,10 +12,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case 'LOGIN':
             return {
                 ...state,
-                id_user: action.payload.id_user,
-                username: action.payload.username,
-                email: action.payload.email,
-                password: action.payload.password
+                ...payload
             }
         case 'LOGOUT':
             return INITIAL_STATE

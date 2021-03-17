@@ -8,6 +8,33 @@ const transporter = require('../helpers/nodemailer')
 const { generateQuery, asyncQuery } = require('../helpers/queryHelper')
 const handlebars = require('handlebars')
 
+const cartQuery = `SELECT
+                    p.id_product,
+                    o.id_order,
+                    od.qty,
+                    p.name,
+                    p.price,
+                    ps.stock - (p.purchased - od.qty) stock,
+                    pi.image
+                FROM
+                    order_details od
+                        JOIN
+                    orders o ON o.id_order = od.id_order
+                        JOIN
+                    products p ON p.id_product = od.id_product
+                        JOIN
+                    product_images pi ON pi.id_product = p.id_product
+                        JOIN
+                    (SELECT
+                        id_product, SUM(stock) stock
+                    FROM
+                        storages
+                    GROUP BY id_product) ps ON ps.id_product = p.id_product
+                WHERE
+                    o.id_user = ?
+                GROUP BY id_product`
+
+
 module.exports = {
     showAll: async (req, res) => {
         try {
@@ -20,15 +47,28 @@ module.exports = {
             res.status(400).send(err)
         }
     },
-    login: async (req, res) => {
+    login: async ({ body }, res) => {
         try {
-            const userQuery = await asyncQuery(`SELECT * FROM users WHERE ${db.escape(req.body.username)} IN (username, email) AND password=${db.escape(req.body.password)}`)
-            if (userQuery.length === 0) return res.status(400).send('Invalid username and/or password')
-            let token = createToken({ id: userQuery[0].id_user, username: userQuery[0].username })
-            userQuery[0].token = token
-            res.status(200).send(userQuery[0])
-        } catch (err) {
-            
+            const { username, password } = hash(body)
+            const query = [
+                'select id_user,username,id_status,id_role from users where password=? and (username=? or email=?)',
+                'select * from address where id_user=?',
+
+            ]
+
+            console.log(password)
+            const [result1] = await asyncQuery(query[0], [password, username, username])
+
+            if (!result1) return res.status(400).send('wrong username or password')
+
+            const result2 = await asyncQuery(query[1], [result1.id_user])
+            const cart = await asyncQuery(cartQuery, [result1.id_user])
+
+            const token = createToken({ id: result1.id_user, username: result1.username })
+
+            res.status(200).send({ ...result1, address: result2, token, cart })
+        } catch (error) {
+            res.status(400).send(error.message || error.sqlMessage || error)
         }
     },
     register: async (req, res) => {
@@ -51,20 +91,20 @@ module.exports = {
             const resRegister = await asyncQuery(queryRegister)
 
             // setup nodemailer
-            const token = createToken({id : resRegister.insertId, username: username})
+            const token = createToken({ id: resRegister.insertId, username: username })
 
             // send email to user
             const option = {
-                from : `admin <jordan.just.testing@gmail.com>`,
-                to : email, 
-                subject : 'EMAIL VERIFICATION',
-                text : 'click link below to verify your account'
+                from: `admin <jordan.just.testing@gmail.com>`,
+                to: email,
+                subject: 'EMAIL VERIFICATION',
+                text: 'click link below to verify your account'
             }
 
             // setup handlebars
             const emailFile = fs.readFileSync('./email/index.html').toString()
             const template = handlebars.compile(emailFile)
-            option.html = template({username: username, link : `http://localhost:3000/verification?${token}`})
+            option.html = template({ username: username, link: `http://localhost:3000/verification?${token}` })
 
             const info = await transporter.sendMail(option)
 
@@ -76,18 +116,25 @@ module.exports = {
 
             res.status(200).send(resultGet[0])
         } catch (err) {
-            
+
         }
     },
-    keepLogin: async (req, res) => {        
+    keepLogin: async ({ user }, res) => {
         try {
-            const getUser = `SELECT * FROM users WHERE username="${req.user.username}"`
-            const result = await asyncQuery(getUser)
-            res.status(200).send(result[0])
-        }
-        catch (err) {
-            console.log(err)
-            res.status(400).send(err)
+            const query = [
+                'select id_user,username,id_status,id_role from users where id_user=? and username=? ',
+                'select * from address where id_user=?'
+            ]
+            console.log(user)
+            const [result1] = await asyncQuery(query[0], [user.id, user.username])
+            console.log(result1)
+            if (!result1) return res.status(400).send('user not found')
+            const address = await asyncQuery(query[1], [user.id])
+            const cart = await asyncQuery(cartQuery, [user.id])
+            console.log(address)
+            res.status(200).send({ ...result1, address, cart })
+        } catch (error) {
+            res.status(400).send(error.message || error.sqlMessage || error)
         }
     },
     forgotPassword: async (req, res) => {
@@ -143,7 +190,7 @@ module.exports = {
 
             if (!isValid.isEmpty()) return res.status(400).send(isValid.array().map(i => i.msg).join(', '))
 
-            const result2 = await asyncQuery(query[1], [cryptojs.HmacMD5(newPassword,secret_key), username])
+            const result2 = await asyncQuery(query[1], [cryptojs.HmacMD5(newPassword, secret_key), username])
 
             res.status(200).send(result2)
 
@@ -157,7 +204,7 @@ module.exports = {
             const verify = `UPDATE users SET id_status = 2
                             WHERE id_user = ${req.user.id}
                             AND username = ${db.escape(req.user.username)}`
-            const result =  await asyncQuery(verify)
+            const result = await asyncQuery(verify)
 
             res.status(200).send('email has been verified')
         }
