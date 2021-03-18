@@ -85,9 +85,9 @@ const Product = () => {
         }
     })
     const handleAddToCart = () => {
-        const addToCart = { idUser, idProd, qty }
+        const addToCart = { id_user:idUser, id_product:idProd, qty }
         console.log(addToCart)
-        Axios.post('http://localhost:2000/cart/addToCart', addToCart)
+        Axios.post('http://localhost:2000/cart/add', addToCart)
             .then(res => {
                 console.log(res.data)
                 alert('Success!')

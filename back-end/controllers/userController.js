@@ -14,7 +14,7 @@ const cartQuery = `SELECT
                     od.qty,
                     p.name,
                     p.price,
-                    ps.stock - (p.purchased - od.qty) stock,
+                    ps.stock - od.qty stock,
                     pi.image
                 FROM
                     order_details od
@@ -26,13 +26,14 @@ const cartQuery = `SELECT
                     product_images pi ON pi.id_product = p.id_product
                         JOIN
                     (SELECT
-                        id_product, SUM(stock) stock
+                        id_product, SUM(stock-purchased_stock) stock
                     FROM
                         storages
                     GROUP BY id_product) ps ON ps.id_product = p.id_product
                 WHERE
                     o.id_user = ?
                 GROUP BY id_product`
+
 
 
 module.exports = {
@@ -49,7 +50,7 @@ module.exports = {
     },
     login: async ({ body }, res) => {
         try {
-            const { username, password } = hash(body)
+            const { username, password } = body
             const query = [
                 'select id_user,username,id_status,id_role from users where password=? and (username=? or email=?)',
                 'select * from address where id_user=?',
@@ -57,7 +58,7 @@ module.exports = {
             ]
 
             console.log(password)
-            const [result1] = await asyncQuery(query[0], [password, username, username])
+            const [result1] = await asyncQuery(query[0], [cryptojs.HmacMD5(password, secret_key).toString(), username, username])
 
             if (!result1) return res.status(400).send('wrong username or password')
 
@@ -122,7 +123,7 @@ module.exports = {
     keepLogin: async ({ user }, res) => {
         try {
             const query = [
-                'select id_user,username,id_status,id_role from users where id_user=? and username=? ',
+                'select id_user,username,id_status,id_role,email from users where id_user=? and username=? ',
                 'select * from address where id_user=?'
             ]
             console.log(user)
@@ -155,7 +156,7 @@ module.exports = {
 
             const { password } = result
 
-            const random = Math.floor(Math.random() * (password.length - 5))
+            const random = Math.floor(Math.random() * (password.length - 4))
 
             const code = password.substr(random, 4)
             const matchPassword = password.substr(0, random) + ';' + password.substr(random + 4)
@@ -190,7 +191,7 @@ module.exports = {
 
             if (!isValid.isEmpty()) return res.status(400).send(isValid.array().map(i => i.msg).join(', '))
 
-            const result2 = await asyncQuery(query[1], [cryptojs.HmacMD5(newPassword, secret_key), username])
+            const result2 = await asyncQuery(query[1], [cryptojs.HmacMD5(newPassword, secret_key).toString(), username])
 
             res.status(200).send(result2)
 
@@ -211,6 +212,30 @@ module.exports = {
         catch (err) {
             console.log(err)
             res.status(400).send(err)
+        }
+    },
+    addAddress: async (req, res) => {
+        try {
+            const { lat, lng, id_user, label, address_detail, postal_code, city } = req.body
+            console.log(req.body)
+            const query = 'insert into address (label,address_detail,id_user,postal_code,city,lat,lng) values(?)'
+
+            const addAddressInfo = await asyncQuery(query, [[label, address_detail, id_user, postal_code, city, lat, lng]])
+
+            res.status(200).send(addAddressInfo)
+        } catch (error) {
+            console.log(error)
+            res.status(400).send(error.message || error.sqlMessage || error)
+        }
+    },
+    deleteAddress: async ({ params }, res) => {
+        try {
+            const query = 'delete from address where id_address = ?'
+            const result = await asyncQuery(query, [params.id_address])
+            res.status(200).send(result)
+        } catch (error) {
+            console.log(error)
+            res.status(400).send(error.message || error.sqlMessage || error)
         }
     }
 }
