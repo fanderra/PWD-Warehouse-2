@@ -92,3 +92,26 @@ export const verificationEmail = (token) => {
         }
     }
 }
+
+export const postAddress = async (addressData, action) => {
+    try {
+        const { data } = await Axios.post('http://localhost:2000/user/addAddress', addressData)
+        console.log(data)
+        action()
+    } catch (error) {
+        const errorMessage = error?.response?.data || error
+        console.log(errorMessage)
+        action(errorMessage)
+    }
+}
+export const deleteAddress = async (id_address, action) => {
+    try {
+        const { data } = await Axios.delete('http://localhost:2000/user/deleteAddress/' + id_address)
+        console.log(data)
+        action()
+    } catch (error) {
+        const errorMessage = error?.response?.data || error
+        console.log(errorMessage)
+        action(errorMessage)
+    }
+}

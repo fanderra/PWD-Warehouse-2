@@ -20,6 +20,7 @@ const Navigation = () => {
                     <Nav className="mr-auto">
                         <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/">Home</Nav.Link>
                         <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/product">Product</Nav.Link>
+                        <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/cart">cart</Nav.Link>
                     </Nav>
                     <Dropdown>
                         <Dropdown.Toggle style={{ color: "lightGrey", backgroundColor: "transparent", borderColor: "transparent" }}>
@@ -32,6 +33,7 @@ const Navigation = () => {
                                     <Dropdown.Item as={Link} to="/cart">Cart</Dropdown.Item>
                                     <Dropdown.Item as={Link} to="/verification">Verification</Dropdown.Item>
                                     <Dropdown.Item onClick={() => dispatch(logout())} as={Link} to="/login">Log Out</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to="/profile">profile</Dropdown.Item>
                                 </>
                                 :
                                 <>

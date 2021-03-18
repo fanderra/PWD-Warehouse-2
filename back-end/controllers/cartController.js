@@ -11,7 +11,6 @@ module.exports = {
                 'update order_details set qty=qty+? where id_order=? and id_product=?',
                 'insert into orders (id_user, id_order_status) values (?,1)',
                 'insert into order_details (id_order, id_product,qty) values (?)',
-                'update products set purchased=purchased+? where id_product=?',
             ]
 
             let id_order;
@@ -40,38 +39,32 @@ module.exports = {
                     console.log(insertedProduct)
                 }
             }
-            const updatePurchased = await asyncQuery(query[5], [qty, id_product])
-            console.log(updatePurchased)
             res.status(200).send('success')
         } catch (error) {
             res.status(400).send(error.message || error.sqlMessage || error)
         }
     },
     editCartQty: async (req, res) => {
-        const {id_order, id_product,oldQty,newQty} = req.body
-        if(!id_order||!id_product) return res.status(400).send('missing id_order or id_product')
+        const { id_order, id_product, oldQty, newQty } = req.body
+        if (!id_order || !id_product) return res.status(400).send('missing id_order or id_product')
         try {
             const query = [
                 'delete from order_details where id_order=? and id_product=?',
                 'update order_details set qty=? where id_order=? and id_product=?',
-                'update products set purchased=purchased+? where id_product=?',
             ]
 
             if (newQty <= 0) {
                 const deletedProduct = await asyncQuery(query[0], [id_order, id_product])
                 console.log(deletedProduct)
             } else {
-                const editedQty = await asyncQuery(query[1], [newQty,id_order, id_product])
+                const editedQty = await asyncQuery(query[1], [newQty, id_order, id_product])
                 console.log(editedQty)
             }
-
-            const updatePurchased = await asyncQuery(query[2],[newQty-oldQty,id_product])
-            console.log(updatePurchased)
-            console.log('ini',req.body)
+            console.log('ini', req.body)
 
             res.status(200).send('success')
         } catch (error) {
             res.status(400).send(error.message || error.sqlMessage || error)
         }
-    }
+    },
 }

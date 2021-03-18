@@ -1,4 +1,4 @@
-const { asyncQuery } = require('../helpers/queryHelp')
+const { asyncQuery } = require('../helpers/queryHelper')
 
 module.exports = {
     showAll: async (req, res) => {
@@ -7,7 +7,7 @@ module.exports = {
                 `
                 SELECT c.category, asd.*, GROUP_CONCAT(pi.image separator ', ') as images
                 FROM (
-                    SELECT p.*, SUM(s.available_stock) AS total_stock
+                    SELECT p.*, SUM(s.stock) AS total_stock
                     FROM products p
                     JOIN storages s ON s.id_product=p.id_product
                     GROUP BY p.id_product

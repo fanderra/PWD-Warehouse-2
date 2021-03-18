@@ -12,7 +12,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case 'LOGIN':
             return {
                 ...state,
-                ...payload
+                ...action.payload
             }
         case 'LOGOUT':
             return INITIAL_STATE

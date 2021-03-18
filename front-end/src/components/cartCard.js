@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState ,useEffect} from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router'
-import { useDispatch } from 'react-redux'
-import { editCart, keepLogin } from '../actions'
+import { useDispatch} from 'react-redux'
+import { editCart,keepLogin } from '../actions'
 // import {keepLogin}from '../actions'
 
 const c = {
@@ -16,16 +16,16 @@ export default function CartCard({ index, item = {} }) {
     const [edit, setEdit] = useState(false)
     const [editQty, setEditQty] = useState(0)
     const { id_product, image, price, qty, stock, name, id_order } = item
-    const history = useHistory()
+    const history=useHistory()
     const dispatch = useDispatch()
     useEffect(() => {
-        if (qty !== editQty) setEditQty(qty)
+        setEditQty(qty)
     }, [qty])
 
 
     const handleSave = () => {
         if (editQty === qty) return setEdit(false)
-        const editedData = { oldQty: qty, newQty: editQty, id_product, id_order }
+        const editedData={oldQty:qty,newQty:editQty,id_product,id_order}
         editCart(editedData, () => {
             setEdit(false)
             dispatch(keepLogin())
@@ -42,7 +42,7 @@ export default function CartCard({ index, item = {} }) {
     return (
         <div id='cartCard' style={{ backgroundColor: c.blueDarker, width: '100%', height: '200px', padding: '20px', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', flexBasis: '40%', gap: '20px' }}>
-                <img onClick={() => history.push('/detail/' + id_product)} style={{ objectFit: 'contain', height: '100%', cursor: 'pointer', width: '100%', backgroundColor: c.white }} alt='items' src={'http://localhost:2000/' + image} />
+                <img onClick={()=>history.push('/detail/'+id_product)} style={{ objectFit: 'contain', height: '100%', cursor:'pointer',width: '100%', backgroundColor: c.white }} alt='items' src={'http://localhost:2000/'+image} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
                     <div>
                         <h2 style={{ color: c.white }}>{name}</h2>

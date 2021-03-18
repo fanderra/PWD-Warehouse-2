@@ -51,5 +51,7 @@ router.post('/login', userController.login)
 router.post('/forgot', userController.forgotPassword)
 router.patch('/reset',editValidator, verifyToken, userController.resetPassword)
 router.post('/verification', verifyToken, userController.verification)
+router.delete('/deleteAddress/:id_address', userController.deleteAddress)
+router.post('/addAddress', userController.addAddress)
 
 module.exports = router
