@@ -1,16 +1,20 @@
-const { asyncQuery } = require('../helpers/queryHelper')
+const { asyncQuery } = require('../helpers/queryHelp')
 
 module.exports = {
     showAll: async (req, res) => {
         try {
-            const query = 
-            `
-                SELECT c.category, p.name, p.price, SUM(ps.available_stock/2) AS total_stock, GROUP_CONCAT(pi.image separator ', ') as images
-                FROM product_storage ps
-                LEFT JOIN products p ON ps.id_product=p.id_product
-                LEFT JOIN categories c ON p.id_category=c.id_category
-                LEFT JOIN product_images pi ON p.id_product=pi.id_product
-                GROUP BY p.id_product
+            const query =
+                `
+                SELECT c.category, asd.*, GROUP_CONCAT(pi.image separator ', ') as images
+                FROM (
+                    SELECT p.*, SUM(s.available_stock) AS total_stock
+                    FROM products p
+                    JOIN storages s ON s.id_product=p.id_product
+                    GROUP BY p.id_product
+                ) AS asd
+                JOIN product_images pi ON asd.id_product=pi.id_product
+                JOIN categories c ON asd.id_category=c.id_category
+                GROUP BY asd.id_product
             `
             result = await asyncQuery(query)
             result.map(item => item.images = item.images.split(', '))

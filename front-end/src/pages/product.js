@@ -1,13 +1,16 @@
 import React from 'react'
 import Axios from 'axios'
 import { Button, Modal, Form, Card, Carousel, Dropdown, Pagination } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 
 const Product = () => {
     const [data, setData] = React.useState([])
     const [modalDetails, setModalDetails] = React.useState(false)
     const [qty, setQty] = React.useState(1)
     const [details, setDetails] = React.useState({})
+    const [img, setImg] = React.useState([])
     const [currentPage, setCurrentPage] = React.useState(0)
+    const [idProd, setIdProd] = React.useState(0)
     
     const display = data.slice(currentPage * 10, currentPage * 10 + 10)
         .map((item, index) => {
@@ -18,18 +21,14 @@ const Product = () => {
                         <Card.Title>{item.name}</Card.Title>
                         <Card.Text style={{ fontSize: 19 }}>{item.category}</Card.Text>
                         <Card.Text>${Intl.NumberFormat('en-US', { currency: 'USD', style: 'decimal' }).format(item.price)}</Card.Text>
-                        <Button onClick={() => { setModalDetails(true); setQty(1); setDetails({ nama: item.name, harga: item.price, kategori: item.category, gambar1: item.images[0], gambar2: item.images[1], totalStock: item.total_stock }) }}>View Details</Button>
+                        <Button onClick={() => { setModalDetails(true); setQty(1); setIdProd(item.id_product); setDetails(item); setImg(item.images) }}>View Details</Button>
                     </Card.Body>
                 </Card>
             )
         })
         
     const [sortDown1, setSortDown1] = React.useState(true)
-    const [sortDown2, setSortDown2] = React.useState(true)
-    const [sortDown3, setSortDown3] = React.useState(true)
     const [sortName, setSortName] = React.useState(false)
-    const [sortPrice, setSortPrice] = React.useState(false)
-    const [sortCategory, setSortCategory] = React.useState(false)
     const sortByName = () => {
         setCurrentPage(0)
         const copy = [...data]
@@ -43,6 +42,8 @@ const Product = () => {
         setSortDown2(true)
         setSortDown3(true)
     }
+    const [sortDown2, setSortDown2] = React.useState(true)
+    const [sortPrice, setSortPrice] = React.useState(false)
     const sortByPrice = () => {
         setCurrentPage(0)
         const copy = [...data]
@@ -56,6 +57,8 @@ const Product = () => {
         setSortDown1(true)
         setSortDown3(true)
     }
+    const [sortDown3, setSortDown3] = React.useState(true)
+    const [sortCategory, setSortCategory] = React.useState(false)
     const sortByCategory = () => {
         setCurrentPage(0)
         const copy = [...data]
@@ -72,9 +75,27 @@ const Product = () => {
     
     React.useEffect(() => {
         Axios.post('http://localhost:2000/product/showAll')
-        .then((res) => setData(res.data))
-        .catch(err => console.log(err))
+            .then(res => setData(res.data))
+            .catch(err => console.log(err))
     }, [])
+    
+    const { idUser } = useSelector((state) => {
+        return {
+            idUser: state.user.id_user
+        }
+    })
+    const handleAddToCart = () => {
+        const addToCart = { idUser, idProd, qty }
+        console.log(addToCart)
+        Axios.post('http://localhost:2000/cart/addToCart', addToCart)
+            .then(res => {
+                console.log(res.data)
+                alert('Success!')
+                setModalDetails(false)
+                setQty(1)
+            })
+            .catch(err => console.log(err))
+    }
     
     return (
         <div>
@@ -98,27 +119,27 @@ const Product = () => {
             <Modal show={modalDetails} onHide={() => setModalDetails(false)}>
                 <Modal.Body>
                     <Carousel style={{ margin: -16 }}>
-                        <Carousel.Item><img alt="1st slide" width={498} src={'http://localhost:2000/' + details.gambar1} /></Carousel.Item>
-                        <Carousel.Item><img alt="2st slide" width={498} src={'http://localhost:2000/' + details.gambar2} /></Carousel.Item>
+                        <Carousel.Item><img alt="1st slide" width={498} src={'http://localhost:2000/' + img[0]} /></Carousel.Item>
+                        <Carousel.Item><img alt="2st slide" width={498} src={'http://localhost:2000/' + img[1]} /></Carousel.Item>
                     </Carousel>
                     <br />
                     <div style={{ textAlign: "center" }}>
-                        <div>{details.nama}</div>
-                        <div>{details.kategori}</div>
-                        <div>${Intl.NumberFormat('en-US', { currency: 'USD', style: 'decimal' }).format(details.harga)}</div>
+                        <div>{details.name}</div>
+                        <div>{details.category}</div>
+                        <div>${Intl.NumberFormat('en-US', { currency: 'USD', style: 'decimal' }).format(details.price)}</div>
                     </div>
                     <br />
                     <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                        <div>Available stock: {details.totalStock ? details.totalStock : "-"}</div>
+                        <div>Available stock: {details.total_stock ? details.total_stock : "-"}</div>
                         <div style={{ flexDirection: "row", display: "flex", marginLeft: 5 }}>
                             <Button onClick={() => qty <= 1 ? alert('???') : setQty(qty - 1)}>-</Button>
                             <Form.Control style={{ width: 45, textAlign: "center" }} onChange={event => setQty(parseInt(event.target.value))} value={qty} />
-                            <Button onClick={() => qty >= details.totalStock ? setQty(qty + 0) : setQty(qty + 1)}>+</Button>
+                            <Button onClick={() => qty >= details.total_stock ? setQty(qty + 0) : setQty(qty + 1)}>+</Button>
                         </div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => { qty > details.total_stok ? alert('???') : alert('x' + qty + ' ' + details.nama + ' has been added to cart'); setQty(1); setModalDetails(false) }}>Add To Cart</Button>
+                    <Button onClick={() => handleAddToCart()}>Add To Cart</Button>
                     <Button onClick={() => setModalDetails(false)}>Close</Button>
                 </Modal.Footer>
             </Modal>
