@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator')
 const cryptojs = require('crypto-js')
 const secret_key = '!@#$%^&*'
 const transporter = require('../helpers/nodemailer')
-const { generateQuery, asyncQuery } = require('../helpers/queryHelper')
+const {  asyncQuery } = require('../helpers/queryHelper')
 const handlebars = require('handlebars')
 
 const cartQuery = `SELECT
@@ -14,7 +14,7 @@ const cartQuery = `SELECT
                     od.qty,
                     p.name,
                     p.price,
-                    ps.stock - od.qty stock,
+                    ps.stock ,
                     pi.image
                 FROM
                     order_details od
@@ -31,7 +31,7 @@ const cartQuery = `SELECT
                         storages
                     GROUP BY id_product) ps ON ps.id_product = p.id_product
                 WHERE
-                    o.id_user = ?
+                    o.id_user = ? and o.id_order_status=1
                 GROUP BY id_product`
 
 

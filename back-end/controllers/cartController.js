@@ -45,7 +45,7 @@ module.exports = {
         }
     },
     editCartQty: async (req, res) => {
-        const { id_order, id_product, oldQty, newQty } = req.body
+        const { id_order, id_product, newQty } = req.body
         if (!id_order || !id_product) return res.status(400).send('missing id_order or id_product')
         try {
             const query = [
