@@ -4,6 +4,7 @@ const cartController = require('./cartController')
 module.exports = {
     userController,
     productController,
-    cartController
+    cartController,
+    orderController: require('./orderController'),
 }
 
