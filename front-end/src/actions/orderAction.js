@@ -12,6 +12,7 @@ export const checkoutCart = async (allData, action) => {
         console.log(error.response?.data)
     }
 }
+
 export const getPayment = async (id_order, action) => {
     try {
         const { data } = await api.get(`/getPayment/` + id_order)

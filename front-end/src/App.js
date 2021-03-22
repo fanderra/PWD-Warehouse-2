@@ -14,6 +14,7 @@ import Product from './pages/product'
 import Profile from './pages/profile'
 import Payment from './pages/payment'
 import NotFound from './pages/notFound'
+import Checkout from './pages/checkout'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -30,7 +31,7 @@ const App = () => {
         <Route path='/register' component={Register} />
         {/* <Route path='/' component={Home} exact /> */}
         <Route path='/profile' component={Profile} />
-
+        <Route path='/checkout' component={Checkout}  />
         <Route path='/payment/:id_order' component={Payment} />
         <Route path='/cart' component={Cart} />
         <Route path='/forgot' component={ForgotPasswordPage} />
