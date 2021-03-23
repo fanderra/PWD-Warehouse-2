@@ -12,7 +12,6 @@ export const checkoutCart = async (allData, action) => {
         console.log(error.response?.data)
     }
 }
-
 export const getPayment = async (id_order, action) => {
     try {
         const { data } = await api.get(`/getPayment/` + id_order)
@@ -23,7 +22,7 @@ export const getPayment = async (id_order, action) => {
     }
 }
 
-export const confirmPayment = async (formData,action) => {
+export const confirmPayment = async (formData, action) => {
     try {
         const { data } = await api.post(`/confirmPayment`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
         console.log(data)
@@ -31,5 +30,34 @@ export const confirmPayment = async (formData,action) => {
         console.log(error.response?.data)
     } finally {
         action()
+    }
+}
+
+export const cancelOrder = async (alldata, action) => {
+    try {
+
+        const { data } = await api.post(`/cancelOrder`, alldata)
+        console.log(data)
+        action()
+    } catch (error) {
+        console.log(error.response?.data)
+    }
+}
+
+export const completeOrder = async (id_order, action) => {
+    try {
+        await api.post('/complete/' + id_order)
+        action()
+    } catch (error) {
+        console.log(error.response?.data || error)
+    }
+}
+
+export const confirmOrder = async (id_order, action) => {
+    try {
+        await api.post('/confirmOrder/' + id_order)
+        action()
+    } catch (error) {
+        console.log(error.response?.data || error)
     }
 }
