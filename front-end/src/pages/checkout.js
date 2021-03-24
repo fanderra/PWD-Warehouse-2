@@ -112,8 +112,8 @@ const Checkout = () => {
                 <div style={{ borderBottom: '2px solid grey', width: '500px', alignSelf: 'center', marginBottom: 10 }}></div>
                 <div> Shipment fee</div>
                 <Form.Group controlId="formBasicCheckbox" value={listShipment} onChange={handleList}>
-                    <Form.Check type="checkbox" label="EXPRESS Rp 20.000,00" value='20000' />
-                    <Form.Check type="checkbox" label="REGULER Rp 10.000,00" value='10000' />
+                    <Form.Check type="checkbox" label="EXPRESS Rp 100.000,00" value='100000' />
+                    <Form.Check type="checkbox" label="REGULER Rp 50.000,00" value='50000' />
                 </Form.Group>
                 <div style={{ borderBottom: '2px solid grey', width: '500px', alignSelf: 'center', marginBottom: 10 }}></div>
                 <div>

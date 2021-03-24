@@ -17,10 +17,12 @@ const Navigation = () => {
             <Navbar bg="dark" expand="lg">
                 <Navbar.Brand style={{ color: "lightGrey" }}>Group Project</Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
+                    <Nav  className="mr-auto">
                         <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/">Home</Nav.Link>
                         <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/product">Product</Nav.Link>
                         <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/cart">cart</Nav.Link>
+                        <Nav.Link style={{ color: "lightGrey" }}  as={Link} to='/history/confirmed' >History</Nav.Link>
+
                     </Nav>
                     <Dropdown>
                         <Dropdown.Toggle style={{ color: "lightGrey", backgroundColor: "transparent", borderColor: "transparent" }}>

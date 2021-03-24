@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import CartCard from '../components/cartCard'
 const c = {
@@ -28,9 +29,10 @@ export default function Cart() {
                 }}
             >
                 <h2 style={{ color: c.white }}>{cart.reduce((a, b) => a + (b.price * b.qty), 0).toLocaleString()} IDR</h2>
-                {cart.length && <Button variant='success'>Checkout</Button>}
+                {(cart.length > 0 && cart.every(itm => itm.qty <= itm.stock)) && <Button as={Link} to='/checkout' variant='success'>Checkout</Button>}
             </div>
         </div>
     )
 }
 
+//cart.every(itm=>itm.qty<=item.stock)

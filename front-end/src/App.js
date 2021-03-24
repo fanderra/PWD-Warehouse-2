@@ -15,7 +15,7 @@ import Profile from './pages/profile'
 import Payment from './pages/payment'
 import NotFound from './pages/notFound'
 import Checkout from './pages/checkout'
-
+import History from './pages/history'
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -36,6 +36,8 @@ const App = () => {
         <Route path='/cart' component={Cart} />
         <Route path='/forgot' component={ForgotPasswordPage} />
         <Route path='/login' component={Login} />
+
+        <Route path='/history' component={History} />
         <Route path='/verification' component={Verification}  />
         <Route path='/product' component={Product} exact />
         <Route path='*' component={NotFound} />
