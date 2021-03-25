@@ -7,22 +7,33 @@ import { logout } from '../actions'
 
 const Navigation = () => {
     const dispatch = useDispatch()
-    const { name } = useSelector((state) => {
+    const { name, idRole } = useSelector((state) => {
         return {
-            name: state.user.username
+            name: state.user.username,
+            idRole: state.user.id_role
         }
     })
     return (
         <div>
             <Navbar bg="dark" expand="lg">
-                <Navbar.Brand style={{ color: "lightGrey" }}>Group Project</Navbar.Brand>
+                <Navbar.Brand style={{ color: "lightGrey", fontSize: 25 }} as={Link} to="/">IKIYA</Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav  className="mr-auto">
+                    <Nav className="mr-auto">
                         <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/">Home</Nav.Link>
-                        <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/">Product</Nav.Link>
-                        <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/cart">cart</Nav.Link>
-                        <Nav.Link style={{ color: "lightGrey" }}  as={Link} to='/history/confirmed' >History</Nav.Link>
-
+                        {name
+                            ?
+                            <>
+                                <Nav.Link style={{ color: "lightGrey" }} as={Link} to='/history/confirmed'>History</Nav.Link>
+                            </>
+                            :
+                            <></>
+                        }
+                        {idRole === 2 ?
+                            <>
+                            </>
+                            :
+                            <></>
+                        }
                     </Nav>
                     <Dropdown>
                         <Dropdown.Toggle style={{ color: "lightGrey", backgroundColor: "transparent", borderColor: "transparent" }}>
@@ -33,9 +44,9 @@ const Navigation = () => {
                                 ?
                                 <>
                                     <Dropdown.Item as={Link} to="/cart">Cart</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to="/profile">Profile</Dropdown.Item>
                                     <Dropdown.Item as={Link} to="/verification">Verification</Dropdown.Item>
                                     <Dropdown.Item onClick={() => dispatch(logout())} as={Link} to="/login">Log Out</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to="/profile">profile</Dropdown.Item>
                                 </>
                                 :
                                 <>
