@@ -15,6 +15,7 @@ import Checkout from './pages/checkout'
 import Payment from './pages/payment'
 import History from './pages/history'
 import NotFound from './pages/notFound'
+import MasterProduct from './pages/masterProduct'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -55,6 +56,7 @@ const App = () => {
         {idRole === 2 
           ?
           <>
+            <Route path='/admin/products' component={MasterProduct} />
           </>
           :
           <></>
