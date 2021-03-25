@@ -15,7 +15,8 @@ const cartQuery = `SELECT
                     p.name,
                     p.price,
                     ps.stock ,
-                    pi.image
+                    pi.image,
+                    p.id_product_status
                 FROM
                     order_details od
                         JOIN
@@ -31,7 +32,7 @@ const cartQuery = `SELECT
                         storages
                     GROUP BY id_product) ps ON ps.id_product = p.id_product
                 WHERE
-                    o.id_user = ? and o.id_order_status=1
+                    o.id_user = ? and o.id_order_status=1 
                 GROUP BY id_product`
 
 

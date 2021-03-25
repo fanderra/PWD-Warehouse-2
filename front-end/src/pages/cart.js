@@ -34,7 +34,7 @@ export default function Cart() {
                 }}
             >
                 <h2 style={{ color: c.white }}>{cart.reduce((a, b) => a + (b.price * b.qty), 0).toLocaleString()} IDR</h2>
-                {(cart.length > 0 && cart.every(itm => itm.qty <= itm.stock)) && <Button as={Link} to='/checkout' variant='success'>Checkout</Button>}
+                {(cart.length > 0 && cart.every(itm => itm.qty <= itm.stock&&+itm.id_product_status===1)) && <Button as={Link} to='/checkout' variant='success'>Checkout</Button>}
             </div>
         </div>
     )
