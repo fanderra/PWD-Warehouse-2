@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Form, Spinner } from 'react-bootstrap'
+import { Button, Form, Spinner,Badge } from 'react-bootstrap'
 import { postAddress, keepLogin,deleteAddress } from "../actions";
 import Maps from '../components/maps'
 export default function Profile() {
-    const { username, address, email, id_user } = useSelector(state => state.user)
+    const { username, address, email, id_user,id_status } = useSelector(state => state.user)
     const [errorMessage, setErrorMessage] = useState('')
     const [newAddress, setNewAddress] = useState({ address_detail: '', label: '' })
     const [show, setShow] = useState(false)
@@ -48,9 +48,16 @@ export default function Profile() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', columnGap: '100px', padding: '50px 0',minWidth:'60vw' }}>
                 <div style={{ display: 'grid', rowGap: '20px', height: '200px' }}>
                     <h2>Profile</h2>
-                    <div style={{ height: '90px', border: '1px solid #435560', boxShadow: '0 0 2px 1px black', borderRadius: '3px', padding: '0 10px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                        <h4 style={{ fontWeight: '400' }}>email</h4>
-                        <p>{email}</p>
+                    <div style={{ height: '90px', border: '1px solid #435560', boxShadow: '0 0 2px 1px black', borderRadius: '3px', padding: '0 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ flexDirection: 'column', justifyContent: 'center' }}>
+                            <h4 style={{ fontWeight: '400' }}>email</h4>
+                            <p>{email}</p>
+                        </div>
+                        {id_status === 2 ?
+                            <Badge variant='success'>verified</Badge>
+                            :
+                            <Badge variant='danger'>not-verified</Badge>
+                        }
                     </div>
                     <div style={{ height: '90px', border: '1px solid #435560', boxShadow: '0 0 2px 1px black', borderRadius: '3px', padding: '0 10px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         <h4 style={{ fontWeight: '400' }}>username</h4>

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import CartCard from '../components/cartCard'
+import { keepLogin } from '../actions'
 const c = {
     white: '#eceace',
     lightGreen: '#c8c6a7',
@@ -12,6 +13,10 @@ const c = {
 }
 export default function Cart() {
     const { cart } = useSelector(state => state.user)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(keepLogin())
+    },[])
     return (
         <div style={{ display: 'grid', padding: '20px 20px 100px 20px', gridTemplateColumns: 'repeat(auto-fit,400px)', gap: '20px' }}>
             {cart.map((item, index) => <CartCard key={index} item={item} />)}
@@ -29,7 +34,7 @@ export default function Cart() {
                 }}
             >
                 <h2 style={{ color: c.white }}>{cart.reduce((a, b) => a + (b.price * b.qty), 0).toLocaleString()} IDR</h2>
-                {(cart.length > 0 && cart.every(itm => itm.qty <= itm.stock)) && <Button as={Link} to='/checkout' variant='success'>Checkout</Button>}
+                {(cart.length > 0 && cart.every(itm => itm.qty <= itm.stock&&+itm.id_product_status===1)) && <Button as={Link} to='/checkout' variant='success'>Checkout</Button>}
             </div>
         </div>
     )

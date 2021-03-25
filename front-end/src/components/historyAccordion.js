@@ -1,23 +1,24 @@
 import React from 'react'
 import { Card, Accordion, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+
 export default function HistoryAccordion({ item, index, showModal, handleCancel }) {
     return (
         <div>
-            <Accordion defaultActiveKey={index+''}>
+            <Accordion defaultActiveKey={index + ''}>
                 <Card>
                     <Card.Header style={{ display: 'flex', gap: '20px', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Accordion.Toggle as={Button} variant="outline-dark" eventKey={index + ''}>
                             <i className="far fa-caret-square-down"></i>
                         </Accordion.Toggle>
-                        <div style={{ display: 'flex', gap: '10px' ,alignItems: 'center'}}>
+                        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                             {
                                 (item.id_order_status === 2) &&
-                                <div style={{height:'100%',display:'grid',gridTemplateRows:'1fr 1fr',}}>
-                                        <Button as={Link} to={'/payment/' + item.id_order} variant='success' style={{ width: '50px',borderRadius:'3px 3px 0 0',height:'40px', display: 'grid', placeItems: 'center' }}>
-                                            <i className="fas fa-credit-card"></i>
-                                        </Button>
-                                    <Button variant='danger' onClick={()=>handleCancel(item.id_order)} style={{ width: '50px',borderRadius:'0px 0px 3px 3px',height:'40px', display: 'grid', placeItems: 'center', margin: 0 }}>
+                                <div style={{ height: '100%', display: 'grid', gridTemplateRows: '1fr 1fr', }}>
+                                    <Button as={Link} to={'/payment/' + item.id_order} variant='success' style={{ width: '50px', borderRadius: '3px 3px 0 0', height: '40px', display: 'grid', placeItems: 'center' }}>
+                                        <i className="fas fa-credit-card"></i>
+                                    </Button>
+                                    <Button variant='danger' onClick={() => handleCancel(item.id_order)} style={{ width: '50px', borderRadius: '0px 0px 3px 3px', height: '40px', display: 'grid', placeItems: 'center', margin: 0 }}>
                                         <i className="fas fa-trash"></i>
                                     </Button>
                                 </div>
@@ -31,13 +32,13 @@ export default function HistoryAccordion({ item, index, showModal, handleCancel 
 
                             {
                                 item.id_order_status === 6 &&
-                                <Button variant='dark' onClick={showModal} style={{height:'80px'}}>
+                                <Button variant='dark' onClick={showModal} style={{ height: '80px' }}>
                                     <i className="fas fa-envelope"></i>
                                 </Button>
                             }
                             {
                                 (item.id_order_status === 3 && item.payment_method === 'TRANSFER') &&
-                                <Button onClick={() => showModal(item.payment_image)} variant='dark' style={{ width: '50px',height:'80px' ,display: 'grid', placeItems: 'center' }}>
+                                <Button onClick={() => showModal(item.payment_image)} variant='dark' style={{ width: '50px', height: '80px', display: 'grid', placeItems: 'center' }}>
                                     <i className="fas fa-receipt"></i>
                                 </Button>
                             }

@@ -19,7 +19,7 @@ const Navigation = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav  className="mr-auto">
                         <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/">Home</Nav.Link>
-                        <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/product">Product</Nav.Link>
+                        <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/">Product</Nav.Link>
                         <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/cart">cart</Nav.Link>
                         <Nav.Link style={{ color: "lightGrey" }}  as={Link} to='/history/confirmed' >History</Nav.Link>
 

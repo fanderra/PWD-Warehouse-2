@@ -39,7 +39,7 @@ const App = () => {
 
         <Route path='/history' component={History} />
         <Route path='/verification' component={Verification}  />
-        <Route path='/product' component={Product} exact />
+        <Route path='/' component={Product} exact />
         <Route path='*' component={NotFound} />
       </Switch>
     </>
