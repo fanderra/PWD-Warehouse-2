@@ -1,4 +1,4 @@
-const { generateQuery, asyncQuery } = require('../helpers/queryHelp')
+const { generateQuery, asyncQuery } = require('../helpers/queryHelper')
 const db = require('../database')
 
 const showProducts =
