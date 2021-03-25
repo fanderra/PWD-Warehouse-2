@@ -7,6 +7,10 @@ module.exports = {
     checkout: async (req, res) => {
         const { id_order, address_detail, lat, lng, city, postal_code, shipment_fee, payment_method, date = Date.now() } = req.body
         try {
+            const checkStockQuery = 'SELECT od.id_order,od.id_product,od.qty,total_stock,id_product_status FROM order_details od JOIN (SELECT  id_product, SUM(stock - purchased_stock) total_stock FROM storages GROUP BY id_product) s ON s.id_product = od.id_product join products p on p.id_product=od.id_product WHERE od.id_order = ? having id_product_status=2 or total_stock-qty<0;'
+            const [checkStock] = await asyncQuery(checkStockQuery, [id_order])
+            if (checkStock) return res.status(400).send('Out of stock')
+            
             const query = [
                 'update orders set ? where id_order=?',
                 'select * from stores',
