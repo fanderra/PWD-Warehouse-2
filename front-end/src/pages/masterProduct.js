@@ -50,6 +50,9 @@ const MasterProduct = () => {
         Axios.post('http://localhost:2000/product/showAllProductsForAdmin')
             .then(res => setProductsData(res.data))
             .catch(err => console.log(err))
+        Axios.post('http://localhost:2000/product/showAllCategories')
+            .then(res => setCategoriesData(res.data))
+            .catch(err => console.log(err))
     }, [])
     
     const handleAddProduct = () => {
@@ -89,6 +92,38 @@ const MasterProduct = () => {
     const handleDeleteProduct = (index) => {
         Axios.post(`http://localhost:2000/product/delete/${index}`)
             .then(res => setProductsData(res.data))
+            .catch(err => console.log(err))
+    }
+    const handleAddCategory = () => {
+        Axios.post(`http://localhost:2000/product/addCategory`, { category: newItem.category })
+            .then(res => {
+                setCategoriesData(res.data)
+                setNewItem({ ...newItem, category: '' })
+            })
+            .catch(err => {
+                setShowModal({ ...showModal, category: false, error: true })
+                setModalBody(err.response.data)
+            })
+    }
+    const handleEditCategory = (index) => {
+        Axios.post(`http://localhost:2000/product/editCategory/${index}`, { category: editItem.category })
+            .then(res => {
+                setCategoriesData(res.data)
+                setShowModal({ ...showModal, category: true, category2: false })
+                Axios.post('http://localhost:2000/product/showAllProductsForAdmin')
+                    .then(res => setProductsData(res.data))
+                    .catch(err => console.log(err))
+            })
+            .catch(err => console.log(err))
+    }
+    const handleDeleteCategory = (index) => {
+        Axios.post(`http://localhost:2000/product/deleteCategory/${index}`, { id_category: index })
+            .then(res => {
+                setCategoriesData(res.data)
+                Axios.post('http://localhost:2000/product/showAllProductsForAdmin')
+                    .then(res => setProductsData(res.data))
+                    .catch(err => console.log(err))
+            })
             .catch(err => console.log(err))
     }
     
@@ -221,6 +256,78 @@ const MasterProduct = () => {
                 <Modal.Footer>
                     <Button variant="outline-info" onClick={() => handleEditProduct(editItem.idProduct)}>Save</Button>
                     <Button variant="outline-info" onClick={() => setShowModal({ ...showModal, edit: false })}>Cancel</Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={showModal.category} onHide={() => setShowModal({ ...showModal, category: false })}>
+                <Modal.Body style={{ marginBottom: -15 }}>
+                    <Table striped bordered hover style={{ textAlign: "center" }}>
+                        <thead>
+                            <tr>
+                                <td><b>Category</b></td>
+                                <td><b>Action</b></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {categoriesData.map((item, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td><div style={{ marginTop: 6 }}>{item.category}</div></td>
+                                        <td>
+                                            <Button style={{ marginRight: 5 }} variant="outline-info" onClick={() => { setEditItem({ ...editItem, category: item.category, categoryId: item.id_category }); setShowModal({ ...showModal, category: false, category2: true }) }}>Edit</Button>
+                                            <Button style={{ marginLeft: 5 }} variant="outline-info" onClick={() => { handleDeleteCategory(item.id_category) }}>Delete</Button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            <tr>
+                                <td><Form.Control placeholder="Insert new category" value={newItem.category} onChange={event => setNewItem({ ...newItem, category: event.target.value })} /></td>
+                                <td><Button variant="info" onClick={handleAddCategory}>Submit New Category</Button></td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </Modal.Body>
+            </Modal>
+            <Modal show={showModal.stock} onHide={() => setShowModal({ ...showModal, stock: false })}>
+                <Modal.Body style={{ display: "flex" }}>
+                    <Table striped bordered hover style={{ textAlign: "center" }}>
+                        <thead>
+                            <tr>
+                                <td rowSpan="2"><b>Product</b></td>
+                                <td colSpan="2"><b>Stock</b></td>
+                                {/* <td>Move stock</td> */}
+                            </tr>
+                            <tr>
+                                <td>Warehouse JKT</td>
+                                <td>Warehouse BDG</td>
+                                {/* <td>Move stock</td> */}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {productsData.map((item, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{item.name}</td>
+                                        <td>{item.stocks[0]}</td>
+                                        <td>{item.stocks[1]}</td>
+                                        {/* <td>
+                                            <Button>Warehouse A to B</Button>
+                                            <Button>Warehouse B to A</Button>
+                                        </td> */}
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </Table>
+                </Modal.Body>
+            </Modal>
+            <Modal style={{ marginTop: 250 }} show={showModal.category2} onHide={() => setShowModal({ ...showModal, category2: false })}>
+                <Modal.Header><b>New category name</b></Modal.Header>
+                <Modal.Body>
+                    <Form.Control value={editItem.category} onChange={event => setEditItem({ ...editItem, category: event.target.value })} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button style={{ marginRight: 5 }} variant="outline-info" onClick={() => handleEditCategory(editItem.categoryId, editItem.category)}>Save</Button>
+                    <Button style={{ marginLeft: 5 }} variant="outline-info" onClick={() => setShowModal({ ...showModal, category2: false })}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
             <Modal show={showModal.error} onHide={() => setShowModal({ ...showModal, error: false })} style={{ marginTop: 280 }}>

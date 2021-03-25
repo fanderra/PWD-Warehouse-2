@@ -1,4 +1,5 @@
-const { asyncQuery } = require('../helpers/queryHelper')
+const { generateQuery, asyncQuery } = require('../helpers/queryHelp')
+const db = require('../database')
 
 const showProducts =
     `
@@ -32,6 +33,17 @@ module.exports = {
             const result = await asyncQuery(showProducts + `ORDER BY c.category`)
             result.map(item => { item.stocks = item.stocks.split(', '); item.images = item.images.split(', ') })
             res.status(200).send(result)
+        }
+        catch (err) {
+            console.log(err)
+            res.status(400).send(err)
+        }
+    },
+    showAllCategories: async (req, res) => {
+        try {
+            const query = await asyncQuery(`SELECT * FROM categories`)
+            query.shift()
+            res.status(200).send(query)
         }
         catch (err) {
             console.log(err)
@@ -85,6 +97,50 @@ module.exports = {
             await asyncQuery(`UPDATE products SET id_status=2 WHERE id_product=${db.escape(parseInt(req.params.id))}`)
             const result = await asyncQuery(showProducts + `ORDER BY c.category`)
             result.map(item => { item.stocks = item.stocks.split(', '); item.images = item.images.split(', ') })
+            res.status(200).send(result)
+        }
+        catch (err) {
+            console.log(err)
+            res.status(400).send(err)
+        }
+    },
+    addCategory: async (req, res) => {
+        try {
+            const check = await asyncQuery(`SELECT * FROM categories WHERE category=${db.escape(req.body.category)}`)
+            if (check.length !== 0) return res.status(400).send('This category already exists')
+            if (req.body.category === '') return res.status(400).send('Input cannot be empty')
+            await asyncQuery(`INSERT INTO categories (category) VALUES (${db.escape(req.body.category)})`)
+            const result = await asyncQuery(`SELECT * FROM categories`)
+            result.shift()
+            res.status(200).send(result)
+        }
+        catch (err) {
+            console.log(err)
+            res.status(400).send(err)
+        }
+    },
+    editCategory: async (req, res) => {
+        try {
+            const produk = `UPDATE categories SET category=${db.escape(req.body.category)} WHERE id_category=${db.escape(parseInt(req.params.id))}`
+            await asyncQuery(produk)
+            const result = await asyncQuery(`SELECT * FROM categories`)
+            result.shift()
+            res.status(200).send(result)
+        }
+        catch (err) {
+            console.log(err)
+            res.status(400).send(err)
+        }
+    },
+    deleteCategory: async (req, res) => {
+        try {
+            await asyncQuery(`DELETE FROM categories WHERE id_category=${db.escape(parseInt(req.params.id))}`)
+            await asyncQuery(`UPDATE products SET id_category=1 WHERE id_category=${db.escape((req.body.id_category))}`)
+            const result = await asyncQuery(`SELECT * FROM categories`)
+            result.shift()
+
+            const result2 = await asyncQuery(showProducts)
+            result2.map(item => { item.stocks = item.stocks.split(', '); item.images = item.images.split(', ') })
             res.status(200).send(result)
         }
         catch (err) {
