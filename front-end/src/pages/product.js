@@ -58,12 +58,6 @@ const Product = () => {
         setSortBy({ ...sortBy, name: false, price: false, category: !sortBy.category })
     }
     
-    React.useEffect(() => {
-        Axios.post('http://localhost:2000/product/showAllProductsForUser')
-            .then(res => setData(res.data))
-            .catch(err => console.log(err))
-    }, [])
-    
     const { idUser } = useSelector((state) => {
         return {
             idUser: state.user.id_user
@@ -92,6 +86,12 @@ const Product = () => {
             })
             .catch(err => console.log(err))
     }
+    
+    React.useEffect(() => {
+        Axios.post('http://localhost:2000/product/showAllProductsForUser')
+            .then(res => setData(res.data))
+            .catch(err => console.log(err))
+    }, [])
     
     return (
         <div>
