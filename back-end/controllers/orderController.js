@@ -57,7 +57,7 @@ module.exports = {
             const file = fs.readFileSync(
                 payment_method === 'TRANSFER' ?
                     './templates/waitingForPayment.handlebars' :
-                    './templates/paymentConfirmed.handlebars'
+                    './templates/orderConfirmedCOD.handlebars'
             ).toString()
             const template = handlebars.compile(file)
             const total = userCart.reduce((a, b) => a + b.total, 0)

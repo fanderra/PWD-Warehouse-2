@@ -1,13 +1,23 @@
 const { asyncQuery } = require('../helpers/queryHelper')
 
 module.exports = {
-    getHistory: async ({ query: { id_user, id_order_status } }, res) => {
+    getHistory: async ({ query: { id_user, id_order_status, page = 0, perPage = 5, orderBy } }, res) => {
+        // console.log({ id_user, id_order_status, page , perPage  } )
+        const orderByOption = {
+            latest: 'o.date DESC',
+            oldest: 'o.date ASC',
+        }
         try {
             const query = `
                         SELECT
                             *
                         FROM
-                            orders o
+                            (select * from orders o
+                        WHERE
+                            o.id_user = ? and o.id_order_status =?
+                            ORDER BY ${orderByOption[orderBy] || orderByOption.latest}
+                            LIMIT ${page * perPage},${perPage}
+                            ) o
                                 JOIN
                             order_details od ON o.id_order = od.id_order
                                 JOIN
@@ -16,9 +26,8 @@ module.exports = {
                             product_images pi ON pi.id_product = od.id_product
                                 JOIN
                             order_status os ON os.id_order_status = o.id_order_status
-                        WHERE
-                            o.id_user = ? ${id_order_status ? 'and o.id_order_status =?' : ''}
                         GROUP BY id_order_detail
+                        ORDER BY ${orderByOption[orderBy] || orderByOption.latest}
         `
             const result = await asyncQuery(query, [id_user, id_order_status])
 

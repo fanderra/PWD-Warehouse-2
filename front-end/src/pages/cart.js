@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import CartCard from '../components/cartCard'
+import { keepLogin } from '../actions'
 const c = {
     white: '#eceace',
     lightGreen: '#c8c6a7',
@@ -12,6 +13,10 @@ const c = {
 }
 export default function Cart() {
     const { cart } = useSelector(state => state.user)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(keepLogin())
+    },[])
     return (
         <div style={{ display: 'grid', padding: '20px 20px 100px 20px', gridTemplateColumns: 'repeat(auto-fit,400px)', gap: '20px' }}>
             {cart.map((item, index) => <CartCard key={index} item={item} />)}
