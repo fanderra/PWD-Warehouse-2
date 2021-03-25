@@ -124,6 +124,20 @@ const Product = () => {
                         <div>{details.category}</div>
                         <div>${Intl.NumberFormat('en-US', { currency: 'USD', style: 'decimal' }).format(details.price)}</div>
                     </div>
+                    <br />
+                    <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+                        <div>TEST stock awal: {details.total_stock}</div>
+                        <div>Udah dibeli: {details.total_purchased_stock}</div>
+                        <div>Stock FINAL: {details.total_stock ? details.total_stock - details.total_purchased_stock : "-"}</div>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+                        <div>Available Stock: {details.total_stock ? details.total_stock - details.total_purchased_stock : "-"}</div>
+                        <div style={{ flexDirection: "row", display: "flex", marginLeft: 5 }}>
+                            <Button variant="info" onClick={() => qty <= 1 ? setQty(qty - 0) : setQty(qty - 1)}>-</Button>
+                            <Form.Control style={{ width: 45, textAlign: "center" }} onChange={event => setQty(parseInt(event.target.value))} value={qty} />
+                            <Button variant="info" onClick={() => qty >= details.total_stock ? setQty(qty + 0) : setQty(qty + 1)}>+</Button>
+                        </div>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-info" onClick={() => handleAddToCart()}>Add To Cart</Button>
