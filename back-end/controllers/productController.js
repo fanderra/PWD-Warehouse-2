@@ -5,7 +5,7 @@ const showProducts =
 `
     SELECT c.category, asd.*, GROUP_CONCAT(pi.image SEPARATOR ', ') AS images, ps.* 
     FROM (
-        SELECT p.*, SUM(s.stock) AS total_stock, SUM(s.purchased_stock) AS total_purchased_stock, GROUP_CONCAT(s.stock SEPARATOR ', ') AS stocks
+        SELECT p.*, SUM(s.stock) AS total_stock, SUM(s.purchased_stock) AS total_purchased_stock, GROUP_CONCAT(s.stock SEPARATOR ', ') AS stocks, GROUP_CONCAT(s.purchased_stock SEPARATOR ', ') AS purchased_stocks
         FROM products p
         JOIN storages s ON s.id_product=p.id_product
         GROUP BY p.id_product
