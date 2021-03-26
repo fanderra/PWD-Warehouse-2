@@ -249,14 +249,16 @@ module.exports = {
             res.status(400).send(error.message || error.sqlMessage || error)
         }
     },
-    editAddress: async (req, res) => {
-        const { address_detail, id_user, id_address } = req.body
+    changeAddress: async(req, res) => {
         try {
-            const query = 'update address set address_detail=? where id_user=? and id_address=?'
-            await asyncQuery(query, [address_detail, id_user, id_address])
-            res.status(200).send('success')
-        } catch (error) {
-            res.status(400).send(error.message || error.sqlMessage || error)
+            const { lat, lng, id_user, label, address_detail, postal_code, city, id_address} = req.body
+            const query = `update address set label=?,address_detail=?,postal_code=?,city=?,lat=?,lng=? where id_user=${db.escape(id_user)} and id_address=${db.escape(id_address)}`
+
+            const result = await asyncQuery(query, [label, address_detail, postal_code, city, lat, lng])
+            res.status(200).send(result)
         }
-    },
+        catch (err) {
+            res.status(400).send(err.message || err.sqlMessage || err)
+        }
+    }
 }
