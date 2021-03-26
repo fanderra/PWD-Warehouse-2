@@ -44,7 +44,7 @@ export default function ForgotPasswordPage() {
         setErrorMessage('')
     }
 
-    if (redirect||username) return <Redirect to='/login' />
+    if (redirect||username) return <Redirect to='/' />
 
     return (
         <>
