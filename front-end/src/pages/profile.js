@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Badge, Button, Form, OverlayTrigger, Popover, } from 'react-bootstrap'
 import { postAddress, keepLogin, deleteAddress,editAddress } from "../actions";
+// import { postAddress, keepLogin, deleteAddress, sendVerificationEmail, editAddress } from "../actions";
 import AlertModal from '../components/alertModal'
 import Maps from '../components/maps'
 import { Redirect } from 'react-router';
@@ -35,6 +36,9 @@ export default function Profile() {
         })
     }
 
+//     const handleVerify = () => {
+//         sendVerificationEmail(username, msg => setAlertMessage(msg))
+//     }
 
     const handleAddAddress = () => {
         const allAddressData = { ...newAddress, ...cordinates, id_user }
@@ -61,6 +65,7 @@ export default function Profile() {
             <Popover.Title as="h3">You are not verified</Popover.Title>
             <Popover.Content>
                 <p>Verify your email address to access all the features</p>
+//                 <Button size='sm' onClick={handleVerify} variant='success'>Verify !</Button>
             </Popover.Content>
         </Popover>
     );
