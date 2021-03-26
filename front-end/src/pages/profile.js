@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Form, Spinner,Badge } from 'react-bootstrap'
-import { postAddress, keepLogin,deleteAddress } from "../actions";
+import { Badge, Button, Form, OverlayTrigger, Popover, } from 'react-bootstrap'
+import { postAddress, keepLogin, deleteAddress, sendVerificationEmail, editAddress } from "../actions";
+import AlertModal from '../components/alertModal'
 import Maps from '../components/maps'
+import { Redirect } from 'react-router';
+import AddressCard from '../components/addressCard';
 export default function Profile() {
-    const { username, address, email, id_user,id_status } = useSelector(state => state.user)
+    const { username, address, email, id_user, id_status } = useSelector(state => state.user)
     const [errorMessage, setErrorMessage] = useState('')
     const [newAddress, setNewAddress] = useState({ address_detail: '', label: '' })
     const [show, setShow] = useState(false)
-    const [add,setAdd] = useState(false)
+    const [add, setAdd] = useState(false)
     const [cordinates, setCordinates] = useState({ city: '', postal_code: null })
+    const [newAddressDetail, setNewAddressDetail] = useState('')
+    const [alertMessage, setAlertMessage] = useState('')
     const dispatch = useDispatch()
     const handleChange = ({ target: { name, value } }) => {
         setNewAddress(p => ({ ...p, [name]: value.slice(0, 200) }))
@@ -30,10 +35,14 @@ export default function Profile() {
         })
     }
 
+    const handleVerify = () => {
+        sendVerificationEmail(username, msg => setAlertMessage(msg))
+    }
+
     const handleAddAddress = () => {
         const allAddressData = { ...newAddress, ...cordinates, id_user }
 
-        if (Object.values(allAddressData).some(i => !i)) return setErrorMessage('all input can noy be empty')
+        if (Object.values(allAddressData).some(i => !i)) return setErrorMessage('all input can not be empty')
         postAddress(allAddressData, err => {
             if (err) return setErrorMessage(err)
             handleCancel()
@@ -41,11 +50,31 @@ export default function Profile() {
         })
     }
 
-    if (!username) return <div></div>
+    const handleSave = id_address => {
+        console.log(id_address)
+        if (!newAddressDetail) return setAlertMessage('input can not be empty')
+        editAddress({ id_address, address_detail: newAddressDetail, id_user }, err => {
+            if (err) return setAlertMessage(err)
+            dispatch(keepLogin())
+        })
+    }
+
+    const popover = (
+        <Popover style={{ zIndex: 20 }} id="popover-basic">
+            <Popover.Title as="h3">You are not verified</Popover.Title>
+            <Popover.Content>
+                <p>Verify your email address to access all the features</p>
+                <Button size='sm' onClick={handleVerify} variant='success'>Verify !</Button>
+            </Popover.Content>
+        </Popover>
+    );
+
+
+    if (!username) return <Redirect to='/' />
 
     return (
         <div style={{ display: 'grid', placeItems: 'center', minHeight: '40vh' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', columnGap: '100px', padding: '50px 0',minWidth:'60vw' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', columnGap: '100px', padding: '50px 0' }}>
                 <div style={{ display: 'grid', rowGap: '20px', height: '200px' }}>
                     <h2>Profile</h2>
                     <div style={{ height: '90px', border: '1px solid #435560', boxShadow: '0 0 2px 1px black', borderRadius: '3px', padding: '0 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -56,7 +85,9 @@ export default function Profile() {
                         {id_status === 2 ?
                             <Badge variant='success'>verified</Badge>
                             :
-                            <Badge variant='danger'>not-verified</Badge>
+                            <OverlayTrigger trigger={["hover", "focus"]} delay={{ hide: 3000 }} placement="right" overlay={popover}>
+                                <Badge style={{ cursor: 'pointer' }} variant='danger'> not-verified</Badge>
+                            </OverlayTrigger>
                         }
                     </div>
                     <div style={{ height: '90px', border: '1px solid #435560', boxShadow: '0 0 2px 1px black', borderRadius: '3px', padding: '0 10px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -69,25 +100,20 @@ export default function Profile() {
                     <div style={{ height: '350px', border: '1px solid #435560', boxShadow: '0 0 2px 1px black', borderRadius: '3px', padding: '10px', display: 'flex', flexDirection: 'column', overflowY: 'scroll', }}>
                         {
                             address.map((item, index) => {
-                                const { label, city, postal_code, address_detail,id_address } = item
                                 return (
-                                    <div key={index} style={{ borderBottom: '1px solid #435560', width: '400px', padding: '20px', }}>
-                                        <h4 style={{ fontWeight: '400' }}>{label}</h4>
-                                        <div style={{display:'flex',justifyContent: 'space-between'}}>
-                                            <p>
-                                                {city},{postal_code} <br />
-                                                {address_detail}
-                                            </p>
-                                            <Button onClick={() => handleDelete(id_address)} size='sm' variant='danger'>
-                                                <i className='fa fa-trash'></i>
-                                            </Button>
-                                        </div>
-                                    </div>
+                                    <AddressCard
+                                        key={index}
+                                        item={item}
+                                        handleSave={handleSave}
+                                        handleDelete={handleDelete}
+                                        newAddressDetail={newAddressDetail}
+                                        setNewAddressDetail={setNewAddressDetail}
+                                    />
                                 )
                             })
                         }
                         {address.length <= 3 &&
-                            add?(
+                            add ? (
                             <Form style={{ width: '400px', padding: '20px 20px 10px 20px', }}>
                                 <Form.Group controlId="exampleForm.ControlInput1">
                                     <Form.Label>Label</Form.Label>
@@ -114,14 +140,17 @@ export default function Profile() {
                                         <Button onClick={handleAddAddress} style={{ borderRadius: '0 3px 3px 0' }} variant='success' size='sm'>Add</Button>
                                     </div>
                                 </Form.Group>
-                                </Form>
+                            </Form>
                         ) :
-                            <Button size='sm' style={{marginTop:'15px'}} onClick={()=>setAdd(true)} variant='success'>Add New Address</Button>
+                            <Button size='sm' style={{ marginTop: '15px' }} onClick={() => setAdd(true)} variant='success'>Add New Address</Button>
                         }
                     </div>
                 </div>
             </div>
+            <AlertModal message={alertMessage} setShow={() => setAlertMessage('')} />
             <Maps show={show} setShow={() => setShow(false)} setUserCordinates={setCordinates} />
         </div>
     )
 }
+
+
