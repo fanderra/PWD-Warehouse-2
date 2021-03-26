@@ -116,7 +116,6 @@ export const deleteAddress = async (id_address, action) => {
     }
 }
 
-
 export const editAddress = async (addressData, action) => {
     try {
         await Axios.patch('http://localhost:2000/user/editAddress', addressData)
@@ -125,5 +124,29 @@ export const editAddress = async (addressData, action) => {
         const errorMessage = error?.response?.data || error
         console.log(errorMessage)
         action('Fail to edit address please try again later')
+    }
+}
+
+export const checkout = (allPayment) => {
+    return async (dispatch) => {
+        try {
+            const res = await Axios.post('http://localhost:2000/order/checkout', allPayment)
+            console.log(res.data)
+        }
+        catch(err) {
+            console.log(err)
+        }
+    }
+}
+
+export const changeDataAddress = async (addressData, action) => {
+    try {
+        const { data } = await Axios.post('http://localhost:2000/user/changeAddress', addressData)
+        console.log(data)
+        action()
+    } catch (error) {
+        const errorMessage = error?.response?.data || error
+        console.log(errorMessage)
+        action(errorMessage)
     }
 }
