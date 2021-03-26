@@ -15,7 +15,7 @@ export default function Payment() {
         if (id_user) {
             getPayment(id_order, data => {
                 console.log(data)
-                if (!data.payment_method || data.id_user !== id_user||data.id_order_status!==2) return history.replace('/')
+                if (!data.payment_method || +data.id_user !== +id_user||+data.id_order_status!==2) return history.replace('/')
                 setPaymentData(data)
             })
         }

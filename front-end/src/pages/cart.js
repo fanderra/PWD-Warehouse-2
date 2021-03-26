@@ -12,11 +12,12 @@ const c = {
     blueDarker: '#435560',
 }
 export default function Cart() {
-    const { cart } = useSelector(state => state.user)
+    const { cart, username } = useSelector(state => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(keepLogin())
-    },[])
+    }, [])
+    if (!username) return <Redirect to='/' />
     return (
         <div style={{ display: 'grid', padding: '20px 20px 100px 20px', gridTemplateColumns: 'repeat(auto-fit,400px)', gap: '20px' }}>
             {cart.map((item, index) => <CartCard key={index} item={item} />)}
