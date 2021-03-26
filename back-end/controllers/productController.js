@@ -2,7 +2,7 @@ const { generateQuery, asyncQuery } = require('../helpers/queryHelper')
 const db = require('../database')
 
 const showProducts =
-    `
+`
     SELECT c.category, asd.*, GROUP_CONCAT(pi.image SEPARATOR ', ') AS images, ps.* 
     FROM (
         SELECT p.*, SUM(s.stock) AS total_stock, SUM(s.purchased_stock) AS total_purchased_stock, GROUP_CONCAT(s.stock SEPARATOR ', ') AS stocks
@@ -138,9 +138,23 @@ module.exports = {
             await asyncQuery(`UPDATE products SET id_category=1 WHERE id_category=${db.escape((req.body.id_category))}`)
             const result = await asyncQuery(`SELECT * FROM categories`)
             result.shift()
-
             const result2 = await asyncQuery(showProducts)
             result2.map(item => { item.stocks = item.stocks.split(', '); item.images = item.images.split(', ') })
+            res.status(200).send(result)
+        }
+        catch (err) {
+            console.log(err)
+            res.status(400).send(err)
+        }
+    },
+    moveStock: async (req, res) => {
+        try {
+            const stock1 = `UPDATE storages SET stock=${db.escape(req.body.stock1)} WHERE id_store="1" AND id_product=${db.escape(parseInt(req.params.id))}`
+            const stock2 = `UPDATE storages SET stock=${db.escape(req.body.stock2)} WHERE id_store="2" AND id_product=${db.escape(parseInt(req.params.id))}`
+            await asyncQuery(stock1)
+            await asyncQuery(stock2)
+            const result = await asyncQuery(showProducts + `ORDER BY c.category`)
+            result.map(item => { item.stocks = item.stocks.split(', '); item.purchased_stocks = item.purchased_stocks.split(', '); item.images = item.images.split(', ') })
             res.status(200).send(result)
         }
         catch (err) {
