@@ -65,7 +65,6 @@ export default function Profile() {
             <Popover.Title as="h3">You are not verified</Popover.Title>
             <Popover.Content>
                 <p>Verify your email address to access all the features</p>
-//                 <Button size='sm' onClick={handleVerify} variant='success'>Verify !</Button>
             </Popover.Content>
         </Popover>
     );
