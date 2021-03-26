@@ -31,6 +31,8 @@ const Navigation = () => {
                         {idRole === 2 ?
                             <>
                                 <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/admin/products">Products</Nav.Link>
+                                <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/admin/stocks">Stocks</Nav.Link>
+                                <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/admin/users">Users</Nav.Link>
                             </>
                             :
                             <></>

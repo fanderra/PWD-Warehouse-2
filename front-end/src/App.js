@@ -16,6 +16,8 @@ import Payment from './pages/payment'
 import History from './pages/history'
 import NotFound from './pages/notFound'
 import MasterProduct from './pages/masterProduct'
+import MasterStock from './pages/masterStock'
+import MasterUser from './pages/masterUser'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -57,6 +59,8 @@ const App = () => {
           ?
           <>
             <Route path='/admin/products' component={MasterProduct} />
+            <Route path='/admin/stocks' component={MasterStock} />
+            <Route path='/admin/users' component={MasterUser} />
           </>
           :
           <></>

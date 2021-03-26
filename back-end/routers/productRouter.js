@@ -10,5 +10,6 @@ router.post('/delete/:id', productController.deleteProduct)
 router.post('/addCategory', productController.addCategory)
 router.post('/editCategory/:id', productController.editCategory)
 router.post('/deleteCategory/:id', productController.deleteCategory)
+router.post('/moveStock/:id', productController.moveStock)
 
 module.exports = router
