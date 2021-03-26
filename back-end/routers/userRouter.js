@@ -54,5 +54,6 @@ router.post('/verification', verifyToken, userController.verification)
 router.delete('/deleteAddress/:id_address', userController.deleteAddress)
 router.post('/addAddress', userController.addAddress)
 router.patch('/editAddress', userController.editAddress)
+router.post('/changeAddress', userController.changeAddress)
 
 module.exports = router
