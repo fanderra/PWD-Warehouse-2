@@ -115,3 +115,15 @@ export const deleteAddress = async (id_address, action) => {
         action(errorMessage)
     }
 }
+
+
+export const editAddress = async (addressData, action) => {
+    try {
+        await Axios.patch('http://localhost:2000/user/editAddress', addressData)
+        action()
+    } catch (error) {
+        const errorMessage = error?.response?.data || error
+        console.log(errorMessage)
+        action('Fail to edit address please try again later')
+    }
+}

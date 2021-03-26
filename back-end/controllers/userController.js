@@ -238,5 +238,15 @@ module.exports = {
             console.log(error)
             res.status(400).send(error.message || error.sqlMessage || error)
         }
-    }
+    },
+    editAddress: async (req, res) => {
+        const { address_detail, id_user, id_address } = req.body
+        try {
+            const query = 'update address set address_detail=? where id_user=? and id_address=?'
+            await asyncQuery(query, [address_detail, id_user, id_address])
+            res.status(200).send('success')
+        } catch (error) {
+            res.status(400).send(error.message || error.sqlMessage || error)
+        }
+    },
 }
