@@ -70,7 +70,7 @@ export default function CartCard({ index, item = {} }) {
                                 <div>
                                     <h6 style={{ color: c.white, marginRight: '10px', textJustify: 'center' }}>{editQty}pcs</h6>
                                     {editQty > stock && <span style={{ color: 'red' }}>Out of stock</span>}
-                                    {id_product_status===2 && <span style={{ color: 'red' }}>Not Available</span>}
+                                    {+id_product_status===2 && <span style={{ color: 'red' }}>Not Available</span>}
                                 </div>
                             }
                         </div>
@@ -94,7 +94,7 @@ export default function CartCard({ index, item = {} }) {
                                     <i className="fa fa-trash" aria-hidden="true" style={{ color: 'white' }}></i>
                                 </Button>
                                 {
-                                    id_product_status===1&&
+                                    +id_product_status===1&&
                                     <Button size='sm' variant='success' onClick={() => setEdit(true)}>
                                     <i className="fa fa-pen" aria-hidden="true" style={{ color: 'white' }}></i>
                                     </Button>

@@ -77,7 +77,7 @@ const Product = () => {
         const addToCart = { id_user: idUser, id_product: details.id_product, qty }
         // console.log(addToCart)
         
-        Axios.post('http://localhost:2000/cart/addToCart', addToCart)
+        Axios.post('http://localhost:2000/cart/add', addToCart)
             .then(res => {
                 console.log(res.data)
                 setModalDetails(false)

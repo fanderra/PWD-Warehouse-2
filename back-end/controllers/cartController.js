@@ -3,15 +3,41 @@ const { asyncQuery } = require('../helpers/queryHelper')
 
 module.exports = {
     addToCart: async (req, res) => {
-        const { id_product, qty, id_user } = req.body
+        let { id_product, qty, id_user } = req.body
         try {
-            const query = [
-                'select id_order from orders where id_user=? and id_order_status= 1',
-                'select id_order,id_product from order_details where id_order=? and id_product=?',
-                'update order_details set qty=qty+? where id_order=? and id_product=?',
-                'insert into orders (id_user, id_order_status) values (?,1)',
-                'insert into order_details (id_order, id_product,qty) values (?)',
-            ]
+            const checkStock = `SELECT
+                                    od.id_product,
+                                    od.qty,
+                                    o.id_user,
+                                    o.id_order_status,
+                                    s.stock,
+                                    s.stock-qty remain
+                                FROM
+                                    order_details od
+                                        JOIN
+                                    orders o ON o.id_order = od.id_order
+                                        JOIN
+                                    (SELECT
+                                        id_product, SUM(stock - purchased_stock) stock
+                                    FROM
+                                        storages
+                                    WHERE
+                                        id_product = ?) s ON s.id_product = od.id_product
+                                WHERE
+                                    id_user = ? AND o.id_order_status = 1 and od.id_product=?
+                                    HAVING remain-? <0
+                                    `
+            
+            const [isStockAvailable] = await asyncQuery(checkStock, [id_product, id_user, id_product, qty])
+            if (isStockAvailable) qty = isStockAvailable.remain
+            
+                const query = [
+                    'select id_order from orders where id_user=? and id_order_status= 1',
+                    'select id_order,id_product from order_details where id_order=? and id_product=?',
+                    'update order_details set qty=qty+? where id_order=? and id_product=?',
+                    'insert into orders (id_user, id_order_status) values (?,1)',
+                    'insert into order_details (id_order, id_product,qty) values (?)',
+                ]
 
             let id_order;
 
