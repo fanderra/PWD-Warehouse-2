@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { useSelector,useDispatch } from 'react-redux'
 import CartCard from '../components/cartCard'
 import { keepLogin } from '../actions'
