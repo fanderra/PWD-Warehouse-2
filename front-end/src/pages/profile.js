@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Badge, Button, Form, OverlayTrigger, Popover, } from 'react-bootstrap'
-import { postAddress, keepLogin, deleteAddress,editAddress } from "../actions";
-// import { postAddress, keepLogin, deleteAddress, sendVerificationEmail, editAddress } from "../actions";
+import { Badge, Button, Form, OverlayTrigger, Popover, ButtonGroup } from 'react-bootstrap'
+import { postAddress, keepLogin, deleteAddress, editAddress, uploadProfilePicture, deleteProfilePicture } from "../actions";
 import AlertModal from '../components/alertModal'
 import Maps from '../components/maps'
 import { Redirect } from 'react-router';
+import noProfile from '../assets/no-profile.png'
 import AddressCard from '../components/addressCard';
 export default function Profile() {
-    const { username, address, email, id_user, id_status } = useSelector(state => state.user)
+    const { username, address, email, id_user, id_status, profile_picture } = useSelector(state => state.user)
     const [errorMessage, setErrorMessage] = useState('')
     const [newAddress, setNewAddress] = useState({ address_detail: '', label: '' })
     const [show, setShow] = useState(false)
@@ -16,6 +16,7 @@ export default function Profile() {
     const [cordinates, setCordinates] = useState({ city: '', postal_code: null })
     const [newAddressDetail, setNewAddressDetail] = useState('')
     const [alertMessage, setAlertMessage] = useState('')
+    const fileRef = useRef()
     const dispatch = useDispatch()
     const handleChange = ({ target: { name, value } }) => {
         setNewAddress(p => ({ ...p, [name]: value.slice(0, 200) }))
@@ -36,9 +37,16 @@ export default function Profile() {
         })
     }
 
-//     const handleVerify = () => {
-//         sendVerificationEmail(username, msg => setAlertMessage(msg))
-//     }
+    const handleProfPict = e => {
+        const formData = new FormData()
+        formData.append('IMG', e.target.files[0])
+        formData.append('id_user', id_user)
+        uploadProfilePicture(formData, () => dispatch(keepLogin()))
+    }
+
+    const handleDeleteProfPict = () => {
+        deleteProfilePicture(id_user, () => dispatch(keepLogin()))
+    }
 
     const handleAddAddress = () => {
         const allAddressData = { ...newAddress, ...cordinates, id_user }
@@ -77,6 +85,20 @@ export default function Profile() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', columnGap: '100px', padding: '50px 0' }}>
                 <div style={{ display: 'grid', rowGap: '20px', height: '200px' }}>
                     <h2>Profile</h2>
+                    <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }} >
+                        <img src={profile_picture ? 'http://localhost:2000/' + profile_picture : noProfile} style={{ width: '100px', borderRadius: '5px', border: '1px solid #435560', height: '100px', objectFit: 'cover', }} alt="" />
+                        <ButtonGroup>
+                            <Button onClick={() => fileRef.current.click()} variant='success'>Change Profile</Button>
+                            {
+                                profile_picture &&
+                                <Button onClick={handleDeleteProfPict} variant='danger'>
+                                    <i className='fa fa-trash' ></i>
+                                </Button>
+                            }
+                        </ButtonGroup>
+                        <input ref={fileRef} type='file' accept='image/*' onChange={handleProfPict} style={{ display: 'none', pointerEvents: 'none' }} />
+                    </div>
+
                     <div style={{ height: '90px', border: '1px solid #435560', boxShadow: '0 0 2px 1px black', borderRadius: '3px', padding: '0 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div style={{ flexDirection: 'column', justifyContent: 'center' }}>
                             <h4 style={{ fontWeight: '400' }}>email</h4>

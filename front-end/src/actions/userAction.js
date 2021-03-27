@@ -1,10 +1,12 @@
 import Axios from 'axios'
 
-export const login = (data, action) => {
+export const login = ({check,user}, action) => {
     return async (dispatch) => {
         try {
-            const res = await Axios.post('http://localhost:2000/user/login', data)
-            localStorage.token = res.data.token
+            const res = await Axios.post('http://localhost:2000/user/login', user)
+            if (check) localStorage.token = res.data.token
+            else sessionStorage.token = res.data.token
+            
             delete res.data.token
             dispatch({ type: 'LOGIN', payload: res.data })
         }
@@ -34,13 +36,14 @@ export const register = (body) => {
 export const keepLogin = () => {
     return async (dispatch) => {
         try {
-            const token = localStorage.getItem('token')
+            const token = localStorage.token||sessionStorage.token
             const res = await Axios.post('http://localhost:2000/user/keepLogin', { token })
             dispatch({ type: 'LOGIN', payload: res.data })
         }
         catch (err) {
             console.log(err)
             localStorage.removeItem('token')
+            sessionStorage.removeItem('token')
             dispatch({ type: 'LOGOUT' })
         }
     }
@@ -50,6 +53,7 @@ export const logout = () => {
     return async (dispatch) => {
         try {
             localStorage.removeItem('token')
+            sessionStorage.removeItem('token')
             dispatch({ type: 'LOGOUT' })
         }
         catch (err) {
@@ -148,5 +152,27 @@ export const changeDataAddress = async (addressData, action) => {
         const errorMessage = error?.response?.data || error
         console.log(errorMessage)
         action(errorMessage)
+    }
+}
+
+export const uploadProfilePicture = async (formData, action) => {
+    try {
+        await Axios.post('http://localhost:2000/user/uploadProfilePicture', formData)
+    } catch (error) {
+        const errorMessage = error?.response?.data || error
+        console.log(errorMessage)
+    } finally {
+        action()
+    }
+}
+
+export const deleteProfilePicture = async (id_user, action) => {
+    try {
+        await Axios.delete('http://localhost:2000/user/deleteProfilePicture/' + id_user)
+    } catch (error) {
+        const errorMessage = error?.response?.data || error
+        console.log(errorMessage)
+    } finally {
+        action()
     }
 }

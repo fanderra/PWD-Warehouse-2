@@ -26,10 +26,20 @@ module.exports = {
         })
         // const storage = multer({ storage }).array('IMG', 5)
         return multer({ storage }).array('IMG', 5)
-    }
+    },
+    uploadProfile: () => {
+        const storage = multer.diskStorage({
+            destination: path.join(__dirname + '../../public/images/users'),
+            filename: (_, file, cb) => {
+                console.log(file)
+                cb(null, 'user-' + Date.now() + '-' + file.originalname)
+            }
+        })
+        return multer({ storage }).single('IMG')
+    },
 }
 
-console.log(path.join(__dirname + '../../public/images/payments'))
+// console.log(path.join(__dirname + '../../public/images/payments'))
 
 // console.log(Date.now().toString(23))
 

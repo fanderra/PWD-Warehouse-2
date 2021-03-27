@@ -22,7 +22,7 @@ import MasterUser from './pages/masterUser'
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    if (localStorage.token) {
+    if (localStorage.token||sessionStorage.token) {
       dispatch(keepLogin())
     }
   }, [])
