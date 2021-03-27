@@ -86,7 +86,7 @@ module.exports = {
                                OR email = ${db.escape(email)}`
             const resCheck = await asyncQuery(checkUser)
 
-            if (resCheck.length !== 0) return res.status(400).send('username or email is already exist')
+            if (resCheck.length !== 0) return res.status(400).send('Username or email already exists')
 
             const queryRegister = `INSERT INTO users (username, password, email)
                                    VALUES (${db.escape(username)}, ${db.escape(hashPass.toString())}, ${db.escape(email)})`

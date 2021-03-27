@@ -41,20 +41,20 @@ export default function Payment() {
 
     return (
         <div style={{ height: '70vh', display: 'grid', placeItems: 'center', margin: '40px 0', gridTemplateColumns: '1fr 1fr' }}>
-            <div style={{display:'flex',flexDirection: 'column',justifyContent: 'space-evenly',alignItems: 'center',height:'450px',padding:'20px',border:'2px solid #435560'}}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: '450px', padding: '20px', border: '2px solid grey', borderRadius: 5}}>
                 <h1 style={{fontWeight: '400'}}>IKIYA INDONESIA</h1>
                 <img style={{height:'50px'}} src="https://image.cermati.com/v1428073854/brands/avqoa9rfng8bklutfhm6.jpg" alt="bca" />
                 <h3 style={{fontWeight: '400'}}>123456789012345</h3>
-                <h3 style={{ fontWeight: '400' }}>Amount : {paymentData.total.toLocaleString()} IDR</h3>
+                <h3 style={{ fontWeight: '400' }}>Amount : ${paymentData.total.toLocaleString()}</h3>
             <form encType="multipart/form-data">
                 <input accept='image/*' style={{ display: 'none', pointerEvents: 'none' }} onChange={i => setImage(i.target.files[0])} type="file" ref={fileRef} />
-                <Button variant='dark' onClick={()=>fileRef.current.click()}>Upload My Payment Approvals</Button>
+                <Button variant='info' onClick={()=>fileRef.current.click()}>Upload My Payment Approvals</Button>
             </form>
             </div>
             { image.name &&
-            <div style={{ display: 'flex', flexDirection: 'column', border: '2px solid #435560', padding: '20px', height: '450px',justifyContent: 'space-evenly'}}>
+                <div style={{ display: 'flex', flexDirection: 'column', border: '2px solid grey', padding: '20px', height: '450px',justifyContent: 'space-evenly', borderRadius: 5}}>
                 <img style={{height:'300px',margin:'20px',width:'250px',objectFit:'contain'}} src={URL.createObjectURL(image)} alt="payment"/> 
-                <Button variant='dark' onClick={handleUpload}>Upload</Button>
+                <Button variant='info' onClick={handleUpload}>Upload</Button>
             </div>
             }
         </div>

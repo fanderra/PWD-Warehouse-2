@@ -79,9 +79,9 @@ const Product = () => {
         } else if (idRole === 2) {
             setModalDetails(false)
             setModalAddToCart([true, 'Admin are not allowed to buy product'])
-        } else if (idStatus === 1) {
-            setModalDetails(false)
-            setModalAddToCart([true, 'Verify your email address'])
+        // } else if (idStatus === 1) {
+        //     setModalDetails(false)
+        //     setModalAddToCart([true, 'Verify your email address to buy a product'])
         } else if (qty > details.total_stock) {
             setModalDetails(false)
             setModalAddToCart([true, 'Quantity exceeds maximum allowed'])
