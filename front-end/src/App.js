@@ -39,7 +39,7 @@ const App = () => {
       <Navigation />
       <Switch>
         <Route path='/register' component={Register} />
-        <Route path='/forgot' component={ForgotPasswordPage} />
+        <Route path='/forgot/:token' component={ForgotPasswordPage} />
         <Route path='/login' component={Login} />
         <Route path='/' component={Product} exact />
         {name && idRole === 1
