@@ -6,11 +6,11 @@ import CardAdmin from '../../components/cardAdmin'
 
 const filter = [
     { name: 'Show all', id: 'tes' },
-    { name: 'waiting for payment', id: 2 },
+    { name: 'Waiting for payment', id: 2 },
     { name: 'Confrimed', id: 3 },
-    { name: 'on delivery', id: 4 },
-    { name: 'completed', id: 5 },
-    { name: 'canceled', id: 6 }
+    { name: 'On delivery', id: 4 },
+    { name: 'Completed', id: 5 },
+    { name: 'Canceled', id: 6 }
 ]
 
 const AdminOrder = () => {
@@ -19,19 +19,10 @@ const AdminOrder = () => {
     const [filterStatus, setFilterStatus] = React.useState('tes')
     // const [modal, setModal] = React.useState(false)
 
-    const display = data.slice(currentPage * 10, currentPage * 10 + 10)
-        .map((item, index) => {
-            if (!isNaN(filterStatus)) {
-                if (+item.id_order_status === +filterStatus) return (
-                    <CardAdmin item={item} index={index} />
-                )
-            } else {
-                return (
-                    <CardAdmin item={item} index={index} />
-                )
-            }
-        })
+    const display = [...data].filter(item => isNaN(filterStatus) || +item.id_order_status === +filterStatus).splice(currentPage * 10, (currentPage * 10) + 10)
 
+
+    console.log([...data].splice(currentPage * 10, (currentPage * 10) + 10))
     const [sortDown1, setSortdown1] = React.useState(true)
     const [sortName, setSortName] = React.useState(false)
     const sortByName = () => {
@@ -84,7 +75,7 @@ const AdminOrder = () => {
                         </Dropdown.Menu>
                     </Dropdown>
                     <Form.Group controlId="formGridState" style={{ width: 200, marginLeft: 10 }}>
-                        <Form.Control as="select" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+                        <Form.Control as="select" value={filterStatus} onChange={(e) => { setFilterStatus(e.target.value); setCurrentPage(0) }}>
                             {filter.map((item, index) => {
                                 return (
                                     <option key={index} value={item.id}>{item.name}</option>
@@ -95,12 +86,16 @@ const AdminOrder = () => {
                 </div>
                 <div>
                     <Pagination style={{ marginLeft: 1600, marginTop: 50 }}>
-                        <Pagination.Prev disabled={currentPage <= 0} onClick={() =>  setCurrentPage(currentPage - 1)} />
-                        <Pagination.Next onClick={() =>  setCurrentPage(currentPage + 1)} />
+                        <Pagination.Prev disabled={currentPage <= 0} onClick={() => setCurrentPage(currentPage - 1)} />
+                        <Pagination.Next onClick={() => {if(display.length >= 10) setCurrentPage(currentPage + 1)}} />
                     </Pagination>
                 </div>
                 <div style={{ display: "flex", flexWrap: "wrap", padding: 50, flexDirection: 'row', justifyContent: 'center', marginTop: -40 }}>
-                    {display}
+                    {display.map((item, index) => {
+                        return (
+                            <CardAdmin item={item} index={index} />
+                        )
+                    })}
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@ import History from './pages/history'
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    if (localStorage.token||sessionStorage.token) {
+    if (localStorage.token || sessionStorage.token) {
       dispatch(keepLogin())
     }
   }, [])
@@ -34,32 +34,44 @@ const App = () => {
     }
   })
 
+  if (idRole === 1) return (
+    <>
+      <Navigation />
+      <Switch>
+        <Route path='/' component={Product} exact />
+        <Route path='/payment/:id_order' component={Payment} />
+        <Route path='/profile' component={Profile} />
+        <Route path='/cart' component={Cart} />
+        <Route path='/checkout' component={Checkout} />
+        <Route path='/verification' component={Verification} exact />
+        <Route path='/history' component={History} />
+        <Route path='*' component={NotFound} />
+      </Switch>
+    </>
+  )
+
+  if (idRole === 2) return (
+    <>
+      <Navigation />
+      <Switch>
+        <Route path='/' component={Product} exact />
+        < Route path='/admin' component={Admin} />
+        <Route path='*' component={NotFound} />
+      </Switch>
+    </>
+  )
+
   return (
-    <div>
+    <>
       <Navigation />
       <Switch>
         <Route path='/register' component={Register} />
         <Route path='/forgot/:token' component={ForgotPasswordPage} />
         <Route path='/login' component={Login} />
         <Route path='/' component={Product} exact />
-        {name && idRole === 1
-          ?
-          <>
-            <Route path='/payment/:id_order' component={Payment} />
-            <Route path='/profile' component={Profile} />
-            <Route path='/cart' component={Cart} />
-            <Route path='/checkout' component={Checkout} />
-            <Route path='/verification' component={Verification} exact />
-            <Route path='/history' component={History} />
-          </>
-          :
-          <>
-          < Route path='/admin' component={Admin} />
-          </>
-        }
         <Route path='*' component={NotFound} />
       </Switch>
-    </div>
+    </>
   )
 }
 

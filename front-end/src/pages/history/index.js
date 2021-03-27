@@ -9,8 +9,8 @@ import Confirmed from './confirmed'
 import { useSelector } from 'react-redux'
 export default function History() {
     const { path } = useRouteMatch()
-    const { username,id_status } = useSelector(state => state.user)
-    if(id_status!==2||!username)return <Redirect to='/'/>
+    const { username,id_status, id_role } = useSelector(state => state.user)
+    if(id_status!==2||!username || +id_role !== 1)return <Redirect to='/'/>
     return (
         <>
             <Navs/>
