@@ -29,7 +29,7 @@ const Login = () => {
     
     return (
         <div style={{ textAlign: "center", display: "flex", justifyContent: "center" }}>
-            <div style={{ width: "450px", padding: 20, border: "1px solid black", borderRadius: 5, marginTop: 150 }}>
+            <div style={{ width: "450px", padding: 20, border: "1px solid grey", borderRadius: 5, marginTop: 150 }}>
                 <br />
                 <h1>Log In to your account</h1>
                 <Form style={{ marginTop: 25 }}>
