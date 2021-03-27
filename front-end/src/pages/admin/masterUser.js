@@ -14,9 +14,7 @@ const MasterUser = () => {
     }, [])
     
     return (
-        <div style={{padding: 20, textAlign: "center"}}>
-            <h1>USER DATABASE</h1>
-            <br/>
+        <div style={{ padding: 20, marginTop: 35, textAlign: "center"}}>
             <Table striped bordered hover style={{textAlign: "center"}}>
                 <thead>
                     <tr>

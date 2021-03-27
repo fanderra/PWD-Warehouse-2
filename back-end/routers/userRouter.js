@@ -57,4 +57,6 @@ router.patch('/editAddress', userController.editAddress)
 router.post('/changeAddress', userController.changeAddress)
 router.post('/uploadProfilePicture', uploadProfile(), userController.uploadProfilePicture)
 router.delete('/deleteProfilePicture/:id_user', userController.deleteProfilePicture)
+router.post('/editUser/:id', userController.edit)
+router.post('/deleteUser/:id', userController.delete)
 module.exports = router
