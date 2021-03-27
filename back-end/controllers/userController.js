@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator')
 const cryptojs = require('crypto-js')
 const secret_key = '!@#$%^&*'
 const transporter = require('../helpers/nodemailer')
-const {  asyncQuery } = require('../helpers/queryHelper')
+const { generateQuery, asyncQuery } = require('../helpers/queryHelper')
 const handlebars = require('handlebars')
 
 const cartQuery = `SELECT
@@ -33,7 +33,7 @@ const cartQuery = `SELECT
                     GROUP BY id_product) ps ON ps.id_product = p.id_product
                 WHERE
                     o.id_user = ? and o.id_order_status=1 
-                GROUP BY id_product`
+                `
 
 
 
@@ -278,6 +278,28 @@ module.exports = {
             res.status(200).send('success')
         } catch (error) {
             res.status(200).send(error.message || error.sqlMessage || error);
+        }
+    },
+    edit: async (req, res) => {
+        try {
+            await asyncQuery(`UPDATE users SET${generateQuery(req.body)} WHERE id_user=${db.escape(parseInt(req.params.id))}`)
+            const result = await asyncQuery(`SELECT * FROM users u JOIN roles r ON u.id_role=r.id_role`)
+            res.status(200).send(result)
+        }
+        catch (err) {
+            console.log(err)
+            res.status(400).send(err)
+        }
+    },
+    delete: async (req, res) => {
+        try {
+            await asyncQuery(`DELETE FROM users WHERE id_user=${db.escape(parseInt(req.params.id))}`)
+            const result = await asyncQuery(`SELECT * FROM users u JOIN roles r ON u.id_role=r.id_role`)
+            res.status(200).send(result)
+        }
+        catch (err) {
+            console.log(err)
+            res.status(400).send(err)
         }
     }
 }

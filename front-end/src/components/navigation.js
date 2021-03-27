@@ -18,14 +18,13 @@ const Navigation = () => {
     return (
         <div>
             <Navbar bg="dark" expand="lg">
-                <Navbar.Brand style={{ color: "lightGrey" }}>Group Project</Navbar.Brand>
+                <Navbar.Brand style={{ color: "lightGrey", fontSize: 25 }} as={Link} to="/">IKIYA</Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/">Home</Nav.Link>
                         {name && idRole === 1
                             ?
                             <>
-                                <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/cart">cart<Badge variant='light' style={{ marginLeft: '5px' }}>{cart.length}</Badge></Nav.Link>
                                 <Nav.Link style={{ color: "lightGrey" }} as={Link} to='/history/confirmed'>History</Nav.Link>
                             </>
                             :
@@ -39,6 +38,20 @@ const Navigation = () => {
                             <></>
                         }
                     </Nav>
+                    <Nav>
+                        {name && idRole === 1 ?
+                            <Nav.Link style={{ color: "lightGrey", display: "flex" }} as={Link} to="/cart">
+                                <i style={{ marginRight: 2.5, marginTop: 5 }} className="fas fa-shopping-cart"></i>
+                                <div style={{marginTop: -1}}>
+                                    <Badge variant='light'>{cart.length}</Badge>
+                                </div>
+                                <div style={{marginLeft: 7.5, marginRight: 5}}>Cart</div>
+                            </Nav.Link>
+                        :
+                            <></>
+                        }
+
+                    </Nav>
                     <Dropdown>
                         <Dropdown.Toggle style={{ color: "lightGrey", borderRadius: '5px 0 0 5px', backgroundColor: "transparent", boxShadow: '0 0 1px 0.5px white', borderColor: "transparent", height: '40px' }}>
                             {name ? name.toUpperCase() : "USERNAME "}
@@ -51,16 +64,13 @@ const Navigation = () => {
                                     <Dropdown.Item as={Link} to="/register">Register</Dropdown.Item>
                                 </>
                             }
-
                             {name && idRole === 1 &&
                                 <>
-                                    <Dropdown.Item as={Link} to="/cart">Cart</Dropdown.Item>
                                     <Dropdown.Item as={Link} to="/verification">Verification</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to="/profile">profile</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to="/profile">Profile</Dropdown.Item>
                                     <Dropdown.Item onClick={() => dispatch(logout())} as={Link} to="/login">Log Out</Dropdown.Item>
                                 </>
                             }
-
                             {idRole === 2 ?
                                 <>
                                     <Dropdown.Item onClick={() => dispatch(logout())} as={Link} to="/login">Log Out</Dropdown.Item>
