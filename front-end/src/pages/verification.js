@@ -27,15 +27,20 @@ const Verification = () => {
             {status === 2
                 ?
                 <>
-                    <h3>Your account has been verified</h3>
-                    <Button as={Link} to='/'>
-                        Go to Home
-                    </Button>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 300}}>
+                        <h1>Your account has been verified</h1>
+                        <h2>Happy Shopping!</h2>
+                        <Button variant='success' as={Link} to='/' style={{width: 200,marginTop: 50}}>
+                            Shopping Now
+                        </Button>
+                    </div>
                 </>
                 :
                 <>
-                    <h2>Waiting for verification...</h2>
-                    <h3>Open your email to verify this account</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 300}}>
+                        <h2>Waiting for verification...</h2>
+                        <h3>Open your email to verify this account</h3>
+                    </div>
                 </>
             }
         </div>
