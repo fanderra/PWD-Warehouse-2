@@ -34,7 +34,7 @@ const MasterUser = () => {
                                 <td><div style={{marginTop: 7}}>{item.id_user}</div></td>
                                 <td><div style={{marginTop: 7}}>{item.username}</div></td>
                                 <td><div style={{marginTop: 7}}>{item.email}</div></td>
-                                <td><div style={{marginTop: 7}}>{item.role}</div></td>
+                                <td><div style={{marginTop: 7}}>{item.role.toUpperCase()}</div></td>
                                 <td>
                                     <Button 
                                         style={{marginRight: 5}}
