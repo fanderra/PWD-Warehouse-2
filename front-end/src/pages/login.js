@@ -8,7 +8,7 @@ const Login = () => {
     const [loginDetails, setLoginDetails] = React.useState({ username: '', email: '', password: '' })
     const [passVis, setPassVis] = React.useState(false)
     const [modalAlert, setModalAlert] = React.useState([false, ''])
-    const [check,setCheck] = React.useState(true)
+    const [check, setCheck] = React.useState(true)
     
     const dispatch = useDispatch()
     const handleLog = () => {
@@ -17,7 +17,7 @@ const Login = () => {
         if (!loginDetails.password) return setModalAlert([true, 'Enter password'])
         
         const user = { username: loginDetails.username, email: loginDetails.email, password: loginDetails.password }
-        dispatch(login({check,user}, err => setModalAlert([true, err])))
+        dispatch(login({ check, user }, err => setModalAlert([true, err])))
     }
     
     const { name } = useSelector((state) => {
@@ -36,8 +36,7 @@ const Login = () => {
                     <Form.Control style={{ fontStyle: "italic" }} onChange={event => setLoginDetails({ ...loginDetails, username: event.target.value, email: event.target.value })} placeholder="Enter username or email" />
                     <InputGroup style={{ marginTop: 10 }}>
                         <Form.Control style={{ fontStyle: "italic" }} onChange={event => setLoginDetails({ ...loginDetails, password: event.target.value })} placeholder="Enter password" type={passVis ? "text" : "password"} />
-                        <InputGroup.Text onClick={() => setPassVis(!passVis)}>{passVis ? "HIDE" : "SHOW"}</InputGroup.Text>
-                        <InputGroup.Text style={{cursor: 'pointer' }} onClick={() => setPassVis(!passVis)}>{passVis ? "HIDE" : "SHOW"}</InputGroup.Text>
+                        <InputGroup.Text style={{ cursor: 'pointer' }} onClick={() => setPassVis(!passVis)}>{passVis ? "HIDE" : "SHOW"}</InputGroup.Text>
                     </InputGroup>
                 </Form>
                 <div style={{ display: "flex", justifyContent: "space-around", marginTop: 10 }}>
