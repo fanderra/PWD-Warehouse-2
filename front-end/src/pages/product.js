@@ -58,15 +58,30 @@ const Product = () => {
         setSortBy({ ...sortBy, name: false, price: false, category: !sortBy.category })
     }
     
-    const { idUser } = useSelector((state) => {
+    React.useEffect(() => {
+        Axios.post('http://localhost:2000/product/showAllProductsForUser')
+            .then(res => setData(res.data))
+            .catch(err => console.log(err))
+    }, [])
+    
+    const { idUser, idRole, idStatus, kart } = useSelector((state) => {
         return {
-            idUser: state.user.id_user
+            idUser: state.user.id_user,
+            idRole: state.user.id_role,
+            idStatus: state.user.id_status,
+            kart: state.user.cart
         }
     })
     const handleAddToCart = () => {
         if (idUser === null) {
             setModalDetails(false)
             setModalAddToCart([true, 'Login first to continue buying'])
+        } else if (idRole === 2) {
+            setModalDetails(false)
+            setModalAddToCart([true, 'Admin are not allowed to buy product'])
+        } else if (idStatus === 1) {
+            setModalDetails(false)
+            setModalAddToCart([true, 'Verify your email address'])
         } else if (qty > details.total_stock) {
             setModalDetails(false)
             setModalAddToCart([true, 'Quantity exceeds maximum allowed'])
@@ -75,9 +90,7 @@ const Product = () => {
             setModalAddToCart([true, 'Quantity cannot be zero or less'])
         }
         const addToCart = { id_user: idUser, id_product: details.id_product, qty }
-        // console.log(addToCart)
-        
-        Axios.post('http://localhost:2000/cart/add', addToCart)
+        Axios.post('http://localhost:2000/cart/addToCart', addToCart)
             .then(res => {
                 console.log(res.data)
                 setModalDetails(false)
@@ -86,12 +99,6 @@ const Product = () => {
             })
             .catch(err => console.log(err))
     }
-    
-    React.useEffect(() => {
-        Axios.post('http://localhost:2000/product/showAllProductsForUser')
-            .then(res => setData(res.data))
-            .catch(err => console.log(err))
-    }, [])
     
     return (
         <div>
@@ -125,13 +132,14 @@ const Product = () => {
                         <div>${Intl.NumberFormat('en-US', { currency: 'USD', style: 'decimal' }).format(details.price)}</div>
                     </div>
                     <br />
-                    <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+                    {/* <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", color: "red" }}>
                         <div>TEST stock awal: {details.total_stock}</div>
                         <div>Udah dibeli: {details.total_purchased_stock}</div>
-                        <div>Stock FINAL: {details.total_stock ? details.total_stock - details.total_purchased_stock : "-"}</div>
-                    </div>
+                        <div>{kart[details.id_product].qty}</div>
+                    </div> */}
                     <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                        <div>Available Stock: {details.total_stock ? details.total_stock - details.total_purchased_stock : "-"}</div>
+                        {/* <div>Available Stock: {details.total_stock - details.total_purchased_stock - kart[details.id_product].qty}</div> */}
+                        <div>Available Stock: {details.total_stock - details.total_purchased_stock}</div>
                         <div style={{ flexDirection: "row", display: "flex", marginLeft: 5 }}>
                             <Button variant="info" onClick={() => qty <= 1 ? setQty(qty - 0) : setQty(qty - 1)}>-</Button>
                             <Form.Control style={{ width: 45, textAlign: "center" }} onChange={event => setQty(parseInt(event.target.value))} value={qty} />
