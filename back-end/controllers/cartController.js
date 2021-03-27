@@ -71,9 +71,34 @@ module.exports = {
         }
     },
     editCartQty: async (req, res) => {
-        const { id_order, id_product, newQty } = req.body
+        let { id_order, id_product, newQty } = req.body
         if (!id_order || !id_product) return res.status(400).send('missing id_order or id_product')
         try {
+            const checkStock = `SELECT
+                                    od.id_product,
+                                    od.qty,
+                                    o.id_user,
+                                    o.id_order_status,
+                                    s.stock,
+                                FROM
+                                    order_details od
+                                        JOIN
+                                    orders o ON o.id_order = od.id_order
+                                        JOIN
+                                    (SELECT
+                                        id_product, SUM(stock - purchased_stock) stock
+                                    FROM
+                                        storages
+                                    WHERE
+                                        id_product = ?) s ON s.id_product = od.id_product
+                                WHERE
+                                    od.id_order = ? AND o.id_order_status = 1 and od.id_product=?
+                                    HAVING stock-? <0
+                                    `
+
+            const [isStockAvailable] = await asyncQuery(checkStock, [id_product, id_order, id_product, newQty])
+            if (isStockAvailable) newQty = isStockAvailable.stock
+
             const query = [
                 'delete from order_details where id_order=? and id_product=?',
                 'update order_details set qty=? where id_order=? and id_product=?',
