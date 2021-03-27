@@ -1,6 +1,5 @@
 const { asyncQuery } = require('../helpers/queryHelper')
 
-
 module.exports = {
     addToCart: async (req, res) => {
         let { id_product, qty, id_user } = req.body
@@ -27,17 +26,16 @@ module.exports = {
                                     id_user = ? AND o.id_order_status = 1 and od.id_product=?
                                     HAVING remain-? <0
                                     `
-            
             const [isStockAvailable] = await asyncQuery(checkStock, [id_product, id_user, id_product, qty])
             if (isStockAvailable) qty = isStockAvailable.remain
             
-                const query = [
-                    'select id_order from orders where id_user=? and id_order_status= 1',
-                    'select id_order,id_product from order_details where id_order=? and id_product=?',
-                    'update order_details set qty=qty+? where id_order=? and id_product=?',
-                    'insert into orders (id_user, id_order_status) values (?,1)',
-                    'insert into order_details (id_order, id_product,qty) values (?)',
-                ]
+            const query = [
+                'select id_order from orders where id_user=? and id_order_status= 1',
+                'select id_order,id_product from order_details where id_order=? and id_product=?',
+                'update order_details set qty=qty+? where id_order=? and id_product=?',
+                'insert into orders (id_user, id_order_status) values (?,1)',
+                'insert into order_details (id_order, id_product,qty) values (?)',
+            ]
 
             let id_order;
 
@@ -67,6 +65,7 @@ module.exports = {
             }
             res.status(200).send('success')
         } catch (error) {
+            console.log(error.message || error.sqlMessage || error)
             res.status(400).send(error.message || error.sqlMessage || error)
         }
     },
@@ -79,7 +78,7 @@ module.exports = {
                                     od.qty,
                                     o.id_user,
                                     o.id_order_status,
-                                    s.stock,
+                                    s.stock
                                 FROM
                                     order_details od
                                         JOIN
@@ -92,11 +91,11 @@ module.exports = {
                                     WHERE
                                         id_product = ?) s ON s.id_product = od.id_product
                                 WHERE
-                                    od.id_order = ? AND o.id_order_status = 1 and od.id_product=?
-                                    HAVING stock-? <0
+                                    o.id_order = ? AND o.id_order_status = 1 and od.id_product=?
+                                    HAVING (stock-${newQty}) <0
                                     `
-
-            const [isStockAvailable] = await asyncQuery(checkStock, [id_product, id_order, id_product, newQty])
+            const [isStockAvailable] = await asyncQuery(checkStock, [id_product, id_order, id_product])
+            console.log(isStockAvailable)
             if (isStockAvailable) newQty = isStockAvailable.stock
 
             const query = [
@@ -115,6 +114,7 @@ module.exports = {
 
             res.status(200).send('success')
         } catch (error) {
+            console.log(error.message || error.sqlMessage || error)
             res.status(400).send(error.message || error.sqlMessage || error)
         }
     },
