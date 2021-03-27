@@ -7,6 +7,7 @@ export default function AdminReport() {
     const [table, setTable] = React.useState([])
 
     const display = data.map((item, index) => {
+        if(item.total >= 5)
         return (
             <Card key={index} style={{ margin: 10, textAlign: "center", width: 300 }}>
                 {/* <Card.Img style={{ width: 250 }} src={'http://localhost:2000/' + item.image} /> */}

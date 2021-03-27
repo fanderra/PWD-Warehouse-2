@@ -40,7 +40,7 @@ const cartQuery = `SELECT
 module.exports = {
     showAll: async (req, res) => {
         try {
-            const queryUser = `SELECT * FROM users`
+            const queryUser = `SELECT * FROM users u JOIN roles r ON u.id_role=r.id_role`
             result = await asyncQuery(queryUser)
             res.status(200).send(result)
         }
