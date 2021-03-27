@@ -7,7 +7,7 @@ import CardAdmin from '../../components/cardAdmin'
 const filter = [
     { name: 'Show all', id: 'tes' },
     { name: 'waiting for payment', id: 2 },
-    { name: 'confrimed', id: 3 },
+    { name: 'Confrimed', id: 3 },
     { name: 'on delivery', id: 4 },
     { name: 'completed', id: 5 },
     { name: 'canceled', id: 6 }

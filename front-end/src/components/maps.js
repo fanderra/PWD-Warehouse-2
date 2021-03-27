@@ -36,7 +36,7 @@ function Maps({ setUserCordinates, show, setShow }) {
             const city = results.city
             setMarker({ lat, lng })
             setMapCenter({ lat, lng })
-            setCurrentAddress(city + ',' + postal_code)
+            setCurrentAddress(city + ', ' + postal_code)
             setAddress('')
             setUserCordinates({ lat, lng, city, postal_code })
         } catch (error) {
@@ -60,7 +60,7 @@ function Maps({ setUserCordinates, show, setShow }) {
                         type='number'
                     />
                     <InputGroup.Append>
-                        <Button onClick={handleSearch} variant="outline-secondary">Search</Button>
+                        <Button onClick={handleSearch} variant="outline-info">Search</Button>
                     </InputGroup.Append>
                 </InputGroup>
                 <p>{currentAddress}</p>
@@ -73,7 +73,7 @@ function Maps({ setUserCordinates, show, setShow }) {
                 </GoogleMap>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={setShow} variant='outline-dark'>submit</Button>
+                <Button onClick={setShow} variant='info'>Submit</Button>
             </Modal.Footer>
         </Modal>
     )

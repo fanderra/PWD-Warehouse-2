@@ -101,19 +101,19 @@ const Checkout = () => {
     }, [address])
     // if(address.length === 1) return setDisButton(false)
     return (
-        <div style={{ backgroundColor: 'lightgrey', height: 980, display: "flex"}}>
-            <div>
+        <div style={{ backgroundColor: 'lightgrey' }}>
+            <div style={{ display: "flex", justifyContent: "center"}}>
                 <div
                     style={{
                         backgroundColor: 'white',
                         marginTop: '6%',
-                        width: 'auto',
+                        // width: 'auto',
                         marginLeft: 650,
                         marginRight: 650,
                         display: 'flex',
                         flexDirection: 'column',
                         padding: 15,
-                        border: '2px black solid',
+                        border: '2px grey solid',
                         borderRadius: 10
                     }}
                 >
@@ -126,7 +126,7 @@ const Checkout = () => {
                             return (
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} key={index}>
                                     <h6>{item.name}</h6>
-                                    <span>Rp {(item.price * item.qty).toLocaleString()}</span>
+                                    <span>${(item.price * item.qty).toLocaleString()}</span>
                                 </div>
                             )
                         })}
@@ -139,24 +139,28 @@ const Checkout = () => {
                         <Form.Group controlId="exampleForm.ControlSelect1"  >
                             <Form.Control as="select" value={value} onChange={handleCheck}>
                                 <option value='TRANSFER'>Transfer</option>
-                                <option value='COD'>COD</option>
+                                <option value='COD'>COD (Cash On Delivery)</option>
                             </Form.Control>
                         </Form.Group>
                     </div>
                     <div style={{ borderBottom: '2px solid grey', width: '500px', alignSelf: 'center', marginBottom: 10 }}></div>
-                    <div> Shipment fee <small>{errShipment[1]}</small></div>
-                    <Form.Group controlId="exampleForm.ControlSelect1" >
-                        <Form.Control as="select" value={listShipment} onChange={handleList}>
-                            <option value='20000'>Express Rp 20.000</option>
-                            <option value='10000'>Reguler Rp 10.000</option>
-                        </Form.Control>
-                    </Form.Group>
+                    <div style={{ marginBottom: 10 }}>
+                        <div> Shipment fee <small>{errShipment[1]}</small> </div>
+                    </div>
+                    <div style={{ width: '95%', alignSelf: 'center' }}>
+                        <Form.Group controlId="exampleForm.ControlSelect1" >
+                            <Form.Control as="select" value={listShipment} onChange={handleList}>
+                                <option value='20000'>Express: $10</option>
+                                <option value='10000'>Reguler: $5</option>
+                            </Form.Control>
+                        </Form.Group>
+                    </div>
                     <div style={{ borderBottom: '2px solid grey', width: '500px', alignSelf: 'center', marginBottom: 10 }}></div>
                     <div>
                         <p>Shipping Address</p>
                         {add ?
                             (
-                                <Form style={{ width: '400px', padding: '20px 20px 10px 20px', }}>
+                                <Form style={{ width: '450px', padding: '20px 20px 10px 20px', border: "1px solid grey", borderRadius: 5, marginLeft: 25 }}>
                                     <Form.Group controlId="exampleForm.ControlInput1">
                                         <Form.Label>Label</Form.Label>
                                         <Form.Control onChange={handleChange} value={newAddress.label} name='label' size='sm' type="text" placeholder="Home/Apartment..." />
@@ -176,10 +180,10 @@ const Checkout = () => {
                                         {errorMessage}
                                     </Form.Text>
                                     <Form.Group style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
-                                        <Button onClick={() => setShow(true)} size='sm'>Select Postal code</Button>
+                                        <Button variant="info" onClick={() => setShow(true)} size='sm'>Select Postal code</Button>
                                         <div>
-                                            <Button style={{ borderRadius: '3px 0 0 3px' }} onClick={handleCancel} variant='danger' size='sm'>Cancel</Button>
-                                            <Button onClick={handleAddAddress} style={{ borderRadius: '0 3px 3px 0' }} variant='success' size='sm'>Add</Button>
+                                            <Button style={{ borderRadius: '3px 0 0 3px' }} onClick={handleCancel} variant='outline-danger' size='sm'>Cancel</Button>
+                                            <Button onClick={handleAddAddress} style={{ borderRadius: '0 3px 3px 0' }} variant='outline-success' size='sm'>Submit Address</Button>
                                         </div>
                                     </Form.Group>
                                 </Form>
@@ -190,9 +194,8 @@ const Checkout = () => {
                         {address.length !== 0 ?
                             (
                                 <>
-                                    <a onClick={() => setChangeAddress(true)} style={{ fontSize: 13, cursor: 'pointer', marginLeft: 450, color: 'blue', marginTop: -50 }}>change address</a>
                                     <a style={{ display: 'flex', width: '100%' }}>
-                                        <div style={{ height: '90px', width: 300, border: '1px solid #435560', boxShadow: '0 0 2px 1px black', borderRadius: '3px', padding: '0 10px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                        <div style={{ width: 300, border: '1px solid grey', boxShadow: '0 0 2px 1px grey', borderRadius: '3px', padding: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                             {address.map((item) => {
                                                 const { label, city, postal_code, address_detail } = item
                                                 return (
@@ -207,10 +210,11 @@ const Checkout = () => {
                                             })}
                                         </div>
                                     </a>
+                                    <a onClick={() => setChangeAddress(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8', marginLeft: 10 }}>Change address</a>
                                 </>
                             )
                             :
-                            <a onClick={() => setAdd(true)} style={{ fontSize: 13, cursor: 'pointer', color: 'blue' }}> Add Address</a>
+                            <a onClick={() => setAdd(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8' }}> Add Address</a>
                         }
                         {changeAddress ?
                             (
@@ -234,7 +238,7 @@ const Checkout = () => {
                                         {errorMessage}
                                     </Form.Text>
                                     <Form.Group style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
-                                        <Button onClick={() => setShow(true)} size='sm'>Select Postal code</Button>
+                                        <Button variant="info" onClick={() => setShow(true)} size='sm'>Select Postal code</Button>
                                         <div>
                                             <Button style={{ borderRadius: '3px 0 0 3px' }} onClick={handleCancel} variant='danger' size='sm'>Cancel</Button>
                                             <Button onClick={handleChangeAddress} style={{ borderRadius: '0 3px 3px 0' }} variant='success' size='sm'>Add</Button>
@@ -246,12 +250,13 @@ const Checkout = () => {
                         }
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 30 }}>
-                        <Button variant="outline-danger" as={Link} to='/cart'>Back to cart</Button>
-                        <Button variant="outline-success" onClick={() => handlePayment()} disabled={disButton}>Continue to payment</Button>
+                        <Button variant="outline-info" as={Link} to='/cart'>Back to cart</Button>
+                        <Button variant="info" onClick={() => handlePayment()} disabled={disButton}>Continue to payment</Button>
                     </div>
                 </div>
                 <Maps show={show} setShow={() => setShow(false)} setUserCordinates={setCordinates} />
             </div>
+            <div style={{marginTop: 124, color: "lightgrey"}}>a</div>
         </div>
     )
 }

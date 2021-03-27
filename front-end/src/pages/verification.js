@@ -31,7 +31,7 @@ const Verification = () => {
                         <h1>Your account has been verified</h1>
                         <h2>Happy Shopping!</h2>
                         <Button variant='success' as={Link} to='/' style={{width: 200,marginTop: 50}}>
-                            Shopping Now
+                            Shop Now!
                         </Button>
                     </div>
                 </>
@@ -39,7 +39,7 @@ const Verification = () => {
                 <>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 300}}>
                         <h2>Waiting for verification...</h2>
-                        <h3>Open your email to verify this account</h3>
+                        <h3>A verification link has been sent to your email account</h3>
                     </div>
                 </>
             }

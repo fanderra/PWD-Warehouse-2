@@ -34,32 +34,32 @@ export default function CardAdmin({ item }) {
         <>
             <Card style={{ width: '18rem', marginRight: 20, marginTop: 20 }}>
                 <Card.Body>
-                    <Card.Title>{item.status}</Card.Title>
+                    <Card.Title>{item.status.toUpperCase()}</Card.Title>
                     <Card.Title></Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{item.payment_method}</Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">Payment Method: {item.payment_method}</Card.Subtitle>
                     <Card.Text>
                         <p style={{ marginTop: 10 }}>Name : {item.username} </p>
                         <p style={{ marginTop: -10 }}>Address : {item.address_detail + ", " + item.city + ' ' + item.postal_code}</p>
                         <p style={{ marginTop: -10 }}>Orders : {item.order_details.map((item, index) => {
                             return (
-                                <div>
+                                <div key={index}>
                                     <span>{index + 1}. {item.name + ' '}</span>
-                                    <span>{item.qty + ''}pcs @{item.price.toLocaleString()}</span>
+                                    <span>({item.qty + ''} unit/s) @{item.price.toLocaleString()}</span>
                                 </div>
                             )
                         })}
                         </p>
-                        <p style={{ marginTop: -10 }}> Shipment Fee : {item.shipment_fee.toLocaleString()}</p>
-                        <p> Total : {item.total.toLocaleString()}</p>
+                        <p style={{ marginTop: -10 }}> Shipment Fee : ${item.shipment_fee.toLocaleString()}</p>
+                        <p> Total : ${item.total.toLocaleString()}</p>
                     </Card.Text>
                     {item.id_order_status === 3 &&
                         <div>
-                            <Button variant="primary" onClick={handleConfrim}>Orders delivery</Button>
-                            <Button variant="primary" onClick={() => setModal(true)}>Cancel order</Button>
+                            <Button variant="info" onClick={handleConfrim}>Deliver to Customer</Button>
+                            <Button variant="info" onClick={() => setModal(true)}>Cancel Order</Button>
                         </div>
                     }
                     {item.id_order_status === 4 &&
-                        <Button variant="primary" onClick={handleComplete}> Arrived </Button>
+                        <Button variant="info" onClick={handleComplete}> Arrived </Button>
                     }
                 </Card.Body>
             </Card>

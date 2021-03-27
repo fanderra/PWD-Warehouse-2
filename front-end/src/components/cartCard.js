@@ -47,7 +47,7 @@ export default function CartCard({ index, item = {} }) {
                     <div>
                         <h2 style={{ color: c.white }}>{name}</h2>
                         <p style={{ color: c.white }}>
-                            {(price * editQty).toLocaleString()} IDR
+                            ${(price * editQty).toLocaleString()}
                         </p>
                         <div style={{ display: 'flex', minWidth: '50px', alignItems: 'center', margin: '15px 0' }}>
                             {edit ?
@@ -68,7 +68,7 @@ export default function CartCard({ index, item = {} }) {
                                 :
 
                                 <div>
-                                    <h6 style={{ color: c.white, marginRight: '10px', textJustify: 'center' }}>{editQty}pcs</h6>
+                                    <h6 style={{ color: c.white, marginRight: '10px', textJustify: 'center' }}>{editQty} unit/s</h6>
                                     {editQty > stock && <span style={{ color: 'red' }}>Out of stock</span>}
                                     {+id_product_status===2 && <span style={{ color: 'red' }}>Not Available</span>}
                                 </div>
