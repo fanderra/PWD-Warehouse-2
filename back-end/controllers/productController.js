@@ -3,9 +3,9 @@ const db = require('../database')
 
 const showProducts =
 `
-    SELECT c.category, asd.*, GROUP_CONCAT(pi.image SEPARATOR ', ') AS images, ps.* 
+    SELECT c.category, asd.*, GROUP_CONCAT(pi.image SEPARATOR ', ') AS images, ps.status 
     FROM (
-        SELECT p.*, SUM(s.stock) AS total_stock, SUM(s.purchased_stock) AS total_purchased_stock, GROUP_CONCAT(s.stock SEPARATOR ', ') AS stocks
+        SELECT p.*, SUM(s.stock) AS total_stock, SUM(s.purchased_stock) AS total_purchased_stock, GROUP_CONCAT(s.stock SEPARATOR ', ') AS stocks, GROUP_CONCAT(s.purchased_stock SEPARATOR ', ') AS purchased_stocks
         FROM products p
         JOIN storages s ON s.id_product=p.id_product
         GROUP BY p.id_product
@@ -31,7 +31,7 @@ module.exports = {
     showAllProductsForAdmin: async (req, res) => {
         try {
             const result = await asyncQuery(showProducts + `ORDER BY c.category`)
-            result.map(item => { item.stocks = item.stocks.split(', '); item.images = item.images.split(', ') })
+            result.map(item => { item.stocks = item.stocks.split(', '); item.purchased_stocks = item.purchased_stocks.split(', '); item.images = item.images.split(', ') })
             res.status(200).send(result)
         }
         catch (err) {

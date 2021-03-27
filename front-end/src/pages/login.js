@@ -29,22 +29,29 @@ const Login = () => {
     
     return (
         <div style={{ textAlign: "center", display: "flex", justifyContent: "center" }}>
-            <Form style={{ width: "300px", padding: 20, border: "1px solid black", borderRadius: 5 }}>
-                <h1>Login</h1>
-                <Form.Control onChange={event => setLoginDetails({ ...loginDetails, username: event.target.value, email: event.target.value })} placeholder="Enter username or email" />
-                <InputGroup>
-                    <Form.Control onChange={event => setLoginDetails({ ...loginDetails, password: event.target.value })} placeholder="Enter password" type={passVis ? "text" : "password"} />
-                    <InputGroup.Text style={{cursor: 'pointer' }} onClick={() => setPassVis(!passVis)}>{passVis ? "HIDE" : "SHOW"}</InputGroup.Text>
-                </InputGroup>
-                <Form.Group>
-                    <Form.Check checked={check} onChange={event => setCheck(event.target.checked)}type="checkbox" label="Remember me" />
-                </Form.Group>
-                <Button variant="outline-info" onClick={handleLog}>Submit</Button>
-                <div>
-                    <Button variant="outline-info" as={Link} to="/forgotpassword">Forgot Password</Button>
-                    <Button variant="outline-info" as={Link} to="/register">Register</Button>
+            <div style={{ width: "450px", padding: 20, border: "1px solid black", borderRadius: 5, marginTop: 150 }}>
+                <br />
+                <h1>Log In to your account</h1>
+                <Form style={{ marginTop: 25 }}>
+                    <Form.Control style={{ fontStyle: "italic" }} onChange={event => setLoginDetails({ ...loginDetails, username: event.target.value, email: event.target.value })} placeholder="Enter username or email" />
+                    <InputGroup style={{ marginTop: 10 }}>
+                        <Form.Control style={{ fontStyle: "italic" }} onChange={event => setLoginDetails({ ...loginDetails, password: event.target.value })} placeholder="Enter password" type={passVis ? "text" : "password"} />
+                        <InputGroup.Text onClick={() => setPassVis(!passVis)}>{passVis ? "HIDE" : "SHOW"}</InputGroup.Text>
+                        <InputGroup.Text style={{cursor: 'pointer' }} onClick={() => setPassVis(!passVis)}>{passVis ? "HIDE" : "SHOW"}</InputGroup.Text>
+                    </InputGroup>
+                </Form>
+                <div style={{ display: "flex", justifyContent: "space-around", marginTop: 10 }}>
+                    <Form.Check checked={check} onChange={event => setCheck(event.target.checked)} type="checkbox" label="Remember me" style={{ marginTop: 7, marginRight: 0 }} />
+                    <Button style={{ color: "#358597" }} variant="transparent" as={Link} to="/forgot">Forgot Password?</Button>
                 </div>
-            </Form>
+                <br />
+                <Button variant="info" onClick={handleLog} style={{ width: 406 }}>Log In</Button>
+                <br /><br />
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <Button variant="transparent" style={{ color: "black", fontSize: 15, cursor: "default", marginRight: -10 }}>Need an account?</Button>
+                    <Button variant="transparent" style={{ color: "#358597", fontSize: 15, marginLeft: -10 }} as={Link} to="/register">Sign Up</Button>
+                </div>
+            </div>
             <Modal show={modalAlert[0]} onHide={() => setModalAlert([false, ""])} style={{ marginTop: 280 }}>
                 <Button variant="transparent" onClick={() => setModalAlert([false, ""])}>
                     <Modal.Body>{modalAlert[1]}</Modal.Body>

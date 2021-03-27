@@ -16,13 +16,14 @@ const Navigation = () => {
     return (
         <div>
             <Navbar bg="dark" expand="lg">
-                <Navbar.Brand style={{ color: "lightGrey", fontSize: 25 }} as={Link} to="/">IKIYA</Navbar.Brand>
+                <Navbar.Brand style={{ color: "lightGrey" }}>Group Project</Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/">Home</Nav.Link>
-                        {name
+                        {name && idRole === 1
                             ?
                             <>
+                                <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/cart">cart</Nav.Link>
                                 <Nav.Link style={{ color: "lightGrey" }} as={Link} to='/history/confirmed'>History</Nav.Link>
                             </>
                             :
@@ -30,9 +31,7 @@ const Navigation = () => {
                         }
                         {idRole === 2 ?
                             <>
-                                <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/admin/products">Products</Nav.Link>
-                                <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/admin/stocks">Stocks</Nav.Link>
-                                <Nav.Link style={{ color: "lightGrey" }} as={Link} to="/admin/users">Users</Nav.Link>
+                                <Nav.Link style={{ color: "lightGrey" }} as={Link} to='/admin/dashboard' >Admin</Nav.Link>
                             </>
                             :
                             <></>
@@ -43,18 +42,28 @@ const Navigation = () => {
                             {name ? name.toUpperCase() : "USERNAME "}
                         </Dropdown.Toggle>
                         <Dropdown.Menu align="right">
-                            {name
-                                ?
+                            {!name &&         
+                            <>
+                                <Dropdown.Item as={Link} to="/login">Log In</Dropdown.Item>
+                                <Dropdown.Item as={Link} to="/register">Register</Dropdown.Item>
+                            </>
+                            }
+                    
+                            {name && idRole === 1 &&
                                 <>
                                     <Dropdown.Item as={Link} to="/cart">Cart</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to="/profile">Profile</Dropdown.Item>
                                     <Dropdown.Item as={Link} to="/verification">Verification</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => dispatch(logout())} as={Link} to="/login">Log Out</Dropdown.Item>
+                                    <Dropdown.Item as={Link} to="/profile">profile</Dropdown.Item>
+                                </>            
+                            }
+                            
+                            {idRole === 2  ?
+                                <>
                                     <Dropdown.Item onClick={() => dispatch(logout())} as={Link} to="/login">Log Out</Dropdown.Item>
                                 </>
                                 :
                                 <>
-                                    <Dropdown.Item as={Link} to="/login">Log In</Dropdown.Item>
-                                    <Dropdown.Item as={Link} to="/register">Register</Dropdown.Item>
                                 </>
                             }
                         </Dropdown.Menu>
