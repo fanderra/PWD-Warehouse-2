@@ -175,7 +175,7 @@ module.exports = {
             console.log(code, matchPassword)
 
             const token = createToken({ username, password: matchPassword })
-            option.html = template({ username, code, link: `http://localhost:3000/resetPassword?${token}` })
+            option.html = template({ username, code, link: `http://localhost:3000/resetPassword/${token}` })
 
             await transporter.sendMail(option)
 

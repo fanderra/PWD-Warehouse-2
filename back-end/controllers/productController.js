@@ -3,7 +3,7 @@ const db = require('../database')
 
 const showProducts =
 `
-    SELECT c.category, asd.*, GROUP_CONCAT(pi.image SEPARATOR ', ') AS images, ps.status 
+    SELECT c.category, asd.*, GROUP_CONCAT(pi.image SEPARATOR ', ') AS images, ps.* 
     FROM (
         SELECT p.*, SUM(s.stock) AS total_stock, SUM(s.purchased_stock) AS total_purchased_stock, GROUP_CONCAT(s.stock SEPARATOR ', ') AS stocks, GROUP_CONCAT(s.purchased_stock SEPARATOR ', ') AS purchased_stocks
         FROM products p
