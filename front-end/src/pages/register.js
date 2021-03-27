@@ -1,6 +1,6 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { Form, Button, InputGroup } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { Form, Button, InputGroup,Modal } from 'react-bootstrap'
 import { Link, Redirect } from 'react-router-dom'
 import { register } from '../actions'
 
@@ -10,29 +10,35 @@ const Register = () => {
     const [password, setPassword] = React.useState('')
     const [visible, setVisible] = React.useState(false)
     const [toHome, setToHome] = React.useState(false)
+    const [modalAlert, setModalAlert] = React.useState([false, ''])
     const [userValidErr, setUserValidErr] = React.useState([false, ''])
     const [emailValidErr, setEmailValidErr] = React.useState([false, ''])
     const [passValidErr, setPassValidErr] = React.useState([false, ''])
-    
+
     const dispatch = useDispatch()
     const handleReg = () => {
         let usernameSymbol = /[!@#$%^&*;]/
         let emailRegex = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         let passSymbol = /[!@#$%^&*:]/
         let passNymber = /[0-9]/
-        
+
         if (usernameSymbol.test(username)) return setUserValidErr([true, "*Username cannot include a symbol"])
         if (username.length < 6) return setUserValidErr([true, "*Username must have at least 6 characters"])
         if (!emailRegex.test(email)) return setEmailValidErr([true, "*Email is invalid"])
         if (!passSymbol.test(password) || !passNymber.test(password)) return setPassValidErr([true, "*Password must include a combination of symbol & number"])
         if (password.length < 6) return setPassValidErr([true, "*Password must have at least 6 characters"])
-        
+
         const body = { username, email, password }
-        dispatch(register(body))
-        setToHome(true)
+        dispatch(register(body, err => setModalAlert([true, err])))
     }
-    
-    if (toHome) return <Redirect to="/" />
+
+    const { name } = useSelector((state) => {
+        return {
+            name: state.user.username
+        }
+    })
+
+    if (name) return <Redirect to="/" />
     return (
         <div style={{ textAlign: "center", display: "flex", justifyContent: "center" }}>
             <div style={{ width: "450px", padding: 20, border: "1px solid black", borderRadius: 5, marginTop: 150 }}>
@@ -56,6 +62,11 @@ const Register = () => {
                     <Button variant="transparent" style={{ color: "black", fontSize: 15, cursor: "default", marginRight: -10 }}>Already have an account?</Button>
                     <Button variant="transparent" style={{ color: "#358597", fontSize: 15, marginLeft: -10 }} as={Link} to="/login">Log In</Button>
                 </div>
+                <Modal show={modalAlert[0]} onHide={() => setModalAlert([false, ""])} style={{ marginTop: 280 }}>
+                    <Button variant="transparent" onClick={() => setModalAlert([false, ""])}>
+                        <Modal.Body>{modalAlert[1]}</Modal.Body>
+                    </Button>
+                </Modal>
             </div>
         </div>
     )
