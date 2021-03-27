@@ -62,7 +62,8 @@ const MasterStock = () => {
             <Table striped bordered style={{ textAlign: "center" }}>
                 <thead>
                     <tr>
-                        <td rowSpan="3"><div style={{marginTop: 52}}><b>Product</b></div></td>
+                        <td rowSpan="3"><div style={{marginTop: 49}}><b>Category</b></div></td>
+                        <td rowSpan="3"><div style={{marginTop: 49}}><b>Product</b></div></td>
                         <td colSpan="6"><b>Stock</b></td>
                     </tr>
                     <tr>
@@ -78,9 +79,10 @@ const MasterStock = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {productsData.map((item = {}, index) => {
+                    {productsData.map((item, index) => {
                         return (
                             <tr key={index}>
+                                <td><div style={{marginTop: 7}}>{item.category}</div></td>
                                 <td><div style={{marginTop: 7}}>{item.name}</div></td>
                                 <td><div style={{marginTop: 7}}>{item.stocks[0]}</div></td>
                                 <td><div style={{marginTop: 7}}>{item.purchased_stocks[0]}</div></td>
