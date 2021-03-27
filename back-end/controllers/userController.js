@@ -53,7 +53,7 @@ module.exports = {
         try {
             const { username, password } = body
             const query = [
-                'select id_user,username,id_status,id_role from users where password=? and (username=? or email=?)',
+                'select id_user,username,id_status,id_role,profile_picture from users where password=? and (username=? or email=?)',
                 'select * from address where id_user=?',
 
             ]
@@ -124,7 +124,7 @@ module.exports = {
     keepLogin: async ({ user }, res) => {
         try {
             const query = [
-                'select id_user,username,id_status,id_role,email from users where id_user=? and username=? ',
+                'select id_user,username,id_status,id_role,email,profile_picture from users where id_user=? and username=? ',
                 'select * from address where id_user=?'
             ]
             console.log(user)
@@ -259,6 +259,25 @@ module.exports = {
         }
         catch (err) {
             res.status(400).send(err.message || err.sqlMessage || err)
+        }
+    },
+    uploadProfilePicture: async ({ file, body }, res) => {
+        try {
+            const query = 'update users set profile_picture=? where id_user=?'
+            console.log(file)
+            res.status(200).send('success')
+            await asyncQuery(query, [`images/users/${file.filename}`, body.id_user])
+        } catch (error) {
+            res.status(200).send(error.message || error.sqlMessage || error);
+        }
+    },
+    deleteProfilePicture: async ({ params }, res) => {
+        try {
+            const query = 'update users set profile_picture=NULL where id_user=?'
+            await asyncQuery(query, [params.id_user])
+            res.status(200).send('success')
+        } catch (error) {
+            res.status(200).send(error.message || error.sqlMessage || error);
         }
     }
 }

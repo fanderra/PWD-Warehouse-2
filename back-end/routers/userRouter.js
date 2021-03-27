@@ -2,7 +2,7 @@ const router = require('express').Router()
 const { userController } = require('../controllers')
 const { body } = require('express-validator')
 const { verifyToken } = require('../helpers/jwtHelper')
-
+const {uploadProfile}= require('../helpers/multerHelper')
 const registerValidation = [
     body('username')
         .notEmpty()
@@ -55,5 +55,6 @@ router.delete('/deleteAddress/:id_address', userController.deleteAddress)
 router.post('/addAddress', userController.addAddress)
 router.patch('/editAddress', userController.editAddress)
 router.post('/changeAddress', userController.changeAddress)
-
+router.post('/uploadProfilePicture', uploadProfile(), userController.uploadProfilePicture)
+router.delete('/deleteProfilePicture/:id_user', userController.deleteProfilePicture)
 module.exports = router
