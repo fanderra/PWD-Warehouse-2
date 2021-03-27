@@ -9,7 +9,6 @@ const Register = () => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [visible, setVisible] = React.useState(false)
-    const [toHome, setToHome] = React.useState(false)
     const [modalAlert, setModalAlert] = React.useState([false, ''])
     const [userValidErr, setUserValidErr] = React.useState([false, ''])
     const [emailValidErr, setEmailValidErr] = React.useState([false, ''])

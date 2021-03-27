@@ -1,6 +1,5 @@
 import React from 'react'
-import Axios from 'axios'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { verificationEmail } from '../actions'
 
@@ -9,7 +8,7 @@ import {
 } from 'react-bootstrap'
 
 const Verification = () => {
-    const [verified, setVerified] = React.useState(false)
+    // const [verified, setVerified] = React.useState(false)
     const dispatch = useDispatch()
 
     const { status } = useSelector((state) => {

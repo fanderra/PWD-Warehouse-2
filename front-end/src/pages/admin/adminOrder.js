@@ -1,7 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
-import { useSelector, useDispatch } from 'react-redux'
-import { Card, Dropdown, Form, Modal, Button, Pagination } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { Dropdown, Form, Pagination } from 'react-bootstrap'
 import CardAdmin from '../../components/cardAdmin'
 
 const filter = [
@@ -17,7 +17,7 @@ const AdminOrder = () => {
     const [data, setData] = React.useState([])
     const [currentPage, setCurrentPage] = React.useState(0)
     const [filterStatus, setFilterStatus] = React.useState('tes')
-    const [modal, setModal] = React.useState(false)
+    // const [modal, setModal] = React.useState(false)
 
     const display = data.slice(currentPage * 10, currentPage * 10 + 10)
         .map((item, index) => {
@@ -87,7 +87,7 @@ const AdminOrder = () => {
                         <Form.Control as="select" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                             {filter.map((item, index) => {
                                 return (
-                                    <option value={item.id}>{item.name}</option>
+                                    <option key={index} value={item.id}>{item.name}</option>
                                 )
                             })}
                         </Form.Control>
