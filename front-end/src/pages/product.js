@@ -90,7 +90,7 @@ const Product = () => {
             setModalAddToCart([true, 'Quantity cannot be zero or less'])
         }
         const addToCart = { id_user: idUser, id_product: details.id_product, qty }
-        Axios.post('http://localhost:2000/cart/addToCart', addToCart)
+        Axios.post('http://localhost:2000/cart/add', addToCart)
             .then(res => {
                 console.log(res.data)
                 setModalDetails(false)
