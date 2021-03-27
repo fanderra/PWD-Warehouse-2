@@ -17,7 +17,7 @@ export const login = ({check,user}, action) => {
     }
 }
 
-export const register = (body) => {
+export const register = (body, action) => {
     return async (dispatch) => {
         try{
             console.log(body)
@@ -28,7 +28,8 @@ export const register = (body) => {
 
             dispatch({type: 'LOGIN', payload: res.data})
         } catch (err) {
-            console.log(err)
+            console.log(err.response)
+            action(err.response.data)
         }
     }
 }
