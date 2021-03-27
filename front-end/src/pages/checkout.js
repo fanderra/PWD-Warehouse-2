@@ -1,8 +1,8 @@
 import React from 'react'
-import { InputGroup, FormControl, Button, Modal, Form, Tab, Row, Col, ListGroup } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, Link } from 'react-router-dom'
-import { postAddress, keepLogin, deleteAddress, checkoutCart, changeDataAddress } from "../actions";
+import { postAddress, keepLogin, checkoutCart, changeDataAddress } from "../actions";
 import Maps from '../components/maps'
 
 const Checkout = () => {
@@ -15,8 +15,8 @@ const Checkout = () => {
     const [changeAddress, setChangeAddress] = React.useState(false)
     const [value, setValue] = React.useState('TRANSFER')
     const [listShipment, setListShipment] = React.useState('20000')
-    const [errPayment, setErrPayment] = React.useState([false, ''])
-    const [errAddress, setErrAddress] = React.useState([false, ''])
+    // const [errPayment, setErrPayment] = React.useState([false, ''])
+    // const [errAddress, setErrAddress] = React.useState([false, ''])
     const [errShipment, setErrShipment] = React.useState([false, ''])
 
     const { cart, address, id_user } = useSelector((state) => {
@@ -193,8 +193,8 @@ const Checkout = () => {
                                     <a onClick={() => setChangeAddress(true)} style={{ fontSize: 13, cursor: 'pointer', marginLeft: 450, color: 'blue', marginTop: -50 }}>change address</a>
                                     <a style={{ display: 'flex', width: '100%' }}>
                                         <div style={{ height: '90px', width: 300, border: '1px solid #435560', boxShadow: '0 0 2px 1px black', borderRadius: '3px', padding: '0 10px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                            {address.map((item, index) => {
-                                                const { label, city, postal_code, address_detail, id_address } = item
+                                            {address.map((item) => {
+                                                const { label, city, postal_code, address_detail } = item
                                                 return (
                                                     <>
                                                         <h4 style={{ fontWeight: '400' }}>{label}</h4>

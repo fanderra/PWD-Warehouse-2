@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React from 'react'
-import {Card, Pagination,Button} from 'react-bootstrap'
+import {Card, Pagination} from 'react-bootstrap'
 
 export default function AdminDashboard() {
     const [data, setData] = React.useState([])
