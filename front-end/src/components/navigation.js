@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../actions'
-
+import noPict from '../assets/no-profile.png'
 const Navigation = () => {
     const dispatch = useDispatch()
-    const { name, idRole } = useSelector((state) => {
+    const { name, idRole,profile_picture } = useSelector((state) => {
         return {
             name: state.user.username,
-            idRole: state.user.id_role
+            idRole: state.user.id_role,
+            profile_picture:state.user.profile_picture
         }
     })
     return (
@@ -38,9 +39,10 @@ const Navigation = () => {
                         }
                     </Nav>
                     <Dropdown>
-                        <Dropdown.Toggle style={{ color: "lightGrey", backgroundColor: "transparent", borderColor: "transparent" }}>
+                        <Dropdown.Toggle style={{ color: "lightGrey",borderRadius:'5px 0 0 5px' ,backgroundColor: "transparent",boxShadow:'0 0 1px 0.5px white', borderColor: "transparent",height:'40px' }}>
                             {name ? name.toUpperCase() : "USERNAME "}
                         </Dropdown.Toggle>
+                        <img style={{ height: '40px', borderRadius: '0 5px 5px 0', boxShadow: '0 0 1px 0.5px white', width: '40px'}} src={profile_picture ?`http://localhost:2000/${profile_picture}`:noPict} alt="profile"/>
                         <Dropdown.Menu align="right">
                             {!name &&         
                             <>
