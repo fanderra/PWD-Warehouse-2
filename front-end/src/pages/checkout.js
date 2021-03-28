@@ -19,7 +19,7 @@ const Checkout = () => {
     const [showModal2, setShowModal2] = React.useState(false)
     // const [errPayment, setErrPayment] = React.useState([false, ''])
     // const [errAddress, setErrAddress] = React.useState([false, ''])
-    // const [errShipment, setErrShipment] = React.useState([false, ''])
+    const errShipment = false
 
     const { cart, address, id_user } = useSelector((state) => {
         return {
@@ -77,6 +77,7 @@ const Checkout = () => {
 
     const handlePayment = () => {
         const address_detail = address[0].address_detail
+        if (address_detail.length >= 100) return alert('Your address detail is too long')
         const lat = address[0].lat
         const lng = address[0].lng
         const city = address[0].city
@@ -127,8 +128,8 @@ const Checkout = () => {
                             {cart.map((item, index) => {
                                 return (
                                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} key={index}>
-                                        <h6>{item.name}</h6>
-                                        <span>${(item.price * item.qty).toLocaleString()}</span>
+                                        <h6 style={{marginLeft: 20}}>{item.name}</h6>
+                                        <span style={{marginRight: 20}}>${(item.price * item.qty).toLocaleString()}</span>
                                     </div>
                                 )
                             })}
@@ -145,48 +146,47 @@ const Checkout = () => {
                                 </Form.Control>
                             </Form.Group>
                         </div>
+                        <div style={{ borderBottom: '2px solid grey', width: '350px', alignSelf: 'center', marginTop: 10, marginBottom: 10 }}></div>
                         <div style={{ marginBottom: 10 }}>
                             <div> Shipment Fee <small>{errShipment[1]}</small> </div>
                         </div>
                         <div style={{ width: '95%', alignSelf: 'center' }}>
                             <Form.Group controlId="exampleForm.ControlSelect1" >
                                 <Form.Control as="select" value={listShipment} onChange={handleList}>
-                                    <option value='10'>Express: $10</option>
-                                    <option value='5'>Reguler: $5</option>
+                                    <option value='5'>Reguler: $5 (3-5 days)</option>
+                                    <option value='10'>Express: $10 (1-2 days)</option>
                                 </Form.Control>
                             </Form.Group>
                         </div>
                     </div>
-                    <div style={{ width: 400, marginLeft: 50, textAlign: "center", padding: 20 }}>
-                        <div >
-                            <p style={{ fontSize: 25 }} > Shipping Address </p>
+                    <div style={{ width: 400, marginLeft: 50, padding: 20 }}>
+                        <div style={{height: 310}}>
+                            <p style={{ fontSize: 25, textAlign: "center" }} > Shipping Address </p>
                             {address.length !== 0 ?
                                 (
                                     <>
-                                        <a style={{ display: 'flex', width: '100%', marginLeft: 25 }}>
+                                        <a style={{ display: 'flex', width: '100%', marginLeft: 25, marginTop: 30 }}>
                                             <div style={{ width: 300, border: '1px solid grey', boxShadow: '0 0 2px 1px grey', borderRadius: '3px', padding: 10 }}>
                                                 {address.map((item) => {
                                                     const { label, city, postal_code, address_detail } = item
                                                     return (
                                                         <div>
                                                             <h4 style={{ fontWeight: '400' }}>{label}</h4>                                           
-                                                            <p style={{width: '250px', padding: '10px', overflowX: 'scroll', height: '100px' }}>
-                                                                {city}, {postal_code} <br />
-                                                                {address_detail}
-                                                            </p>
+                                                            <p>{city}, {postal_code}</p>
+                                                            <p style={{ overflowX: 'scroll', height: '100px' }}>{address_detail}</p>
                                                         </div>
                                                     )
                                                 })}
                                             </div>
                                         </a>
-                                        <a onClick={() => setShowModal2(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8', marginLeft: -200, marginTop: 5 }}>Change address</a>
+                                        <a onClick={() => setShowModal2(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8', marginLeft: 35, marginTop: 5 }}>Change address</a>
                                     </>
                                 )
                                 :
                                 <a onClick={() => setShowModal(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8' }}> Add Address</a>
                             }
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginTop: 150 }}>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginTop: 80 }}>
                             <Button variant="outline-info" as={Link} to='/cart'>Back to cart</Button>
                             <Button variant="info" onClick={() => handlePayment()} disabled={disButton}>Continue to payment</Button>
                         </div>
@@ -194,8 +194,8 @@ const Checkout = () => {
                 </div>
                 <Maps show={show} setShow={() => setShow(false)} setUserCordinates={setCordinates} />
             </div>
-            <div style={{marginTop: 133, color: "lightgrey"}}>a</div>
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <div style={{marginTop: 120, color: "lightgrey"}}>a</div>
+            <Modal style={{ marginTop: 60 }} show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header>Address</Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -224,7 +224,7 @@ const Checkout = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-info" onClick={() => {
-                        setShowModal2(false)
+                        setShowModal(false)
                         setCordinates({ city: '', postal_code: null })
                         setNewAddress({ address_detail: '', label: '' })
                         setErrorMessage('')
@@ -232,7 +232,7 @@ const Checkout = () => {
                     <Button variant="info" onClick={handleAddAddress}>Submit Address</Button>
                 </Modal.Footer>
             </Modal>
-            <Modal show={showModal2} onHide={() => setShowModal2(false)}>
+            <Modal style={{marginTop: 60}} show={showModal2} onHide={() => setShowModal2(false)}>
                 <Modal.Header>Address</Modal.Header>
                 <Modal.Body>
                     <Form>
