@@ -43,7 +43,7 @@ export default function Payment() {
 
     return (
         <div style={{ height: 757, display: 'grid', placeItems: 'center', gridTemplateColumns: '1fr 1fr', backgroundColor: "lightgrey" }}>
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: '450px', padding: '20px', border: '2px solid grey', borderRadius: 5, backgroundColor: "white"}}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: '450px', padding: '20px', borderRadius: 5, backgroundColor: "white"}}>
                 <h1 style={{fontWeight: '400'}}>IKIYA INDONESIA</h1>
                 <img style={{height:'50px'}} src="https://image.cermati.com/v1428073854/brands/avqoa9rfng8bklutfhm6.jpg" alt="bca" />
                 <h3 style={{fontWeight: '400'}}>123456789012345</h3>
@@ -54,7 +54,7 @@ export default function Payment() {
             </form>
             </div>
             { image.name &&
-                <div style={{ display: 'flex', flexDirection: 'column', border: '2px solid grey', padding: '20px', height: '450px',justifyContent: 'space-evenly', borderRadius: 5}}>
+            <div style={{ display: 'flex', flexDirection: 'column', padding: '20px', height: '450px',justifyContent: 'space-evenly', borderRadius: 5, backgroundColor: "white"}}>
                 <img style={{height:'300px',margin:'20px',width:'250px',objectFit:'contain'}} src={URL.createObjectURL(image)} alt="payment"/> 
                 <Button variant='info' onClick={handleUpload}>Upload</Button>
             </div>
