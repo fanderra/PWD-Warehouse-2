@@ -1,10 +1,12 @@
 import Axios from 'axios';
 import React from 'react'
-import {Card, Pagination} from 'react-bootstrap'
+import {Card, Pagination, Dropdown} from 'react-bootstrap'
 
 export default function AdminDashboard() {
     const [data, setData] = React.useState([])
     const [currentPage, setCurrentPage] = React.useState(0)
+    const [sortDown, setSortDown] = React.useState({ name: true, price: true, category: true, stock: true })
+    const [sortBy, setSortBy] = React.useState({ name: false, price: false, category: false, stock: false })
 
     const display = data.slice(currentPage * 10, currentPage * 10 + 10)
         .map((item, index) => {
@@ -31,6 +33,34 @@ export default function AdminDashboard() {
                 </Card>
             )
         })
+
+        const sortByName = () => {
+            setCurrentPage(0)
+            const copy = [...data]
+            if (sortDown.name) copy.sort((a, b) => a.name.localeCompare(b.name))
+            else copy.sort((a, b) => b.name.localeCompare(a.name))
+            setData(copy)
+            setSortDown({ ...sortDown, name: !sortDown.name, price: true, category: true })
+            setSortBy({ ...sortBy, name: !sortBy.name, price: false, category: false })
+        }
+        const sortByPrice = () => {
+            setCurrentPage(0)
+            const copy = [...data]
+            if (sortDown.price) copy.sort((a, b) => a.price - b.price)
+            else copy.sort((a, b) => b.price - a.price)
+            setData(copy)
+            setSortDown({ ...sortDown, name: true, price: !sortDown.price, category: true })
+            setSortBy({ ...sortBy, name: false, price: !sortBy.price, category: false })
+        }
+        const sortByCategory = () => {
+            setCurrentPage(0)
+            const copy = [...data]
+            if (sortDown.category) copy.sort((a, b) => a.category.localeCompare(b.category))
+            else copy.sort((a, b) => b.category.localeCompare(a.category))
+            setData(copy)
+            setSortDown({ ...sortDown, name: true, price: true, category: !sortDown.category })
+            setSortBy({ ...sortBy, name: false, price: false, category: !sortBy.category })
+        }
     
     React.useEffect(() => {
         Axios.post('http://localhost:2000/admin/showInfo')
@@ -41,6 +71,16 @@ export default function AdminDashboard() {
 
     return (
         <div>
+            <div style={{ marginTop: 30, marginBottom: -10, display: "flex", flexDirection: "row-reverse", marginRight: 55 }}>
+                <Dropdown>
+                    <Dropdown.Toggle variant="outline-info">Sort By</Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={sortByName}>{sortBy.name ? 'Name (Z-A)' : 'Name (A-Z)'}</Dropdown.Item>
+                        <Dropdown.Item onClick={sortByPrice}>{sortBy.price ? 'Price (High - Low)' : 'Price (Low - High)'}</Dropdown.Item>
+                        <Dropdown.Item onClick={sortByCategory}>{sortBy.category ? 'Category (Z-A)' : 'Category (A-Z)'}</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+            </div>
             <div style={{ display: "flex", flexWrap: "wrap", padding: 20, justifyContent: "center" }}>
                 {display}
             </div>
