@@ -19,7 +19,7 @@ export default function Cart() {
     }, [dispatch])
     if (!username) return <Redirect to='/' />
     return (
-        <div style={{ backgroundColor: "lightgrey" }}>
+        <div style={{ backgroundColor: "lightgrey", height: 720 }}>
             <div style={{ display: 'grid', padding: '20px 40px 100px 80px', gridTemplateColumns: 'repeat(auto-fit,400px)', gap: '10px 30px' }}>
                 {cart.map((item, index) => <CartCard key={index} item={item} />)}
                 <div
@@ -40,7 +40,6 @@ export default function Cart() {
                     {(cart.length > 0 && cart.every(itm => itm.qty <= itm.stock&&+itm.id_product_status===1)) && <Button style={{width: 500, height: 50}} as={Link} to='/checkout' variant='info'><div style={{marginTop: 6}}>Checkout</div></Button>}
                 </div>
             </div>
-            <div style={{marginTop: 85, color: "lightgrey"}}>asda</div>
             <Modal centered show={cart.length === 0}>
                 <Modal.Header>OOPS!</Modal.Header>
                 <Modal.Body>It seems that your cart is empty...</Modal.Body>

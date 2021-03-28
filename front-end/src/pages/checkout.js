@@ -103,7 +103,7 @@ const Checkout = () => {
     }, [address])
     // if(address.length === 1) return setDisButton(false)
     return (
-        <div style={{ backgroundColor: 'lightgrey' }}>
+        <div style={{ backgroundColor: 'lightgrey', height: 757 }}>
             <div style={{ display: "flex", justifyContent: "center"}}>
                 <div
                     style={{
@@ -194,7 +194,6 @@ const Checkout = () => {
                 </div>
                 <Maps show={show} setShow={() => setShow(false)} setUserCordinates={setCordinates} />
             </div>
-            <div style={{marginTop: 120, color: "lightgrey"}}>a</div>
             <Modal style={{ marginTop: 60 }} show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header>Address</Modal.Header>
                 <Modal.Body>

@@ -27,7 +27,7 @@ export default function Payment() {
         const formData = new FormData()
         formData.append('IMG', image)
         formData.append('id_order', id_order)
-        confirmPayment(formData, () => setAlertMessage('success'))
+        confirmPayment(formData, () => setAlertMessage('Your payment has been received. Thank you!'))
     }
 
     if(!paymentData.payment_method) return <div></div>
@@ -42,8 +42,8 @@ export default function Payment() {
     )
 
     return (
-        <div style={{ height: '70vh', display: 'grid', placeItems: 'center', margin: '40px 0', gridTemplateColumns: '1fr 1fr' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: '450px', padding: '20px', border: '2px solid grey', borderRadius: 5}}>
+        <div style={{ height: 757, display: 'grid', placeItems: 'center', gridTemplateColumns: '1fr 1fr', backgroundColor: "lightgrey" }}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', height: '450px', padding: '20px', border: '2px solid grey', borderRadius: 5, backgroundColor: "white"}}>
                 <h1 style={{fontWeight: '400'}}>IKIYA INDONESIA</h1>
                 <img style={{height:'50px'}} src="https://image.cermati.com/v1428073854/brands/avqoa9rfng8bklutfhm6.jpg" alt="bca" />
                 <h3 style={{fontWeight: '400'}}>123456789012345</h3>

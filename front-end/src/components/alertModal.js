@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Modal, } from 'react-bootstrap'
 
-export default function AlertModal({ setShow, message='', title='Alert' }) {
+export default function AlertModal({ setShow, message='', title='Success' }) {
 
     return (
         <Modal
@@ -18,7 +18,7 @@ export default function AlertModal({ setShow, message='', title='Alert' }) {
                 {message}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant='danger' onClick={setShow}>Close</Button>
+                <Button variant='info' onClick={setShow}>Close</Button>
             </Modal.Footer>
         </Modal>
     )

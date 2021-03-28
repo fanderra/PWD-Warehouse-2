@@ -74,7 +74,7 @@ export default function CartCard({ index, item = {} }) {
                             }
                         </div>
                     </div>
-                    <div style={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                         {edit ?
                             <>
                                 <Button size='sm' variant='danger' onClick={() => {
