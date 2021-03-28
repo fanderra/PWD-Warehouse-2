@@ -105,7 +105,7 @@ module.exports = {
             }
 
             // setup handlebars
-            const emailFile = fs.readFileSync('./email/index.html').toString()
+            const emailFile = fs.readFileSync('./templates/userVerification.handlebars').toString()
             const template = handlebars.compile(emailFile)
             option.html = template({ username: username, link: `http://localhost:3000/verification?${token}` })
 
@@ -119,7 +119,7 @@ module.exports = {
 
             res.status(200).send(resultGet[0])
         } catch (err) {
-
+            res.status(400).send(err)
         }
     },
     keepLogin: async ({ user }, res) => {
@@ -251,9 +251,9 @@ module.exports = {
             res.status(400).send(error.message || error.sqlMessage || error)
         }
     },
-    changeAddress: async(req, res) => {
+    changeAddress: async (req, res) => {
         try {
-            const { lat, lng, id_user, label, address_detail, postal_code, city, id_address} = req.body
+            const { lat, lng, id_user, label, address_detail, postal_code, city, id_address } = req.body
             const query = `update address set label=?,address_detail=?,postal_code=?,city=?,lat=?,lng=? where id_user=${db.escape(id_user)} and id_address=${db.escape(id_address)}`
 
             const result = await asyncQuery(query, [label, address_detail, postal_code, city, lat, lng])
