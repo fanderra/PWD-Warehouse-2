@@ -68,7 +68,7 @@ const AdminOrder = () => {
             <div>
                 <div style={{ display: 'flex', marginLeft: 1290, marginTop: 30, marginBottom: -10 }}>
                     <Dropdown>
-                        <Dropdown.Toggle variant="success">Sort By</Dropdown.Toggle>
+                        <Dropdown.Toggle variant="info">Sort By</Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={sortByName}>{sortName ? 'Name (Z-A)' : 'Name (A-Z)'}</Dropdown.Item>
                             {/* <Dropdown.Item onClick={sortByStatus}>{sortStatus ? 'Status (High - Low)' : 'status (Low - High)'}</Dropdown.Item> */}

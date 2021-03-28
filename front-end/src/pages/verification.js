@@ -30,7 +30,7 @@ const Verification = () => {
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 300}}>
                         <h1>Your account has been verified</h1>
                         <h2>Happy Shopping!</h2>
-                        <Button variant='success' as={Link} to='/' style={{width: 200,marginTop: 50}}>
+                        <Button variant='info' as={Link} to='/' style={{width: 200,marginTop: 50}}>
                             Shop Now!
                         </Button>
                     </div>
