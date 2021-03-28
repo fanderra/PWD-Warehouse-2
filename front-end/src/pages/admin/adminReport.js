@@ -59,10 +59,12 @@ export default function AdminReport() {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: "flex", flexWrap: "wrap", padding: 20, justifyContent: "center" }}>
+            <div style={{ alignSelf: 'center', fontSize: 50 }}>BEST SELLER</div>
+            <div style={{ display: "flex", flexWrap: "wrap", padding: 20, justifyContent: "center", marginTop: -20 }}>
                 {display}
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+                <div style={{ alignSelf: 'center', fontSize: 50 }}>SALES LIST</div>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                     <Table striped bordered hover variant="dark" style={{ width: 900, textAlign: 'center' }}>
                         <thead>
