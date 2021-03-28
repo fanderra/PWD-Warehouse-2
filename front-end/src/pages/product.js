@@ -152,7 +152,6 @@ const Product = () => {
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", marginTop: 10 }}>
                         <div>Available Stock: {details.total_stock - details.total_purchased_stock - stockInCart}</div>
-                        <Button onClick={() => console.log(stockInCart)}></Button>
                         <div style={{ flexDirection: "row", display: "flex", marginLeft: 5 }}>
                             {/* <Button variant="info" onClick={() => qty <= 1 ? setQty(qty - 0) : setQty(qty - 1)}>-</Button> */}
                             <div style={{marginTop: 6, marginRight: 10}}>Quantity:</div>
