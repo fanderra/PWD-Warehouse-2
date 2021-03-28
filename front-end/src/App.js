@@ -59,6 +59,7 @@ const App = () => {
     <>
       <Navigation />
       <Switch>
+        <Route path='/verification' component={Verification} exact />
         <Route path='/register' component={Register} />
         <Route path='/forgot/:token' component={ForgotPasswordPage} />
         <Route path='/login' component={Login} />
