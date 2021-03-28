@@ -22,7 +22,7 @@ function Maps({ setUserCordinates, show, setShow }) {
     const [marker, setMarker] = useState(center)
     const [mapCenter, setMapCenter] = useState(center)
     const { isLoaded, loadError } = useLoadScript({
-        // googleMapsApiKey: 'AIzaSyA0DmOm2jH0bvOLSS8orMgqd6brqTMDlOg',
+        googleMapsApiKey: 'AIzaSyA0DmOm2jH0bvOLSS8orMgqd6brqTMDlOg',
     })
     const handleChange = i => setAddress(i.target.value)
     const handleSearch = async () => {

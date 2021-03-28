@@ -54,10 +54,10 @@ const Checkout = () => {
         if (Object.values(allAddressData).some(i => !i)) return setErrorMessage('All input cannot be empty')
         postAddress(allAddressData, err => {
             if (err) return setErrorMessage(err)
-            handleCancel()
             dispatch(keepLogin())
             setShowModal(false)
         })
+        handleCancel()
     }
     const handleChangeAddress = () => {
         const id_address = address[0].id_address
@@ -163,7 +163,7 @@ const Checkout = () => {
                             {address.length !== 0 ?
                                 (
                                     <>
-                                        <a href="!#" style={{ display: 'flex', width: '100%', marginLeft: 25, marginTop: 30 }}>
+                                        <div style={{ display: 'flex', width: '100%', marginLeft: 25, marginTop: 30 }}>
                                             <div style={{ width: 300, border: '1px solid grey', boxShadow: '0 0 2px 1px grey', borderRadius: '3px', padding: 10 }}>
                                                 {address.map((item) => {
                                                     const { label, city, postal_code, address_detail } = item
@@ -176,12 +176,12 @@ const Checkout = () => {
                                                     )
                                                 })}
                                             </div>
-                                        </a>
-                                        <a href="!#" onClick={() => setShowModal2(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8', marginLeft: 35, marginTop: 5 }}>Change address</a>
+                                        </div>
+                                        <p onClick={() => setShowModal2(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8', marginLeft: 35, marginTop: 5 }}>Change address</p>
                                     </>
                                 )
                                 :
-                                <a href="!#" onClick={() => setShowModal(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8' }}> Add Address</a>
+                                <p onClick={() => setShowModal(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8' }}> Add Address</p>
                             }
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginTop: 80 }}>
