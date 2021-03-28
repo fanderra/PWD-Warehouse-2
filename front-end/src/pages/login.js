@@ -56,7 +56,7 @@ const Login = () => {
                 <Button variant="info" onClick={handleLog} style={{ width: 406 }}>Log In</Button>
                 <br /><br />
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Button variant="transparent" style={{ color: "black", fontSize: 15, cursor: "default", marginRight: -10 }}>Need an account?</Button>
+                    <div style={{ fontSize: 15, marginRight: 5, marginTop: 7 }}>Need an account?</div>
                     <Button variant="transparent" style={{ color: "#358597", fontSize: 15, marginLeft: -10 }} as={Link} to="/register">Sign Up</Button>
                 </div>
             </div>

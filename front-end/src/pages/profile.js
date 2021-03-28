@@ -118,7 +118,7 @@ export default function Profile() {
                 </div>
                 <div style={{ display: 'grid', rowGap: '20px' }}>
                     <h2>Address</h2>
-                    <div style={{ height: '420px', border: '1px solid lightgrey', boxShadow: '0 0 2px 1px lightgrey', borderRadius: 5, padding: '10px', display: 'flex', flexDirection: 'column', overflowY: 'scroll' }}>
+                    <div style={{ height: '350px', border: '1px solid lightgrey', boxShadow: '0 0 2px 1px lightgrey', borderRadius: 5, padding: '10px', display: 'flex', flexDirection: 'column', overflowY: 'scroll' }}>
                         {
                             address.map((item, index) => {
                                 return (
@@ -170,6 +170,7 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
+            <div style={{marginTop: 46, color: "lightgrey"}}>as</div>
             <AlertModal message={alertMessage} setShow={() => setAlertMessage('')} />
             <Maps show={show} setShow={() => setShow(false)} setUserCordinates={setCordinates} />
         </div>
