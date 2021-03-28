@@ -59,7 +59,7 @@ export default function CartCard({ index, item = {} }) {
                                         value={editQty}
                                         onChange={i => {
                                             let { value } = i.target
-                                            setEditQty(value <= 0 ? 1 : value > stock ? stock : value)
+                                            setEditQty(value <= 0 ? 0 : value > stock ? stock : value)
                                         }}
                                         style={{ borderRadius: 0, width: '70px', textAlign: 'center' }}
                                     />
