@@ -58,7 +58,7 @@ const Register = () => {
                 <Button variant="info" onClick={handleReg} style={{ width: 406 }}>Register</Button>
                 <br /><br />
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Button variant="transparent" style={{ color: "black", fontSize: 15, cursor: "default", marginRight: -10 }}>Already have an account?</Button>
+                    <div style={{ fontSize: 15, marginRight: 5, marginTop: 7 }}>Already have an account?</div>
                     <Button variant="transparent" style={{ color: "#358597", fontSize: 15, marginLeft: -10 }} as={Link} to="/login">Log In</Button>
                 </div>
                 <Modal show={modalAlert[0]} onHide={() => setModalAlert([false, ""])} style={{ marginTop: 280 }}>

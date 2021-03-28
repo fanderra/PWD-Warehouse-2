@@ -20,7 +20,7 @@ export default function Cart() {
     if (!username) return <Redirect to='/' />
     return (
         <div style={{ backgroundColor: "lightgrey", height: 700 }}>
-            <div style={{ display: 'grid', padding: '20px 20px 100px 20px', gridTemplateColumns: 'repeat(auto-fit,400px)', gap: '20px' }}>
+            <div style={{ display: 'grid', padding: '20px 40px 100px 20px', gridTemplateColumns: 'repeat(auto-fit,400px)', gap: '50px', justifyContent: "center" }}>
                 {cart.map((item, index) => <CartCard key={index} item={item} />)}
                 <div
                     style={{

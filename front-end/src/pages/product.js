@@ -85,11 +85,11 @@ const Product = () => {
             setModalAddToCart([true, 'Admin are not allowed to buy product'])
             return
         } 
-        if (idStatus === 1) {
-            setModalDetails(false)
-            setModalAddToCart([true, 'Verify your email address to buy a product'])
-            return
-        } 
+        // if (idStatus === 1) {
+        //     setModalDetails(false)
+        //     setModalAddToCart([true, 'Verify your email address to buy a product'])
+        //     return
+        // } 
         if (qty > details.total_stock) {
             setModalDetails(false)
             setModalAddToCart([true, 'Quantity exceeds maximum allowed'])
@@ -114,7 +114,7 @@ const Product = () => {
     
     return (
         <div>
-            <div style={{ marginLeft: 1290, marginTop: 30, marginBottom: -10 }}>
+            <div style={{ marginTop: 30, marginBottom: -10, display: "flex", flexDirection: "row-reverse", marginRight: 55 }}>
                 <Dropdown>
                     <Dropdown.Toggle variant="outline-info">Sort By</Dropdown.Toggle>
                     <Dropdown.Menu>
@@ -124,7 +124,7 @@ const Product = () => {
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "250px 250px 250px 250px 250px", padding: 20, justifyContent: "center", gap: '20px' }}>
+            <div style={{ display: "grid", gridTemplateColumns: "270px 270px 270px 270px 270px", padding: 20, justifyContent: "center", gap: '10px' }}>
                 {displayProducts}
             </div>
             <Pagination style={{ justifyContent: "center" }}>
@@ -153,14 +153,15 @@ const Product = () => {
                         {/* <div>Available Stock: {details.total_stock - details.total_purchased_stock - kart[details.id_product].qty}</div> */}
                         <div>Available Stock: {details.total_stock - details.total_purchased_stock}</div>
                         <div style={{ flexDirection: "row", display: "flex", marginLeft: 5 }}>
-                            <Button variant="info" onClick={() => qty <= 1 ? setQty(qty - 0) : setQty(qty - 1)}>-</Button>
-                            <Form.Control style={{ width: 70, textAlign: "center" }} type='number' onChange={
+                            {/* <Button variant="info" onClick={() => qty <= 1 ? setQty(qty - 0) : setQty(qty - 1)}>-</Button> */}
+                            <div style={{marginTop: 6, marginRight: 10}}>Quantity:</div>
+                            <Form.Control style={{ width: 65, textAlign: "center" }} type='number' onChange={
                                 event => {
                                     let value = event.target.value
                                     let maxStock = details.total_stock - details.total_purchased_stock
-                                    setQty(parseInt(value > maxStock ? maxStock : value <= 0 ? 0 : value))}
+                                    setQty(parseInt(value > maxStock ? maxStock : value <= 0 ? 1 : value))}
                                 } value={qty} />
-                            <Button variant="info" onClick={() => qty >= details.total_stock - details.total_purchased_stock ? setQty(qty + 0) : setQty(qty + 1)}>+</Button>
+                            {/* <Button variant="info" onClick={() => qty >= details.total_stock - details.total_purchased_stock ? setQty(qty + 0) : setQty(qty + 1)}>+</Button> */}
                         </div>
                     </div>
                 </Modal.Body>
