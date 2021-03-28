@@ -12,7 +12,7 @@ module.exports = {
             result = await asyncQuery(query)
             console.log('RESULt', result)
             const sendData = result.reduce((a, b, _, arr) => {
-                const { id_order, shipment_fee, city, payment_method, username, address_detail, postal_code, status, id_order_status } = b
+                const { id_order, shipment_fee, city, payment_method, username, address_detail, postal_code, status, id_order_status, message } = b
                 const index = a.findIndex(i => i.id_order === id_order)
                 console.log(index)
                 if (index === -1) {
@@ -27,7 +27,8 @@ module.exports = {
                         order_details: [],
                         total: shipment_fee,
                         status,
-                        id_order_status
+                        id_order_status,
+                        message
                     })
                     console.log('akaka', a, arr)
                     arr.forEach(da => {

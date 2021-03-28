@@ -3,6 +3,7 @@ import Axios from 'axios'
 import { useSelector } from 'react-redux'
 import { Dropdown, Form, Pagination } from 'react-bootstrap'
 import CardAdmin from '../../components/cardAdmin'
+import AlertModal from '../../components/alertModal'
 
 const filter = [
     { name: 'Show All', id: 'tes' },
@@ -17,6 +18,7 @@ const AdminOrder = () => {
     const [data, setData] = React.useState([])
     const [currentPage, setCurrentPage] = React.useState(0)
     const [filterStatus, setFilterStatus] = React.useState('tes')
+    const [cancelMsg, setCancelMsg] = React.useState('')
     // const [modal, setModal] = React.useState(false)
 
     const display = [...data].filter(item => isNaN(filterStatus) || +item.id_order_status === +filterStatus).splice(currentPage * 10, (currentPage * 10) + 10)
@@ -93,10 +95,11 @@ const AdminOrder = () => {
                 <div style={{ display: "flex", flexWrap: "wrap", padding: 50, flexDirection: 'row', justifyContent: 'center', marginTop: -40 }}>
                     {display.map((item, index) => {
                         return (
-                            <CardAdmin item={item} index={index} />
+                            <CardAdmin item={item} index={index} showCancelMsg={(msg) => setCancelMsg(msg)}/>
                         )
                     })}
                 </div>
+                <AlertModal title='Cancel message' message={cancelMsg} setShow={() => setCancelMsg('')}/>
             </div>
         </div>
     )

@@ -4,7 +4,7 @@ import { Card, Button, Modal, Form } from 'react-bootstrap'
 import { confirmOrder, cancelOrder, completeOrder } from '../actions/orderAction'
 import {keepLogin} from '../actions/userAction'
 
-export default function CardAdmin({ item }) {
+export default function CardAdmin({ item, showCancelMsg }) {
     const [msg, setMsg] = React.useState('')
     const [modal, setModal] = React.useState(false)
 
@@ -59,10 +59,15 @@ export default function CardAdmin({ item }) {
                         </div>
                     }
                     {item.id_order_status === 4 &&
-                        <Button variant="info" onClick={handleComplete}> Arrived </Button>
+                        <Button variant="info" onClick={handleComplete}> Arrived </Button>                        
+                    }
+                    {
+                        item.id_order_status === 6 &&
+                        <Button onClick={() => showCancelMsg(item.message)}>See message</Button>
                     }
                 </Card.Body>
             </Card>
+
             <Modal show={modal} onHide={() => setModal(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Cancel order</Modal.Title>
