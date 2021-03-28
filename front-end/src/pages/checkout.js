@@ -17,7 +17,7 @@ const Checkout = () => {
     const [listShipment, setListShipment] = React.useState('20000')
     // const [errPayment, setErrPayment] = React.useState([false, ''])
     // const [errAddress, setErrAddress] = React.useState([false, ''])
-    const [errShipment, setErrShipment] = React.useState([false, ''])
+    // const [errShipment, setErrShipment] = React.useState([false, ''])
 
     const { cart, address, id_user } = useSelector((state) => {
         return {
@@ -26,8 +26,8 @@ const Checkout = () => {
             id_user: state.user.id_user,
         }
     })
-    console.log(cart)
-    console.log(address)
+    // console.log(cart)
+    // console.log(address)
 
 
     const dispatch = useDispatch()
@@ -92,7 +92,10 @@ const Checkout = () => {
         // console.log(id_order)
         // console.log(address_detail)
 
-        checkoutCart(allDataPayment, data => history.replace(`/payment/` + data))
+        checkoutCart(allDataPayment, data => {
+            dispatch(keepLogin())
+            history.replace(`/payment/` + data)
+        })
         // history.push(`/payment/:${id_order}`)
     }
 
@@ -145,7 +148,7 @@ const Checkout = () => {
                     </div>
                     <div style={{ borderBottom: '2px solid grey', width: '500px', alignSelf: 'center', marginBottom: 10 }}></div>
                     <div style={{ marginBottom: 10 }}>
-                        <div> Shipment fee <small>{errShipment[1]}</small> </div>
+                        <div> Shipment fee </div>
                     </div>
                     <div style={{ width: '95%', alignSelf: 'center' }}>
                         <Form.Group controlId="exampleForm.ControlSelect1" >
@@ -194,7 +197,7 @@ const Checkout = () => {
                         {address.length !== 0 ?
                             (
                                 <>
-                                    <a style={{ display: 'flex', width: '100%' }}>
+                                    <div style={{ display: 'flex', width: '100%' }}>
                                         <div style={{ width: 300, border: '1px solid grey', boxShadow: '0 0 2px 1px grey', borderRadius: '3px', padding: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                             {address.map((item) => {
                                                 const { label, city, postal_code, address_detail } = item
@@ -209,12 +212,12 @@ const Checkout = () => {
                                                 )
                                             })}
                                         </div>
-                                    </a>
-                                    <a onClick={() => setChangeAddress(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8', marginLeft: 10 }}>Change address</a>
+                                    </div>
+                                    <p onClick={() => setChangeAddress(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8', marginLeft: 10 }}>Change address</p>
                                 </>
                             )
                             :
-                            <a onClick={() => setAdd(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8' }}> Add Address</a>
+                            <p onClick={() => setAdd(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8' }}> Add Address</p>
                         }
                         {changeAddress ?
                             (

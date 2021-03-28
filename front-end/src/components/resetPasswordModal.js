@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 
-export default function ResetPasswordModal({ show, action }) {
+export default function ResetPasswordModal({ show, action, handleClose }) {
     const [userData, setUserData] = useState({ username: '', email: '' })
     const [errorMessage, setErrorMessage] = useState('')
 
@@ -21,7 +21,7 @@ export default function ResetPasswordModal({ show, action }) {
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header>
+            <Modal.Header onClick={handleClose} closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Forgot password
         </Modal.Title>
