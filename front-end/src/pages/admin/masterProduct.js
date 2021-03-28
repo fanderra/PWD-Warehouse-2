@@ -59,9 +59,11 @@ const MasterProduct = () => {
         if (!newItem.name || !newItem.price) {
             setShowModal({ ...showModal, error: true })
             setModalBody('Input cannot be empty')
+            return
         } else if (newItem.price < 1) {
             setShowModal({ ...showModal, error: true })
             setModalBody('Price cannot be zero or less')
+            return
         }
         Axios.post(`http://localhost:2000/product/add`, { id_product: newItem.idProduct, name: newItem.name, price: newItem.price })
             .then(res => {
@@ -70,16 +72,18 @@ const MasterProduct = () => {
             })
             .catch(err => {
                 setShowModal({ ...showModal, error: true })
-                setModalBody(err.response.data)
+                setModalBody('something wrong')
             })
     }
     const handleEditProduct = (index) => {
         if (!editItem.name || !editItem.price || !editItem.categoryId || !editItem.stock1 || !editItem.stock2) {
             setShowModal({ ...showModal, edit: false, error: true })
             setModalBody('Input cannot be empty')
+            return
         } else if (editItem.price < 1) {
             setShowModal({ ...showModal, edit: false, error: true })
             setModalBody('Price cannot be zero or less')
+            return
         }
         const edit = { name: editItem.name, price: editItem.price, id_category: editItem.categoryId, stock1: editItem.stock1, stock2: editItem.stock2 }
         Axios.post(`http://localhost:2000/product/edit/${index}`, edit)
@@ -246,8 +250,8 @@ const MasterProduct = () => {
                                 <td><b>Total</b></td>
                             </tr>
                             <tr>
-                                <td style={{width: 170}}><Form.Control defaultValue={editItem.stock1} onChange={event => setEditItem({ ...editItem, stock1: event.target.value })} type="number" /></td>
-                                <td style={{width: 170}}><Form.Control defaultValue={editItem.stock2} onChange={event => setEditItem({ ...editItem, stock2: event.target.value })} type="number" /></td>
+                            <td style={{width: 170}}><Form.Control value={editItem.stock1} onChange={event => setEditItem({ ...editItem, stock1: event.target.value <= 0 ? 0 : event.target.value })} type="number" /></td>
+                                <td style={{width: 170}}><Form.Control value={editItem.stock2} onChange={event => setEditItem({ ...editItem, stock2: event.target.value <= 0 ? 0 : event.target.value })} type="number" /></td>
                                 <td>{parseInt(editItem.stock1) + parseInt(editItem.stock2)}</td>
                             </tr>
                         </tbody>

@@ -22,11 +22,13 @@ const MasterStock = () => {
             setShowModal({ ...showModal, stock: false, error: true })
             setModalBody('Quantity cannot be zero or less')
             setQty(0)
+            return
         } else if (editWhich[0]) {
             if (qty > stock.warehouseA) {
                 setShowModal({ ...showModal, stock: false, error: true })
                 setModalBody('Quantity exceeds maximum allowed')
                 setQty(0)
+                return
             } else {
                 const stock1 = parseInt(stock.warehouseA) - parseInt(qty)
                 const stock2 = parseInt(stock.warehouseB) + parseInt(qty)
@@ -43,6 +45,7 @@ const MasterStock = () => {
                 setShowModal({ ...showModal, stock: false, error: true })
                 setModalBody('Quantity exceeds maximum allowed')
                 setQty(0)
+                return
             } else {
                 const stock1 = parseInt(stock.warehouseA) + parseInt(qty)
                 const stock2 = parseInt(stock.warehouseB) - parseInt(qty)
