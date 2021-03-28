@@ -85,11 +85,11 @@ const Product = () => {
             setModalAddToCart([true, 'Admin are not allowed to buy product'])
             return
         } 
-        // if (idStatus === 1) {
-        //     setModalDetails(false)
-        //     setModalAddToCart([true, 'Verify your email address to buy a product'])
-        //     return
-        // } 
+        if (idStatus === 1) {
+            setModalDetails(false)
+            setModalAddToCart([true, 'Verify your email address to buy a product'])
+            return
+        } 
         if (qty > details.total_stock) {
             setModalDetails(false)
             setModalAddToCart([true, 'Quantity exceeds maximum allowed'])
@@ -129,7 +129,7 @@ const Product = () => {
             </div>
             <Pagination style={{ justifyContent: "center" }}>
                 <Pagination.Prev style={{ color: "red" }} onClick={() => currentPage <= 0 ? setCurrentPage(0) : setCurrentPage(currentPage - 1)} />
-                <Pagination.Next onClick={() => currentPage >= 1 ? setCurrentPage(1) : setCurrentPage(currentPage + 1)} />
+                <Pagination.Next onClick={() => Math.ceil(data.length / 10) > currentPage + 1 ? setCurrentPage(currentPage + 1) : setCurrentPage(currentPage)} />
             </Pagination>
             <Modal show={modalDetails} onHide={() => setModalDetails(false)}>
                 <Modal.Body>

@@ -11,8 +11,8 @@ const Checkout = () => {
     const [newAddress, setNewAddress] = React.useState({ address_detail: '', label: '' })
     const [errorMessage, setErrorMessage] = React.useState('')
     const [disButton, setDisButton] = React.useState(true)
-    const [add, setAdd] = React.useState(false)
-    const [changeAddress, setChangeAddress] = React.useState(false)
+    // const [add, setAdd] = React.useState(false)
+    // const [changeAddress, setChangeAddress] = React.useState(false)
     const [value, setValue] = React.useState('TRANSFER')
     const [listShipment, setListShipment] = React.useState('20000')
     const [showModal, setShowModal] = React.useState(false)
@@ -40,8 +40,6 @@ const Checkout = () => {
         setCordinates({ city: '', postal_code: null })
         setNewAddress({ address_detail: '', label: '' })
         setErrorMessage('')
-        setAdd(false)
-        setChangeAddress(false)
     }
     const handleCheck = (val) => {
         setValue(val.target.value)
@@ -165,7 +163,7 @@ const Checkout = () => {
                             {address.length !== 0 ?
                                 (
                                     <>
-                                        <a style={{ display: 'flex', width: '100%', marginLeft: 25, marginTop: 30 }}>
+                                        <a href="!#" style={{ display: 'flex', width: '100%', marginLeft: 25, marginTop: 30 }}>
                                             <div style={{ width: 300, border: '1px solid grey', boxShadow: '0 0 2px 1px grey', borderRadius: '3px', padding: 10 }}>
                                                 {address.map((item) => {
                                                     const { label, city, postal_code, address_detail } = item
@@ -179,11 +177,11 @@ const Checkout = () => {
                                                 })}
                                             </div>
                                         </a>
-                                        <a onClick={() => setShowModal2(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8', marginLeft: 35, marginTop: 5 }}>Change address</a>
+                                        <a href="!#" onClick={() => setShowModal2(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8', marginLeft: 35, marginTop: 5 }}>Change address</a>
                                     </>
                                 )
                                 :
-                                <a onClick={() => setShowModal(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8' }}> Add Address</a>
+                                <a href="!#" onClick={() => setShowModal(true)} style={{ fontSize: 13, cursor: 'pointer', color: '#42A2B8' }}> Add Address</a>
                             }
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginTop: 80 }}>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { useHistory } from 'react-router'
+// import { useHistory } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { editCart, keepLogin } from '../actions'
 // import {keepLogin}from '../actions'
@@ -16,7 +16,7 @@ export default function CartCard({ index, item = {} }) {
     const [edit, setEdit] = useState(false)
     const [editQty, setEditQty] = useState(0)
     const { id_product, image, price, qty, stock, name, id_order,id_product_status } = item
-    const history = useHistory()
+    // const history = useHistory()
     const dispatch = useDispatch()
     useEffect(() => {
         setEditQty(qty)
