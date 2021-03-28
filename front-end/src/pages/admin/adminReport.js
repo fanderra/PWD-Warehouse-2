@@ -31,7 +31,7 @@ export default function AdminReport() {
                 <td>{item.payment_method}</td>
                 <td>{item.names.map((item, index) => {
                     return (
-                        <div>
+                        <div key={index}>
                             <span>{item}</span>
                         </div>
                     )

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 
 export default function ResetPasswordModal({ show, action, handleClose }) {
     const [userData, setUserData] = useState({ username: '', email: '' })
