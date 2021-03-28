@@ -16,7 +16,16 @@ const Product = () => {
     const [sortBy, setSortBy] = React.useState({ name: false, price: false, category: false, stock: false })
     
     const dispatch = useDispatch()
-
+    const { idUser, idRole, idStatus, kart } = useSelector((state) => {
+        return {
+            idUser: state.user.id_user,
+            idRole: state.user.id_role,
+            idStatus: state.user.id_status,
+            kart: state.user.cart
+        }
+    })
+    const stockInCart = kart.find(i => i.id_product === details.id_product)?.qty || 0
+    
     const displayProducts = data.slice(currentPage * 10, currentPage * 10 + 10)
         .map((item, index) => {
             return (
@@ -67,14 +76,12 @@ const Product = () => {
             .catch(err => console.log(err))
     }, [])
     
-    const { idUser, idRole, idStatus, } = useSelector((state) => {
-        return {
-            idUser: state.user.id_user,
-            idRole: state.user.id_role,
-            idStatus: state.user.id_status,
-        }
-    })
     const handleAddToCart = () => {
+        if (details.total_stock - details.total_purchased_stock - stockInCart === 0) {
+            setModalDetails(false)
+            setModalAddToCart([true, 'Stock for this product is empty'])
+            return
+        } 
         if (idUser === null) {
             setModalDetails(false)
             setModalAddToCart([true, 'Login first to continue buying'])
@@ -143,22 +150,16 @@ const Product = () => {
                         <div>{details.category}</div>
                         <div>${Intl.NumberFormat('en-US', { currency: 'USD', style: 'decimal' }).format(details.price)}</div>
                     </div>
-                    {/* <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", color: "red" }}>
-                        <div>TEST stock awal: {details.total_stock}</div>
-                        <div>Udah dibeli: {details.total_purchased_stock}</div>
-                        <div>{kart[details.id_product].qty}</div>
-                    </div> */}
                     <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", marginTop: 10 }}>
-                        {/* <div>Available Stock: {details.total_stock - details.total_purchased_stock - kart[details.id_product].qty}</div> */}
-                        <div>Available Stock: {details.total_stock - details.total_purchased_stock}</div>
+                        <div>Available Stock: {details.total_stock - details.total_purchased_stock - stockInCart}</div>
                         <div style={{ flexDirection: "row", display: "flex", marginLeft: 5 }}>
                             {/* <Button variant="info" onClick={() => qty <= 1 ? setQty(qty - 0) : setQty(qty - 1)}>-</Button> */}
                             <div style={{marginTop: 6, marginRight: 10}}>Quantity:</div>
                             <Form.Control style={{ width: 70, textAlign: "center" }} type='number' onChange={
                                 event => {
                                     let value = event.target.value
-                                    let maxStock = details.total_stock - details.total_purchased_stock
-                                    setQty(parseInt(value > maxStock ? maxStock : value <= 0 ? 1 : value))}
+                                    let maxStock = details.total_stock - details.total_purchased_stock - stockInCart
+                                    setQty(parseInt(value > maxStock ? maxStock : value <= 0 ? 0 : value))}
                                 } value={qty} />
                             {/* <Button variant="info" onClick={() => qty >= details.total_stock - details.total_purchased_stock ? setQty(qty + 0) : setQty(qty + 1)}>+</Button> */}
                         </div>

@@ -18,7 +18,7 @@ export default function ConfirmationModal({ show, handleSubmit, setShow,message,
                 {message}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant='success' onClick={handleSubmit}>Submit</Button>
+                <Button variant='info' onClick={handleSubmit}>Submit</Button>
                 <Button variant='danger' onClick={setShow}>Cancel</Button>
             </Modal.Footer>
         </Modal>

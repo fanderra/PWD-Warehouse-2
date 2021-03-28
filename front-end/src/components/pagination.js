@@ -11,7 +11,7 @@ export default function PaginationComp({ setPage, page, length, perPage, setOrde
                     <Pagination.Next disabled={length < perPage} onClick={() => setPage(page + 1)} />
                 </Pagination>
                 <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    <Dropdown.Toggle variant="info" id="dropdown-basic">
                         Order by : {orderBy}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
