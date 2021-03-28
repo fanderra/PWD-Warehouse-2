@@ -30,7 +30,7 @@ const Verification = () => {
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 300}}>
                         <h1>Your account has been verified</h1>
                         <h2>Happy Shopping!</h2>
-                        <Button variant='success' as={Link} to='/' style={{width: 200,marginTop: 50}}>
+                        <Button variant='info' as={Link} to='/' style={{width: 200,marginTop: 50}}>
                             Shop Now!
                         </Button>
                     </div>
@@ -40,7 +40,7 @@ const Verification = () => {
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 300}}>
                         <h2>Waiting for verification...</h2>
                         <h3>A verification link has been sent to your email account</h3>
-                        <Button  variant='success' style={{width: 200,marginTop: 50}}>
+                        <Button  variant='info' style={{width: 200,marginTop: 50}}>
                             <a style={{color: 'white', textDecoration: 'none'}} href='https://mail.google.com'>Verify your email</a>
                         </Button>
                     </div>
