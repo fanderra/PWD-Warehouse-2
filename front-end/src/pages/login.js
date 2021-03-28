@@ -37,10 +37,10 @@ const Login = () => {
     if (name) return <Redirect to="/" />
     
     return (
-        <div style={{ textAlign: "center", display: "flex", justifyContent: "center" }}>
-            <div style={{ width: "450px", padding: 20, border: "1px solid grey", borderRadius: 5, marginTop: 150 }}>
+        <div style={{ textAlign: "center", display: "flex", justifyContent: "center", backgroundColor: "lightgrey", height: 757 }}>
+            <div style={{ width: "450px", padding: 20, borderRadius: 10, marginTop: 150, height: 400, backgroundColor: "white" }}>
                 <br />
-                <h1>Log In to your account</h1>
+                <h1>Log In</h1>
                 <Form style={{ marginTop: 25 }}>
                     <Form.Control style={{ fontStyle: "italic" }} onChange={event => setLoginDetails({ ...loginDetails, username: event.target.value, email: event.target.value })} placeholder="Enter username or email" />
                     <InputGroup style={{ marginTop: 10 }}>
@@ -56,8 +56,8 @@ const Login = () => {
                 <Button variant="info" onClick={handleLog} style={{ width: 406 }}>Log In</Button>
                 <br /><br />
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                    <div style={{ fontSize: 15, marginRight: 5, marginTop: 7 }}>Need an account?</div>
-                    <Button variant="transparent" style={{ color: "#358597", fontSize: 15, marginLeft: -10 }} as={Link} to="/register">Sign Up</Button>
+                    <div style={{ fontSize: 15, marginRight: 5, marginTop: 7 }}>Not registered?</div>
+                    <Button variant="transparent" style={{ color: "#358597", fontSize: 15, marginLeft: -10 }} as={Link} to="/register">Create an account</Button>
                 </div>
             </div>
             <Modal show={modalAlert[0]} onHide={() => setModalAlert([false, ""])} style={{ marginTop: 280 }}>
