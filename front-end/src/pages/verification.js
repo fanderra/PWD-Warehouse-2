@@ -20,7 +20,7 @@ const Verification = () => {
     React.useEffect(() => {
         const token = window.location.search.substring(1)
         dispatch(verificationEmail(token))
-    }, [])
+    }, [dispatch])
 
     return (
         <div>

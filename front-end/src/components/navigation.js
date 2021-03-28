@@ -40,12 +40,9 @@ const Navigation = () => {
                     </Nav>
                     <Nav>
                         {name && idRole === 1 ?
-                            <Nav.Link style={{ color: "lightGrey", display: "flex" }} as={Link} to="/cart">
-                                <i style={{ marginRight: 2.5, marginTop: 5 }} className="fas fa-shopping-cart"></i>
-                                <div style={{marginTop: -1}}>
+                            <Nav.Link style={{ color: "lightGrey", marginRight: '7px', display: "flex",alignItems: 'center'}} as={Link} to="/cart">
+                                <i style={{ marginRight: '7px',}} className="fas fa-shopping-cart"></i>
                                     <Badge variant='light'>{cart.length}</Badge>
-                                </div>
-                                <div style={{marginLeft: 7.5, marginRight: 5}}>Cart</div>
                             </Nav.Link>
                         :
                             <></>
@@ -56,7 +53,7 @@ const Navigation = () => {
                         <Dropdown.Toggle style={{ color: "lightGrey", borderRadius: '5px 0 0 5px', backgroundColor: "transparent", boxShadow: '0 0 1px 0.5px white', borderColor: "transparent", height: '40px' }}>
                             {name ? name.toUpperCase() : "USERNAME "}
                         </Dropdown.Toggle>
-                        <img style={{ height: '40px', borderRadius: '0 5px 5px 0', boxShadow: '0 0 1px 0.5px white', width: '40px' }} src={profile_picture ? `http://localhost:2000/${profile_picture}` : noPict} alt="profile" />
+                        <img style={{ height: '40px', borderRadius: '0 5px 5px 0', boxShadow: '0 0 1px 0.5px white', width: '40px' }} src={profile_picture ? `http://localhost:2000/${profile_picture}` : noPict} alt="prof" />
                         <Dropdown.Menu align="right">
                             {!name &&
                                 <>

@@ -19,7 +19,7 @@ const Checkout = () => {
     const [showModal2, setShowModal2] = React.useState(false)
     // const [errPayment, setErrPayment] = React.useState([false, ''])
     // const [errAddress, setErrAddress] = React.useState([false, ''])
-    const [errShipment, setErrShipment] = React.useState([false, ''])
+    // const [errShipment, setErrShipment] = React.useState([false, ''])
 
     const { cart, address, id_user } = useSelector((state) => {
         return {
@@ -28,8 +28,8 @@ const Checkout = () => {
             id_user: state.user.id_user,
         }
     })
-    console.log(cart)
-    console.log(address)
+    // console.log(cart)
+    // console.log(address)
 
     const dispatch = useDispatch()
     const handleChange = ({ target: { name, value } }) => {
@@ -90,7 +90,10 @@ const Checkout = () => {
         // console.log(id_order)
         // console.log(address_detail)
 
-        checkoutCart(allDataPayment, data => history.replace(`/payment/` + data))
+        checkoutCart(allDataPayment, data => {
+            dispatch(keepLogin())
+            history.replace(`/payment/` + data)
+        })
         // history.push(`/payment/:${id_order}`)
     }
 

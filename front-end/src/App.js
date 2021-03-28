@@ -25,15 +25,9 @@ const App = () => {
     if (localStorage.token || sessionStorage.token) {
       dispatch(keepLogin())
     }
-  }, [])
+  }, [dispatch])
 
-  const { idRole, name } = useSelector((state) => {
-    return {
-      idRole: state.user.id_role,
-      name: state.user.username
-    }
-  })
-
+  const { id_role:idRole } = useSelector((state) => state.user)
   if (idRole === 1) return (
     <>
       <Navigation />

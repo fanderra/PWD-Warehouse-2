@@ -67,12 +67,11 @@ const Product = () => {
             .catch(err => console.log(err))
     }, [])
     
-    const { idUser, idRole, idStatus, kart } = useSelector((state) => {
+    const { idUser, idRole, idStatus, } = useSelector((state) => {
         return {
             idUser: state.user.id_user,
             idRole: state.user.id_role,
             idStatus: state.user.id_status,
-            kart: state.user.cart
         }
     })
     const handleAddToCart = () => {
