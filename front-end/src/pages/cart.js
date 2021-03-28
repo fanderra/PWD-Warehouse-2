@@ -9,16 +9,15 @@ const c = {
     lightGreen: '#c8c6a7',
     green: '#92967d',
     blue: '#6e7c7c',
-    blueDarker: '#435560',
+    blueDarker: '#343a40',
 }
 export default function Cart() {
     const { cart, username } = useSelector(state => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(keepLogin())
-    }, [])
+    }, [dispatch])
     if (!username) return <Redirect to='/' />
-    console.log('cart', cart)
     return (
         <div style={{ backgroundColor: "lightgrey", height: 700 }}>
             <div style={{ display: 'grid', padding: '20px 20px 100px 20px', gridTemplateColumns: 'repeat(auto-fit,400px)', gap: '20px' }}>
@@ -33,7 +32,6 @@ export default function Cart() {
                         alignItems: 'center',
                         padding: '0 50px',
                         justifyContent: 'space-between',
-                        boxShadow: '0 -1px 5px 1px black'
                     }}
                 >
                     {cart.length !== 0 ? 

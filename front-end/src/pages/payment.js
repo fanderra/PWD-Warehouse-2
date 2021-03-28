@@ -1,13 +1,15 @@
 import React,{useEffect,useRef,useState} from 'react'
 import { useParams,useHistory,Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import {Button} from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
+import AlertModal from '../components/alertModal'
 import { getPayment, confirmPayment} from '../actions/orderAction'
 export default function Payment() {
     const { id_order } = useParams()
     const { id_user } = useSelector(state => state.user)
     const [image, setImage] = useState({})
     const [paymentData,setPaymentData] = useState({})
+    const [alertMessage,setAlertMessage] = useState('')
     const fileRef = useRef()
     const history = useHistory()
     
@@ -25,7 +27,7 @@ export default function Payment() {
         const formData = new FormData()
         formData.append('IMG', image)
         formData.append('id_order', id_order)
-        confirmPayment(formData, () => setImage({}))
+        confirmPayment(formData, () => setAlertMessage('success'))
     }
 
     if(!paymentData.payment_method) return <div></div>
@@ -57,6 +59,10 @@ export default function Payment() {
                 <Button variant='info' onClick={handleUpload}>Upload</Button>
             </div>
             }
+            <AlertModal message={alertMessage} setShow={() => {
+                setAlertMessage('')
+                setImage({})
+            }} />
         </div>
     )
 }

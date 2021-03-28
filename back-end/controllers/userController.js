@@ -187,7 +187,7 @@ module.exports = {
         }
     },
     resetPassword: async (req, res) => {
-        const isValid = validationResult(req.body)
+        const isValid = validationResult(req)
         try {
             const { username, password } = req.user
             const { code, password: newPassword } = req.body

@@ -10,7 +10,7 @@ const c = {
     lightGreen: '#c8c6a7',
     green: '#92967d',
     blue: '#6e7c7c',
-    blueDarker: '#435560',
+    blueDarker: '#343a40',
 }
 export default function CartCard({ index, item = {} }) {
     const [edit, setEdit] = useState(false)
@@ -42,7 +42,7 @@ export default function CartCard({ index, item = {} }) {
     return (
         <div id='cartCard' style={{ backgroundColor: c.blueDarker, width: '100%', height: '220px', padding: '20px', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', flexBasis: '40%', gap: '20px' }}>
-                <img onClick={() => history.push('/detail/' + id_product)} style={{ objectFit: 'fill', height: '100%', cursor: 'pointer', width: '100%' }} alt='items' src={'http://localhost:2000/' + image} />
+                <img onClick={() => history.push('/')} style={{ objectFit: 'fill', height: '100%', cursor: 'pointer', width: '100%' }} alt='items' src={'http://localhost:2000/' + image} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
                     <div>
                         <h2 style={{ color: c.white }}>{name}</h2>

@@ -64,9 +64,9 @@ export default function HistoryAccordion({ item, index, showModal, handleCancel 
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '20px' }}>
                                 <h4>Total </h4>
                                 <p style={{ textAlign: 'end' }}>
-                                    {item.total.toLocaleString()}  <br />
-                                    ( Shipment fee ) +{item.shipment_fee.toLocaleString()} <br />
-                                    <span style={{ fontWeight: '500' }}>{item.total.toLocaleString()} IDR</span>
+                                    ${item.total.toLocaleString()}  <br />
+                                    ( Shipment fee ) +${item.shipment_fee.toLocaleString()} <br />
+                                    <span style={{ fontWeight: '500' }}>${item.total.toLocaleString()}</span>
                                 </p>
                             </div>
                         </Card.Body>
@@ -82,11 +82,11 @@ function AccordColumn({ item: { name, qty, price, image } }) {
             <img style={{ height: '120px', border: '1px solid #435560' }} src={"http://localhost:2000/" + image} alt="ffr" />
             <p style={{ flex: 1 }}>
                 {name}<br />
-                {price.toLocaleString()} IDR<br />
+                ${price.toLocaleString()}<br />
                 {qty}pcs
             </p>
             <h5>
-                {(price * qty).toLocaleString()} IDR
+                ${(price * qty).toLocaleString()}
             </h5>
         </div>
     )

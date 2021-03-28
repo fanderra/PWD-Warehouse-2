@@ -7,8 +7,7 @@ export default function AdminReport() {
     const [table, setTable] = React.useState([])
 
     const display = data.map((item, index) => {
-        if(item.total >= 5)
-        return (
+        if(item.total >= 5) return (
             <Card key={index} style={{ margin: 10, textAlign: "center", width: 300 }}>
                 {/* <Card.Img style={{ width: 250 }} src={'http://localhost:2000/' + item.image} /> */}
                 <Card.Body>
@@ -20,11 +19,12 @@ export default function AdminReport() {
                 </Card.Body>
             </Card>
         )
+        return null
     })
 
     const tableData = table.map((item, index) => {
         return (
-            <tr>
+            <tr key={index+33}>
                 <td>{index + 1}.</td>
                 <td>{item.username}</td>
                 <td>{new Date(item.date).toString().slice(0, 25)}</td>
@@ -41,17 +41,20 @@ export default function AdminReport() {
         )
     })
 
-    React.useEffect(async () => {
-        try {
-            const res = await Axios.post('http://localhost:2000/admin/showBestProduct')
-            setdata(res.data)
-            console.log(res.data)
-            const res1 = await Axios.post('http://localhost:2000/admin/showSales')
-            setTable(res1.data)
+    React.useEffect(() => {
+        const getData = async () => {
+            try {
+                const res = await Axios.post('http://localhost:2000/admin/showBestProduct')
+                setdata(res.data)
+                console.log(res.data)
+                const res1 = await Axios.post('http://localhost:2000/admin/showSales')
+                setTable(res1.data)
+            }
+            catch (err) {
+                console.log(err)
+            }
         }
-        catch (err) {
-            console.log(err)
-        }
+        getData()
     }, [])
 
     return (

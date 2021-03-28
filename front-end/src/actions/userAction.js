@@ -37,7 +37,7 @@ export const register = (body, action) => {
 export const keepLogin = () => {
     return async (dispatch) => {
         try {
-            const token = localStorage.token||sessionStorage.token
+            const token = sessionStorage.token||localStorage.token
             const res = await Axios.post('http://localhost:2000/user/keepLogin', { token })
             dispatch({ type: 'LOGIN', payload: res.data })
         }
