@@ -40,7 +40,8 @@ function Maps({ setUserCordinates, show, setShow }) {
             setAddress('')
             setUserCordinates({ lat, lng, city, postal_code })
         } catch (error) {
-            console.log(error.response.data)
+            console.log(error)
+            alert('Postal code not found')
         }
     }
     if (loadError) return <></>

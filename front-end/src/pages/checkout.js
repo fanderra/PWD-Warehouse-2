@@ -150,8 +150,8 @@ const Checkout = () => {
                     <div style={{ width: '95%', alignSelf: 'center' }}>
                         <Form.Group controlId="exampleForm.ControlSelect1" >
                             <Form.Control as="select" value={listShipment} onChange={handleList}>
-                                <option value='20000'>Express: $10</option>
-                                <option value='10000'>Reguler: $5</option>
+                                <option value='10'>Express: $10</option>
+                                <option value='5'>Reguler: $5</option>
                             </Form.Control>
                         </Form.Group>
                     </div>
@@ -199,13 +199,13 @@ const Checkout = () => {
                                             {address.map((item) => {
                                                 const { label, city, postal_code, address_detail } = item
                                                 return (
-                                                    <>
-                                                        <h4 style={{ fontWeight: '400' }}>{label}</h4>
-                                                        <p>
+                                                    <div style={{width: '200px'}}>
+                                                        <h4 style={{ fontWeight: '400' }}>{label}</h4>                                           
+                                                        <p style={{width: '250px', padding: '10px', overflowX: 'scroll', height: '100px' }}>
                                                             {city},{postal_code} <br />
                                                             {address_detail}
                                                         </p>
-                                                    </>
+                                                    </div>
                                                 )
                                             })}
                                         </div>

@@ -32,7 +32,8 @@ const cartQuery = `SELECT
                         storages
                     GROUP BY id_product) ps ON ps.id_product = p.id_product
                 WHERE
-                    o.id_user = ? and o.id_order_status=1 
+                    o.id_user = ? and o.id_order_status=1
+                    GROUP BY p.id_product 
                 `
 
 

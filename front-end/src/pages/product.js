@@ -1,7 +1,8 @@
 import React from 'react'
 import Axios from 'axios'
 import { Button, Modal, Form, Card, Carousel, Dropdown, Pagination } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { keepLogin } from '../actions'
 
 const Product = () => {
     const [data, setData] = React.useState([])
@@ -14,12 +15,14 @@ const Product = () => {
     const [sortDown, setSortDown] = React.useState({ name: true, price: true, category: true, stock: true })
     const [sortBy, setSortBy] = React.useState({ name: false, price: false, category: false, stock: false })
     
+    const dispatch = useDispatch()
+
     const displayProducts = data.slice(currentPage * 10, currentPage * 10 + 10)
         .map((item, index) => {
             return (
                 <Button key={index} style={{ margin: 0 }} variant="transparent" onClick={() => { setModalDetails(true); setQty(1); setDetails(item); setImg(item.images) }}>
-                    <Card style={{ textAlign: "center" }}>
-                        <Card.Img style={{ width: 250 }} src={'http://localhost:2000/' + item.images[0]} />
+                    <Card style={{ textAlign: "center", width: '100%' }}>
+                        <Card.Img style={{ width: '100%' }} src={'http://localhost:2000/' + item.images[0]} />
                         <Card.Body>
                             <Card.Title>{item.name}</Card.Title>
                             <Card.Text style={{ fontSize: 19 }}>{item.category}</Card.Text>
@@ -76,18 +79,27 @@ const Product = () => {
         if (idUser === null) {
             setModalDetails(false)
             setModalAddToCart([true, 'Login first to continue buying'])
-        } else if (idRole === 2) {
+            return
+        } 
+        if (idRole === 2) {
             setModalDetails(false)
             setModalAddToCart([true, 'Admin are not allowed to buy product'])
-        // } else if (idStatus === 1) {
-        //     setModalDetails(false)
-        //     setModalAddToCart([true, 'Verify your email address to buy a product'])
-        } else if (qty > details.total_stock) {
+            return
+        } 
+        if (idStatus === 1) {
+            setModalDetails(false)
+            setModalAddToCart([true, 'Verify your email address to buy a product'])
+            return
+        } 
+        if (qty > details.total_stock) {
             setModalDetails(false)
             setModalAddToCart([true, 'Quantity exceeds maximum allowed'])
-        } else if (qty < 1) {
+            return
+        }
+        if (qty < 1) {
             setModalDetails(false)
             setModalAddToCart([true, 'Quantity cannot be zero or less'])
+            return
         }
         const addToCart = { id_user: idUser, id_product: details.id_product, qty }
         Axios.post('http://localhost:2000/cart/add', addToCart)
@@ -96,6 +108,7 @@ const Product = () => {
                 setModalDetails(false)
                 setModalAddToCart([true, 'Add to cart successful'])
                 setQty(1)
+                dispatch(keepLogin())
             })
             .catch(err => console.log(err))
     }
@@ -112,7 +125,7 @@ const Product = () => {
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", padding: 20, justifyContent: "center" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "250px 250px 250px 250px 250px", padding: 20, justifyContent: "center", gap: '20px' }}>
                 {displayProducts}
             </div>
             <Pagination style={{ justifyContent: "center" }}>
@@ -142,8 +155,13 @@ const Product = () => {
                         <div>Available Stock: {details.total_stock - details.total_purchased_stock}</div>
                         <div style={{ flexDirection: "row", display: "flex", marginLeft: 5 }}>
                             <Button variant="info" onClick={() => qty <= 1 ? setQty(qty - 0) : setQty(qty - 1)}>-</Button>
-                            <Form.Control style={{ width: 45, textAlign: "center" }} onChange={event => setQty(parseInt(event.target.value))} value={qty} />
-                            <Button variant="info" onClick={() => qty >= details.total_stock ? setQty(qty + 0) : setQty(qty + 1)}>+</Button>
+                            <Form.Control style={{ width: 70, textAlign: "center" }} type='number' onChange={
+                                event => {
+                                    let value = event.target.value
+                                    let maxStock = details.total_stock - details.total_purchased_stock
+                                    setQty(parseInt(value > maxStock ? maxStock : value <= 0 ? 0 : value))}
+                                } value={qty} />
+                            <Button variant="info" onClick={() => qty >= details.total_stock - details.total_purchased_stock ? setQty(qty + 0) : setQty(qty + 1)}>+</Button>
                         </div>
                     </div>
                 </Modal.Body>

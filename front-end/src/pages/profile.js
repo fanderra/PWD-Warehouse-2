@@ -162,8 +162,10 @@ export default function Profile() {
                                     </div>
                                 </Form.Group>
                             </Form>
-                        ) :
+                        ) : address.length === 0 ?
                             <Button size='sm' style={{ marginTop: '15px' }} onClick={() => setAdd(true)} variant='info'>Add New Address</Button>
+                            :
+                            <></>
                         }
                     </div>
                 </div>

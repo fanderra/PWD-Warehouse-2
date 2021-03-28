@@ -18,6 +18,7 @@ export default function Cart() {
         dispatch(keepLogin())
     }, [])
     if (!username) return <Redirect to='/' />
+    console.log('cart', cart)
     return (
         <div style={{ backgroundColor: "lightgrey", height: 700 }}>
             <div style={{ display: 'grid', padding: '20px 20px 100px 20px', gridTemplateColumns: 'repeat(auto-fit,400px)', gap: '20px' }}>
