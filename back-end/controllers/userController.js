@@ -153,10 +153,11 @@ module.exports = {
     forgotPassword: async (req, res) => {
         const { email, username } = req.body
         try {
-            const query = 'SELECT username,password FROM users WHERE email=? AND username =?'
+            const query = 'SELECT username,password,id_status FROM users WHERE email=? AND username =?'
 
             const [result] = await asyncQuery(query, [email, username])
             if (!result) return res.status(400).send(`email for ${username} is not ${email} please use the registered email`)
+            if(+result.id_status!==2) return res.status(400).send('You need to be verified to reset your password')
             // console.log('haha')
             const option = {
                 from: 'Ikiya <ikiya@gmail.com>',
