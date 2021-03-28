@@ -156,7 +156,7 @@ module.exports = {
             const query = 'SELECT username,password FROM users WHERE email=? AND username =?'
 
             const [result] = await asyncQuery(query, [email, username])
-            if (!result) return res.status(400).send(`email for ${username} is not ${email} please use the registered email`)
+            if (!result) return res.status(400).send(`You have entered the wrong email and/or username`)
             // console.log('haha')
             const option = {
                 from: 'Ikiya <ikiya@gmail.com>',

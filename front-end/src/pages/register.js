@@ -39,8 +39,8 @@ const Register = () => {
 
     if (name) return <Redirect to="/" />
     return (
-        <div style={{ textAlign: "center", display: "flex", justifyContent: "center" }}>
-            <div style={{ width: "450px", padding: 20, border: "1px solid black", borderRadius: 5, marginTop: 150 }}>
+        <div style={{ textAlign: "center", display: "flex", justifyContent: "center", backgroundColor: "lightgrey", height: 757 }}>
+            <div style={{ width: "450px", padding: 20, borderRadius: 10, marginTop: 150, backgroundColor: "white", height: 400 }}>
                 <br />
                 <h1>Register</h1>
                 <Form style={{ marginTop: 25, marginBottom: -4 }}>

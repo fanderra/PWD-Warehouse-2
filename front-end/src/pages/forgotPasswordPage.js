@@ -42,10 +42,9 @@ export default function ForgotPasswordPage() {
 
     return (
         <>
-            <div style={{ display: 'grid', placeItems: 'center', height: '100vh' }}>
-
-                <Form>
-                    <h3 style={{ marginBottom: '30px' }}>We all ready send a <br /> verification code to your email</h3>
+            <div style={{ display: 'grid', placeItems: 'center', height: 757, backgroundColor: "lightgrey" }}>
+                <Form style={{backgroundColor: "white", padding: 40, borderRadius: 5}}>
+                    <h3 style={{ marginBottom: '30px' }}>A verification code has <br/> been sent to your email</h3>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Verification Code</Form.Label>
                         <Form.Control value={newUserData.code} onChange={handleChange} name='code' type="text" placeholder="Enter 4 digit code" />
@@ -86,9 +85,8 @@ export default function ForgotPasswordPage() {
                             {errorMessage}
                         </Form.Text>
                     </Form.Group>
-                    <Button variant="primary" onClick={handleSubmit} type="button">Submit</Button>
+                    <Button variant="info" onClick={handleSubmit} type="button">Submit</Button>
                 </Form>
-
             </div>
             <AlertModal message={alertMessage} setShow={handleModal} />
             {/* <ResetPasswordModal action={handleUserData} show={show} /> */}
