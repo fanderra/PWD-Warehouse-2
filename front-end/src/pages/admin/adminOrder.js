@@ -5,10 +5,10 @@ import { Dropdown, Form, Pagination } from 'react-bootstrap'
 import CardAdmin from '../../components/cardAdmin'
 
 const filter = [
-    { name: 'Show all', id: 'tes' },
-    { name: 'Waiting for payment', id: 2 },
-    { name: 'Confrimed', id: 3 },
-    { name: 'On delivery', id: 4 },
+    { name: 'Show All', id: 'tes' },
+    { name: 'Waiting For Payment', id: 2 },
+    { name: 'Confirmed', id: 3 },
+    { name: 'On Delivery', id: 4 },
     { name: 'Completed', id: 5 },
     { name: 'Canceled', id: 6 }
 ]
