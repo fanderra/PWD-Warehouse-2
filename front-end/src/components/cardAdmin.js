@@ -63,7 +63,7 @@ export default function CardAdmin({ item, showCancelMsg }) {
                     }
                     {
                         item.id_order_status === 6 &&
-                        <Button onClick={() => showCancelMsg(item.message)}>See message</Button>
+                        <Button variant="info" onClick={() => showCancelMsg(item.message)}>See Message</Button>
                     }
                 </Card.Body>
             </Card>
