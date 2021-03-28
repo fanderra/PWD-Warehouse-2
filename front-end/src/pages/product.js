@@ -138,24 +138,23 @@ const Product = () => {
                         <Carousel.Item><img alt="2st slide" width={498} src={'http://localhost:2000/' + img[1]} /></Carousel.Item>
                     </Carousel>
                     <br />
-                    <div style={{ textAlign: "center" }}>
-                        <div>{details.name}</div>
+                    <div style={{ textAlign: "center", marginTop: 15 }}>
+                        <div><b>{details.name}</b></div>
                         <div>{details.category}</div>
                         <div>${Intl.NumberFormat('en-US', { currency: 'USD', style: 'decimal' }).format(details.price)}</div>
                     </div>
-                    <br />
                     {/* <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", color: "red" }}>
                         <div>TEST stock awal: {details.total_stock}</div>
                         <div>Udah dibeli: {details.total_purchased_stock}</div>
                         <div>{kart[details.id_product].qty}</div>
                     </div> */}
-                    <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+                    <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", marginTop: 10 }}>
                         {/* <div>Available Stock: {details.total_stock - details.total_purchased_stock - kart[details.id_product].qty}</div> */}
                         <div>Available Stock: {details.total_stock - details.total_purchased_stock}</div>
                         <div style={{ flexDirection: "row", display: "flex", marginLeft: 5 }}>
                             {/* <Button variant="info" onClick={() => qty <= 1 ? setQty(qty - 0) : setQty(qty - 1)}>-</Button> */}
                             <div style={{marginTop: 6, marginRight: 10}}>Quantity:</div>
-                            <Form.Control style={{ width: 65, textAlign: "center" }} type='number' onChange={
+                            <Form.Control style={{ width: 70, textAlign: "center" }} type='number' onChange={
                                 event => {
                                     let value = event.target.value
                                     let maxStock = details.total_stock - details.total_purchased_stock
