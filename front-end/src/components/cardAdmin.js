@@ -65,6 +65,9 @@ export default function CardAdmin({ item, showCancelMsg }) {
                         item.id_order_status === 6 &&
                         <Button variant="info" onClick={() => showCancelMsg(item.message)}>See Message</Button>
                     }
+                    {item.id_order_status === 2 &&
+                        <Button variant="info" onClick={() => setModal(true)}>Cancel Order</Button>
+                    }
                 </Card.Body>
             </Card>
 
