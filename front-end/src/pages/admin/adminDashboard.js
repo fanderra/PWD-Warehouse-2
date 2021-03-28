@@ -10,7 +10,7 @@ export default function AdminDashboard() {
 
     const display = data.slice(currentPage * 10, currentPage * 10 + 10)
         .map((item, index) => {
-            return (
+            return ( 
                 <Card key={index} style={{ margin: 10, textAlign: "center" }}>
                     <Card.Img style={{ width: 250 }} src={'http://localhost:2000/' + item.image} />
                     <Card.Body>
