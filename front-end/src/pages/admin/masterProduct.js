@@ -72,7 +72,7 @@ const MasterProduct = () => {
             })
             .catch(err => {
                 setShowModal({ ...showModal, error: true })
-                setModalBody('something wrong')
+                setModalBody(err.response.data)
             })
     }
     const handleEditProduct = (index) => {
