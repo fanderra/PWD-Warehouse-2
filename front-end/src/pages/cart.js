@@ -19,7 +19,7 @@ export default function Cart() {
     }, [dispatch])
     if (!username) return <Redirect to='/' />
     return (
-        <div style={{ backgroundColor: "lightgrey", height: 720 }}>
+        <div style={{ backgroundColor: "lightgrey", minHeight: 720 }}>
             <div style={{ display: 'grid', padding: '20px 40px 100px 80px', gridTemplateColumns: 'repeat(auto-fit,400px)', gap: '10px 30px' }}>
                 {cart.map((item, index) => <CartCard key={index} item={item} />)}
                 <div
