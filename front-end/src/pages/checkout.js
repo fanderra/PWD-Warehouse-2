@@ -14,7 +14,7 @@ const Checkout = () => {
     // const [add, setAdd] = React.useState(false)
     // const [changeAddress, setChangeAddress] = React.useState(false)
     const [value, setValue] = React.useState('TRANSFER')
-    const [listShipment, setListShipment] = React.useState('20000')
+    const [listShipment, setListShipment] = React.useState('5')
     const [showModal, setShowModal] = React.useState(false)
     const [showModal2, setShowModal2] = React.useState(false)
     // const [errPayment, setErrPayment] = React.useState([false, ''])
