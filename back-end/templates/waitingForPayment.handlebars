@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<head>
+    <style>
+        table,
+        tr,
+        td,
+        thead,
+        tbody {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+        <h1>
+            IKIYA<span>®</span>
+        </h1>
+    <div style='padding:20px;'>
+            <p>
+                Hi <b>{{username}}</b>,<br />
+                Please complete your payment.<br /><br />
+                Amount : ${{total}} <br />
+                Shipment fee : ${{shipment_fee}} <br />
+                Total amount : ${{grand_total}} <br />
+                Account : BCA 123456789012345<br />
+                To : IKIYA INDONESIA
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Price</td>
+                        <td>Qty</td>
+                        <td>Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each cart }}
+                    <tr>
+                        <td>{{this.name}}</td>
+                        <td>{{this.current_price}}</td>
+                        <td>{{this.qty}}</td>
+                        <td>{{this.total }}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <p>
+                if you have transfered please upload <br /> your proof of payment ,
+                by clicking this <a href="http://localhost:3000/payment/{{id_order}}">button</a> or <br />
+                by copying the link below and pasting it into your browser.<br /><br />
+                http://localhost:3000/payment/{{id_order}}<br />
+                <br />
+                Thankyou, Ikiya.
+            </p>
+    </div>
+</body>
+
+</html>

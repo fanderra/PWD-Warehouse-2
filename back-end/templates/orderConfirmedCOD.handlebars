@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<head>
+    <style>
+        table,
+        tr,
+        td,
+        thead,
+        tbody {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        IKIYA<span>®</span>
+    </h1>
+    <div style='padding:20px;'>
+        <p>
+            Hi <b>{{username}}</b>,<br />
+            We will processed your order.<br /><br />
+            Amount : ${{total}} <br />
+            Shipment fee : ${{shipment_fee}} <br />
+            Total amount : ${{grand_total}} <br />
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Price</td>
+                    <td>Qty</td>
+                    <td>Total</td>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each cart }}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.current_price}}</td>
+                    <td>{{this.qty}}</td>
+                    <td>{{this.total }}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <p>
+            Because you choose <b>Cash On Delivery</b>,<br/>please make sure there's a recipient at the location at the time the product arrive <br/>
+            and don't forget to prepare a change for the courier.
+            <br />
+            Regards, Ikiya.
+        </p>
+    </div>
+</body>
+</html>
